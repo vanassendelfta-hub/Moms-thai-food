@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mom's Thai Food – Thais eten bij jou thuis</title>
+<meta name="description" content="Huisgemaakt Thais eten, bezorgd of afgehaald. Bekijk tot hoe laat je vandaag kunt bestellen.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/logo.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" as="image" href="/logo.png">
+<script>
+/* Binnen de site (bv. via 'Home' of het logo) direct naar de homepage, de intro alleen bij binnenkomst. */
+(function(){var go=false;try{var r=document.referrer&&new URL(document.referrer);if(r&&r.host===location.host&&!/^\/(intro)?$/.test(r.pathname))go=true;}catch(e){}
+if(go){location.replace('/home'+location.search);}else{document.write('<script src="/branch.js"><\/script><script src="/order-rules.js"><\/script>');}})();
+</script>
+<style>
+:root{--gold:#ffca59;--gold2:#ffcf76;--ink:#f9f5ef;--muted:#d8d2c6;--navy:#0c1022;--ease:cubic-bezier(.22,.61,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+.stage{position:fixed;inset:0;overflow:hidden;background:#000}
+
+/* Achtergrondvideo */
+.bg{position:absolute;inset:0;opacity:0;transition:opacity 1.6s var(--ease)}
+.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 9s var(--ease)}
+.bg::after{content:"";position:absolute;inset:0;background:
+ radial-gradient(ellipse at 50% 42%,rgba(8,10,24,.18) 0%,rgba(8,10,24,.55) 55%,rgba(4,5,14,.9) 100%),
+ linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 55%,rgba(5,6,18,.85) 100%)}
+.grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(0,0)}}
+
+/* Filmdoek: twee zwarte panelen die openschuiven */
+.bar{position:absolute;left:0;right:0;height:50.5%;background:#000;z-index:3;transition:transform 1.7s cubic-bezier(.76,0,.24,1)}
+.bar.top{top:0}.bar.bot{bottom:0}
+
+/* Hallo in het Thais */
+.hello{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;pointer-events:none}
+.hello .th{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;font-size:clamp(58px,13vw,150px);line-height:1.1;color:var(--gold2);letter-spacing:.01em;opacity:0;filter:blur(14px);transform:scale(1.08);transition:opacity 1.3s var(--ease),filter 1.3s var(--ease),transform 2.4s var(--ease);text-shadow:0 0 40px rgba(255,202,89,.25)}
+.hello .line{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transition:width 1.4s var(--ease) .5s}
+.hello .sub{font:700 12px/1 Arial,sans-serif;letter-spacing:.42em;text-transform:uppercase;color:#cda76a;opacity:0;transform:translateY(6px);transition:opacity 1s var(--ease) .8s,transform 1s var(--ease) .8s;padding-left:.42em}
+
+/* Hoofdinhoud */
+.main{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3.2vh,30px);padding:max(24px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));text-align:center}
+.logo{width:clamp(180px,min(56vw,36vh),330px);aspect-ratio:1;border-radius:50%;opacity:0;transform:scale(.86);filter:blur(10px) drop-shadow(0 0 0 rgba(255,202,89,0));transition:opacity 1.4s var(--ease),transform 1.8s var(--ease),filter 1.6s var(--ease)}
+.brand{margin:-6px 0 0;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;transform:translateY(10px);transition:opacity 1.2s var(--ease) .35s,transform 1.2s var(--ease) .35s}
+.brand strong{font:500 clamp(30px,7.4vw,52px)/1.05 Georgia,"Times New Roman",serif;color:var(--gold2);letter-spacing:.03em;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.brand em{font:italic clamp(14px,3.6vw,18px)/1.2 Georgia,serif;color:#f3dfc4;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.s3 .brand{opacity:1;transform:none}
+.logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:50%}
+.status{display:inline-flex;align-items:center;gap:10px;max-width:min(560px,100%);padding:11px 18px;border-radius:999px;background:rgba(8,10,24,.55);border:1px solid rgba(255,202,89,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:clamp(14px,3.6vw,17px);line-height:1.35;color:var(--ink);opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.status b{color:var(--gold)}
+.pay{display:inline-flex;align-items:center;gap:9px;margin-top:-8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);font-size:clamp(13px,3.4vw,15px);color:#f3dfc4;opacity:0;transform:translateY(10px);transition:opacity 1s var(--ease) .3s,transform 1s var(--ease) .3s}
+.pay[hidden]{display:none}
+.pay svg{width:18px;height:18px;flex:none;color:var(--gold)}
+.pay b{color:#fff}
+.s4 .pay{opacity:1;transform:none}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;background:#39d98a;box-shadow:0 0 0 0 rgba(57,217,138,.6);animation:pulse 2s infinite}
+.dot.off{background:#e0a64a;box-shadow:none;animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(57,217,138,.55)}70%{box-shadow:0 0 0 10px rgba(57,217,138,0)}100%{box-shadow:0 0 0 0 rgba(57,217,138,0)}}
+.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:172px;height:56px;padding:0 28px;border-radius:999px;font-weight:800;font-size:17px;letter-spacing:.02em;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,background .2s ease,filter .2s ease}
+.btn.primary{background:linear-gradient(180deg,#ffd77d,#f2b43c);color:#3a0708;border:1px solid #ffe7ad;box-shadow:0 10px 28px rgba(0,0,0,.45),0 0 0 0 rgba(255,202,89,.0),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 28px rgba(255,202,89,.35),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.ghost{color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn.ghost:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:3px solid #fff4de;outline-offset:4px}
+.btn svg{width:20px;height:20px;flex:none}
+.skip{position:absolute;z-index:5;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));font:700 12px Arial;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);background:none;border:0;padding:10px;cursor:pointer;transition:opacity .6s}
+.btns [data-game-link],[data-game-link],.mtf-game-pill,.mtf-dock,.mtf-dp,.mtf-scrim{display:none!important}
+.snd{position:absolute;z-index:6;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));display:flex;align-items:center;gap:8px;height:42px;padding:0 14px 0 12px;border-radius:999px;border:1px solid rgba(255,202,89,.45);background:rgba(8,10,24,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#ffca59;font:700 13px Arial,sans-serif;cursor:pointer;opacity:.85;transition:opacity .3s,background .2s}
+.snd:hover{opacity:1;background:rgba(20,25,47,.8)}
+.snd:focus-visible{outline:3px solid #fff4de;outline-offset:3px}
+.snd svg{width:20px;height:20px;flex:none}
+.snd .lbl{white-space:nowrap}
+.snd.on .lbl{display:none}
+.snd.on{padding:0;width:42px;justify-content:center}
+.snd.ask{animation:askPulse 2.4s ease-in-out infinite}
+@keyframes askPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,202,89,0)}50%{box-shadow:0 0 0 6px rgba(255,202,89,.18)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Fases */
+.s1 .hello .th{opacity:1;filter:blur(0);transform:scale(1)}
+.s1 .hello .line{width:min(260px,50vw)}
+.s1 .hello .sub{opacity:1;transform:none}
+.s2 .hello{transition:opacity 1s var(--ease),transform 1.4s var(--ease);opacity:0;transform:translateY(-4vh) scale(.96)}
+.s2 .bar.top{transform:translateY(-101%)}
+.s2 .bar.bot{transform:translateY(101%)}
+.s2 .bg{opacity:1}
+.s2 .bg video{transform:scale(1.02)}
+.s3 .logo{opacity:1;transform:scale(1);filter:blur(0) drop-shadow(0 0 34px rgba(255,202,89,.28))}
+.s4 .status{opacity:1;transform:none}
+.s4 .btns{opacity:1;transform:none;transition-delay:.18s}
+.s4 .skip{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;transition-delay:0s!important;animation:none!important}}
+@media (max-width:420px){.btn{min-width:0;flex:1 1 140px;height:54px;padding:0 18px}.btns{width:100%;max-width:360px}}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+ <div class="bg" aria-hidden="true">
+  <video id="vid" muted playsinline loop autoplay preload="auto"></video>
+  <div class="grain"></div>
+ </div>
+ <div class="bar top" aria-hidden="true"></div>
+ <div class="bar bot" aria-hidden="true"></div>
+
+ <div class="hello" aria-hidden="true">
+  <span class="th" lang="th-Latn">Sawasdee</span>
+  <span class="line"></span>
+  <span class="sub"><span lang="th">สวัสดี</span> · Welkom</span>
+ </div>
+
+ <main class="main">
+  <h1 class="sr">Mom's Thai Food – Thais eten bij jou thuis</h1>
+  <div class="logo"><img src="/logo.png" alt=""></div>
+  <p class="brand" aria-hidden="true"><strong>Mom’s Thai Food</strong><em>Thais eten bij jou thuis!</em></p>
+  <p class="status" id="status" role="status" aria-live="polite"><span class="dot" id="dot"></span><span id="statusText">Even kijken of je vandaag kunt bestellen…</span></p>
+  <p class="pay" id="pay" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg><span>Betaal veilig online met <b>iDEAL | Wero</b></span></p>
+  <nav class="btns" aria-label="Verder naar">
+   <a class="btn primary" id="orderBtn" href="/menu">Bestel nu
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+   <a class="btn ghost" id="homeBtn" href="/home">Home</a>
+  </nav>
+ </main>
+ <button class="skip" id="skip" type="button">Overslaan</button>
+ <button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Geluid aanzetten"><svg id="sndIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg><span class="lbl">Geluid</span></button>
+</div>
+
+<script>
+(()=>{
+ const CDN='https://cdn.jsdelivr.net/gh/vanassendelfta-hub/Moms-thai-food@576bc11bdf44170f76dbc9ed52788748c0cbabd3/intro/';
+ const st=document.getElementById('stage'),vid=document.getElementById('vid');
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+ /* Video: staand voor telefoon, liggend voor computer */
+ const portrait=matchMedia('(max-aspect-ratio: 1/1)');
+ function pickVideo(){
+  const k=portrait.matches?'m':'d',src=CDN+'intro-'+k+'.mp4';
+  if(vid.dataset.src===src)return;
+  vid.dataset.src=src;vid.poster=CDN+'intro-'+k+'.jpg';vid.src=src;
+  if(!reduce){const p=vid.play();if(p&&p.catch)p.catch(()=>{});}
+ }
+ pickVideo();
+ (portrait.addEventListener?portrait.addEventListener('change',pickVideo):portrait.addListener(pickVideo));
+ if(reduce){vid.removeAttribute('autoplay');vid.pause();}
+
+ /* Locatie meenemen naar de volgende pagina */
+ try{const loc=window.MTFLocation&&window.MTFLocation.slug;if(loc&&loc!=='spijkenisse'){for(const id of ['orderBtn','homeBtn']){const a=document.getElementById(id);a.href=a.getAttribute('href')+'?location='+encodeURIComponent(loc);}}}catch{}
+
+ /* Cinematische opening */
+ const phases=['s1','s2','s3','s4'];let timers=[],done=false;
+ function finish(){if(done)return;done=true;timers.forEach(clearTimeout);st.classList.add(...phases);}
+ if(reduce){finish();}else{
+  const at=[[200,'s1'],[3600,'s2'],[4600,'s3'],[5600,'s4']];
+  at.forEach(([t,c])=>timers.push(setTimeout(()=>{st.classList.add(c);if(c==='s4')finish();},t)));
+ }
+ document.getElementById('skip').addEventListener('click',finish);
+ addEventListener('keydown',e=>{if(!done&&(e.key==='Escape'||e.key===' '||e.key==='Enter'))finish();});
+
+ /* Welkomstdeuntje: start vanzelf als de browser het toestaat, anders bij de eerste tik */
+ const TUNE='https://cdn.jsdelivr.net/gh/vanassendelfta-hub/Moms-thai-food@3d3dc8b36cd6c0ff7b243fea21b1d2719fde0177/intro/welkom.m4a';
+ const snd=document.getElementById('snd'),ico=document.getElementById('sndIco');
+ const ON='<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',OFF='<path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/>';
+ const audio=new Audio();audio.preload='auto';audio.src=TUNE;audio.volume=.75;
+ const t0=performance.now();let pref='';try{pref=localStorage.getItem('mtf_sound')||'';}catch{}
+ let playing=false,muted=pref==='off';
+ function ui(){snd.classList.toggle('on',playing&&!muted);snd.classList.toggle('ask',!playing&&!muted);ico.innerHTML=(playing&&!muted)?ON:OFF;snd.setAttribute('aria-pressed',String(playing&&!muted));snd.setAttribute('aria-label',(playing&&!muted)?'Geluid uitzetten':'Geluid aanzetten');}
+ function start(fromTap){
+  if(muted||playing)return;
+  const el=(performance.now()-t0)/1000-.2;
+  if(el>9){return;}
+  try{audio.currentTime=Math.max(0,fromTap?el:0);}catch{}
+  const p=audio.play();if(p&&p.then)p.then(()=>{playing=true;ui();}).catch(()=>{ui();});else{playing=true;ui();}
+ }
+ audio.addEventListener('ended',()=>{playing=false;snd.classList.remove('on','ask');snd.style.opacity='.55';ico.innerHTML=ON;snd.setAttribute('aria-label','Deuntje opnieuw afspelen');snd.dataset.replay='1';});
+ snd.addEventListener('click',e=>{
+  e.stopPropagation();
+  if(snd.dataset.replay){delete snd.dataset.replay;snd.style.opacity='';muted=false;try{localStorage.removeItem('mtf_sound');}catch{}audio.currentTime=0;audio.play().then(()=>{playing=true;ui();}).catch(()=>{});return;}
+  if(playing&&!muted){muted=true;audio.pause();playing=false;try{localStorage.setItem('mtf_sound','off');}catch{}ui();return;}
+  muted=false;try{localStorage.removeItem('mtf_sound');}catch{}start(true);
+ });
+ /* Eerste tik ergens op het scherm zet het geluid aan (behalve op knoppen/links) */
+ const firstTap=e=>{if(e.target.closest('a,button'))return;removeEventListener('pointerdown',firstTap,true);start(true);};
+ addEventListener('pointerdown',firstTap,true);
+ setTimeout(()=>start(false),200);ui();
+
+ /* Bestelstatus voor vandaag */
+ const R=window.MTFOrderRules,txt=document.getElementById('statusText'),dot=document.getElementById('dot');
+ const dayName=d=>new Intl.DateTimeFormat('nl-NL',{weekday:'long',timeZone:'UTC'}).format(new Date(d+'T12:00:00Z'));
+ const longDate=d=>new Intl.DateTimeFormat('nl-NL',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(d+'T12:00:00Z'));
+ function nextLabel(today,next){
+  if(!next)return '';
+  const t=new Date(today+'T12:00:00Z');t.setUTCDate(t.getUTCDate()+1);
+  if(next===t.toISOString().slice(0,10))return 'morgen ('+dayName(next)+')';
+  const diff=(new Date(next+'T12:00:00Z')-new Date(today+'T12:00:00Z'))/864e5;
+  return diff<7?dayName(next):longDate(next);
+ }
+ function render(){
+  if(!R){txt.textContent='Bekijk het menu en bestel direct online.';return;}
+  const c=R.clock(),today=c.date,open=R.opening(today),cut=R.cutoff(today)*60,closed=R.closedReason(today);
+  if(open&&c.seconds<=cut){
+   const left=cut-c.seconds,h=Math.floor(left/3600),m=Math.floor(left%3600/60);
+   const rest=left<=3*3600?' <span style="color:#d8d2c6">· nog '+(h?h+' u ':'')+m+' min</span>':'';
+   dot.className='dot';
+   txt.innerHTML='Vandaag bestellen kan nog tot <b>'+R.formatTime(R.cutoff(today))+'</b>'+rest;
+   return;
+  }
+  dot.className='dot off';
+  const next=R.nextDate(),lbl=nextLabel(today,next);
+  const why=(open&&!closed)?'Bestellen voor vandaag is gesloten':'Vandaag gesloten';
+  txt.innerHTML=why+(lbl?' · bestel alvast voor <b>'+lbl+'</b>':'');
+ }
+ render();setInterval(render,30000);
+ /* iDEAL-melding alleen tonen als online betalen echt aan staat (of in voorbeeldmodus) */
+ fetch('https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/mollie-pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})
+  .then(r=>r.json()).then(c=>{if(c&&c.enabled&&(!c.test||/[?&]mollietest=1/.test(location.search)))document.getElementById('pay').hidden=false;}).catch(()=>{});
+ /* Uitzonderingsdagen (feestdagen, vakantie) ophalen */
+ fetch('https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})})
+  .then(r=>r.json()).then(d=>{if(d&&d.ok&&Array.isArray(d.closures)&&R){R.setClosures(d.closures);render();}}).catch(()=>{});
+})();
+</script>
+</body>
+</html>

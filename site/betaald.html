@@ -1,0 +1,42 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#940c0d"><meta name="robots" content="noindex"><title>Betaling — Mom's Thai Food</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="refined.css"><script src="/branch.js"></script>
+<style>
+.pay-wrap{max-width:620px;margin:40px auto;padding:0 20px}
+.pay-card{background:linear-gradient(110deg,#650a0c,#940c0d);border:1px solid #bd7e32;border-radius:18px;padding:32px 28px;color:#fff4de;text-align:center}
+.pay-icon{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;background:#ffca59;color:#390708;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.pay-card h1{margin:0 0 10px;font-size:28px;color:#fff4de}
+.pay-card p{margin:8px 0;font-size:16px;line-height:1.5}
+.pay-card .pay-no{font-weight:800;letter-spacing:.02em}
+.pay-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.pay-actions a,.pay-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:999px;font-weight:800;font-size:15px;text-decoration:none;cursor:pointer}
+.pay-gold{background:linear-gradient(180deg,#ffd77d,#f2b43c);color:#3a0708;border:1px solid #ffe7ad}
+.pay-ghost{background:transparent;color:#fff4de;border:1px solid rgba(255,244,222,.5)}
+.pay-spin{width:36px;height:36px;border:4px solid rgba(57,7,8,.25);border-top-color:#390708;border-radius:50%;animation:payspin 1s linear infinite}
+@keyframes payspin{to{transform:rotate(360deg)}}
+</style></head><body>
+<header class="topbar"><a class="mark" href="/"><img src="logo.png" alt="Mom's Thai Food"><span><strong>MOM’S THAI FOOD</strong><em>Thais eten bij jou thuis!</em></span></a><nav class="nav" aria-label="Hoofdnavigatie"><a href="/">Home</a><a href="/menu.html">Menu</a><a href="/contact">Contact</a></nav></header>
+<main class="pay-wrap"><section class="pay-card" aria-live="polite"><div class="pay-icon" id="payIcon"><div class="pay-spin" aria-hidden="true"></div></div><h1 id="payTitle">Betaling controleren…</h1><p id="payText">Een moment, we vragen de status op bij je bank.</p><div class="pay-actions" id="payActions"></div></section></main>
+<script>
+(()=>{
+ const API='https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/mollie-pay';
+ const q=new URLSearchParams(location.search),order=q.get('order')||'',loc=q.get('location')==='oud-beijerland'?'oud-beijerland':'spijkenisse';
+ const $=s=>document.querySelector(s),euro=n=>new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(Number(n)||0);
+ const call=a=>fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:a,order_id:order,location:loc,origin:location.origin})}).then(r=>r.json());
+ const show=(icon,title,html,actions)=>{$('#payIcon').innerHTML=icon;$('#payTitle').textContent=title;$('#payText').innerHTML=html;$('#payActions').innerHTML=actions||'';};
+ const clearCart=()=>{try{localStorage.removeItem(loc==='oud-beijerland'?'mtf_cart_ob_v1':'mtf_cart_v1');}catch{}};
+ const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ let tries=0;
+ async function check(){
+  if(!/^[0-9a-f-]{36}$/i.test(order)){show('?','Bestelling niet gevonden','We konden deze betaling niet koppelen aan een bestelling. Neem gerust contact met ons op.','<a class="pay-gold" href="/contact">Contact</a>');return;}
+  let d;try{d=await call('status');}catch{d={ok:false};}
+  if(!d.ok){show('!','Status niet beschikbaar','We konden de betaalstatus niet ophalen. Je bestelling is wel bij ons bekend. Ververs de pagina over een moment.','<button class="pay-gold" onclick="location.reload()">Opnieuw proberen</button>');return;}
+  clearCart();
+  const no=`<span class="pay-no">${esc(d.order_number)}</span>`;
+  if(d.paid){show('✓','Betaling gelukt, bedankt!',`Je bestelling ${no} van ${euro(d.total)} is betaald en ontvangen. Je krijgt ook een bevestiging per e-mail.`,'<a class="pay-gold" href="/">Terug naar de website</a>');return;}
+  if(['failed','canceled','expired'].includes(d.state)){show('✕','Betaling niet gelukt',`Je bestelling ${no} staat wel bij ons, maar is nog niet betaald. Probeer het opnieuw of betaal bij ontvangst.`,'<button class="pay-gold" id="payRetry">Opnieuw betalen</button><a class="pay-ghost" href="/">Ik betaal bij ontvangst</a>');$('#payRetry').onclick=retry;return;}
+  if(++tries<15){show('<div class="pay-spin" aria-hidden="true"></div>','Wachten op je bank…',`We wachten op de bevestiging van de betaling voor bestelling ${no}. Dit duurt meestal maar een paar seconden.`);setTimeout(check,2000);return;}
+  show('…','Betaling nog niet bevestigd',`De bank heeft de betaling voor bestelling ${no} nog niet bevestigd. Je bestelling staat wel bij ons.`,'<button class="pay-gold" onclick="location.reload()">Status opnieuw bekijken</button><button class="pay-ghost" id="payRetry">Opnieuw betalen</button>');$('#payRetry').onclick=retry;
+ }
+ async function retry(){const b=$('#payRetry');if(b)b.disabled=true;try{const c=await call('create');if(c.checkout){location.href=c.checkout;return;}if(c.paid){tries=0;check();return;}throw Error(c.error||'Opnieuw betalen lukte niet');}catch(e){alert(e.message);if(b)b.disabled=false;}}
+ check();
+})();
+</script></body></html>
