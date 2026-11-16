@@ -167,8 +167,7 @@ body.mt .addon-choice input{accent-color:#ffca59}
 body.mt .coupon-discount-row[hidden]{display:none!important}
 body.mt .cart-line-main small{display:block}
 body.mt .quantity{display:flex!important;width:max-content}
-/* live Instagram-profiel op Home */
+/* live Instagram: alleen het fotoraster (kop en witruimte van Instagram worden weggeknipt) */
 body.mt .instagram-panel{flex-wrap:wrap}
-body.mt .mt-ig{flex:1 0 100%;display:flex;justify-content:center;margin-top:18px}
-body.mt .mt-ig iframe{width:100%;max-width:540px;height:clamp(560px,150vw,760px);border:0;border-radius:16px;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-@media (min-width:640px){body.mt .mt-ig iframe{height:720px}}
+body.mt .mt-ig{--igtop:144px;--igh:240px;position:relative;flex:1 0 100%;width:100%;max-width:540px;height:var(--igh);margin:18px auto 0;border-radius:16px;overflow:hidden;background:#0b0b11;border:1px solid rgba(255,202,89,.2);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+body.mt .mt-ig iframe{position:absolute;left:0;top:calc(-1 * var(--igtop));width:100%;height:calc(var(--igtop) + var(--igh) + 400px);border:0;background:transparent;display:block}
