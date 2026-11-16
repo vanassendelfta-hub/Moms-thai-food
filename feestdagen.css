@@ -1,1 +1,37 @@
-[hidden]{display:none!important}body{margin:0;background:#fff8ee;color:#3d241e;font:17px/1.6 system-ui}header,main,footer{max-width:1180px;margin:auto;padding:24px}header{display:flex;gap:32px;align-items:center;flex-wrap:wrap}header img{width:88px}nav{display:flex;gap:20px;flex-wrap:wrap}a{color:#930f19}h1{font:700 clamp(36px,5vw,60px)/1.12 Georgia;color:#840e18}h2{font-family:Georgia}button,.button{font:inherit;background:#930f19;color:white;border:0;border-radius:8px;padding:12px 20px;cursor:pointer}button:disabled{opacity:.5}input,textarea,select{font:inherit;box-sizing:border-box;max-width:100%;padding:10px;border:1px solid #d8c3ad;border-radius:7px}label{display:grid;gap:5px;margin:12px 0}.check{display:flex;align-items:flex-start;gap:12px}input[type=checkbox]{width:20px;height:20px;flex-shrink:0}.hero{display:grid;grid-template-columns:1fr 32%;gap:35px;align-items:center}.hero img{width:100%;border-radius:15px}.layout{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}section{border:1px solid #ecd5bd;border-radius:15px;background:white;padding:24px;margin:20px 0}.product{display:grid;grid-template-columns:1fr 80px;gap:14px;align-items:center;border-bottom:1px solid #eee1d1;padding:12px 0}.muted{font-size:14px;color:#735a4c}.days{display:flex;gap:12px;flex-wrap:wrap}.days [aria-pressed=true]{outline:3px solid #dcb254;outline-offset:3px}.msg{white-space:pre-line}.msg:empty{display:none}@media(max-width:750px){.hero,.layout{grid-template-columns:1fr}.hero img{max-height:380px;object-fit:contain}main,header{padding:18px}section{padding:18px}}
+/* Feestdagpagina's (kerst, sinterklaas, oudejaarsdag, nieuwsbrief) – huisstijl zwart/goud */
+[hidden]{display:none!important}
+body{margin:0;background:#000;color:#e9e2d6;font:17px/1.6 Arial,Helvetica,sans-serif}
+header,main,footer{max-width:1180px;margin:auto;padding:24px}
+header{position:sticky;top:0;z-index:20;display:flex;gap:14px 24px;align-items:center;flex-wrap:wrap;max-width:none;padding:10px 14px;background:linear-gradient(180deg,rgba(0,0,0,.94),rgba(0,0,0,.8));border-bottom:1px solid rgba(255,202,89,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+header>a{display:flex;align-items:center;gap:10px;text-decoration:none}
+header>a::after{content:"Mom’s Thai Food";font:600 19px/1.1 Georgia,"Times New Roman",serif;color:#ffcf76}
+header img{width:40px;height:40px;border-radius:50%}
+nav{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#e9e2d6;text-decoration:none;font-size:13px;font-weight:600}
+nav a[aria-current=page]{background:rgba(255,202,89,.14);border-color:rgba(255,202,89,.6);color:#ffcf76}
+@media(max-width:750px){nav{width:100%}}
+a{color:#ffca59}
+h1{font:400 clamp(36px,5vw,60px)/1.12 Georgia,"Times New Roman",serif;color:#ffcf76;margin:.3em 0 .4em}
+h2{font:400 26px/1.2 Georgia,"Times New Roman",serif;color:#ffcf76;margin:0 0 12px}
+.hero>div>p:first-child{font-size:12px;letter-spacing:.3em;color:#cda76a;text-transform:uppercase}
+button,.button{font:inherit;font-weight:800;background:linear-gradient(180deg,#ffd77d,#f2b43c);color:#3a0708;border:1px solid #ffe7ad;border-radius:999px;padding:12px 22px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.55)}
+button:disabled{opacity:.45}
+input,textarea,select{font:inherit;box-sizing:border-box;max-width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:#0f1018;color:#f9f5ef}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#ffca59;box-shadow:0 0 0 3px rgba(255,202,89,.15)}
+label{display:grid;gap:5px;margin:12px 0;color:#cfc8bb;font-size:15px}
+.check{display:flex;align-items:flex-start;gap:12px}
+input[type=checkbox]{width:20px;height:20px;flex-shrink:0;accent-color:#ffca59}
+.hero{display:grid;grid-template-columns:1fr 32%;gap:35px;align-items:center}
+.hero img{width:100%;border-radius:18px;border:1px solid rgba(255,202,89,.25)}
+.layout{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+section{border:1px solid rgba(255,202,89,.16);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015));padding:24px;margin:20px 0}
+.product{display:grid;grid-template-columns:1fr 80px;gap:14px;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);padding:12px 0}
+.muted{font-size:14px;color:#a9a195}
+.days{display:flex;gap:10px;flex-wrap:wrap}
+.days button{background:rgba(255,255,255,.05);color:#f9f5ef;border:1px solid rgba(255,255,255,.18);box-shadow:none}
+.days [aria-pressed=true]{background:#ffca59;color:#3a0708;border-color:#ffca59;outline:none}
+.msg{white-space:pre-line;color:#ead9b8}
+.msg:empty{display:none}
+footer{color:#a9a195;font-size:14px;border-top:1px solid rgba(255,202,89,.18)}
+@media(max-width:750px){.hero,.layout{grid-template-columns:1fr}.hero img{max-height:380px;object-fit:contain}main{padding:18px}section{padding:18px}}

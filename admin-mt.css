@@ -1,0 +1,93 @@
+/* Beheer – huisstijl zwart/goud + telefoonvriendelijk. Laadt als laatste; verandert geen functies. */
+body.admin-app.mt{background:#000!important;color:#ece6dc}
+body.admin-app.mt h1,body.admin-app.mt h2{font-family:Georgia,"Times New Roman",serif!important;font-weight:400!important;color:#ffcf76!important}
+body.admin-app.mt h3,body.admin-app.mt .sidebar-brand span{font-family:Georgia,"Times New Roman",serif}
+body.admin-app.mt .eyebrow{color:#cda76a!important;letter-spacing:.28em}
+body.admin-app.mt .hint{color:#b7afa3}
+body.admin-app.mt a{color:#ffca59}
+
+/* kop */
+body.admin-app.mt .topbar{background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.84))!important;border-bottom:1px solid rgba(255,202,89,.16)!important;box-shadow:none!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+body.admin-app.mt .topbar .mark img{border-radius:50%}
+body.admin-app.mt .topbar .mark strong{font-size:0!important;letter-spacing:0!important}
+body.admin-app.mt .topbar .mark strong::after{content:"Mom’s Thai Food";font:600 18px/1.1 Georgia,"Times New Roman",serif;color:#ffcf76}
+body.admin-app.mt .topbar .mark em{color:#cda76a!important;font-style:normal;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+body.admin-app.mt .workspace-crumb strong{color:#ffcf76}
+body.admin-app.mt .icon-button{background:rgba(12,16,34,.75)!important;border:1px solid rgba(255,202,89,.45)!important;color:#ffca59!important;border-radius:999px!important}
+body.admin-app.mt .headercart{background:transparent!important;border:1px solid rgba(255,255,255,.3)!important;color:#fff!important;border-radius:999px!important}
+
+/* zijbalk */
+body.admin-app.mt .admin-tabs{background:linear-gradient(180deg,#09090e,#050508)!important;border-right:1px solid rgba(255,202,89,.14)!important}
+body.admin-app.mt .admin-tabs button{border-radius:12px!important;color:#e3dccf}
+body.admin-app.mt .admin-tabs button:hover{background:rgba(255,255,255,.05)!important}
+body.admin-app.mt .admin-tabs button.active{background:rgba(255,202,89,.13)!important;color:#ffcf76!important;box-shadow:inset 3px 0 0 #ffca59!important}
+body.admin-app.mt .nav-group{color:#8f877b!important;letter-spacing:.24em}
+body.admin-app.mt .sidebar-brand img{border-radius:50%}
+body.admin-app.mt .sidebar-brand span{color:#ffcf76}
+body.admin-app.mt .nav-count{background:#ffca59!important;color:#3a0708!important}
+body.admin-app.mt .nav-backdrop{background:rgba(0,0,0,.65)!important}
+
+/* vlakken en kaarten */
+body.admin-app.mt :is(.shop-panel,.surface,.metric,.overview-action,.filters,.order-row,.order-card,.upcoming-row,.attention-item,.task-card,.login,.order-map-details,.addon-admin-row,.admin-location-bar>div,.edit-modal){background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012))!important;border:1px solid rgba(255,202,89,.15)!important;border-radius:16px!important;box-shadow:none!important}
+body.admin-app.mt :is(.overview-action,.upcoming-row,.attention-item,.metric-button):hover{background:rgba(255,202,89,.07)!important}
+body.admin-app.mt .edit-modal,body.admin-app.mt .edit-modal .actions{background:#0b0b11!important}
+body.admin-app.mt .order-items{background:#07070b!important;border-radius:12px}
+body.admin-app.mt th{background:#0b0b11!important;color:#cda76a}
+body.admin-app.mt tbody tr:hover{background:rgba(255,202,89,.05)!important}
+body.admin-app.mt #legacyNotice,body.admin-app.mt #financeNotice{background:rgba(255,202,89,.07)!important;border:1px solid rgba(255,202,89,.25)!important;border-left:3px solid #ffca59!important;border-radius:12px!important;color:#ead9b8}
+body.admin-app.mt .task-login-alert{background:linear-gradient(110deg,rgba(148,12,13,.45),rgba(30,20,10,.5))!important;border:1px solid rgba(255,202,89,.35)!important;border-radius:16px!important}
+body.admin-app.mt .overview-tip{background:rgba(255,202,89,.06)!important}
+body.admin-app.mt .metric strong,body.admin-app.mt .dashstats strong{color:#ffcf76;font-family:Georgia,serif}
+
+/* knoppen */
+body.admin-app.mt :is(.btn-red,.order-footer button){border-radius:999px!important;border:1px solid #ffe7ad!important;background:linear-gradient(180deg,#ffd77d,#f2b43c)!important;color:#3a0708!important;font-weight:800!important;box-shadow:0 8px 20px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.55)!important}
+body.admin-app.mt :is(.btn-red,.order-footer button):disabled{opacity:.5}
+body.admin-app.mt :is(.secondary-button,.toolbar-actions button){border-radius:999px!important;background:rgba(255,255,255,.04)!important;border:1px solid rgba(255,202,89,.35)!important;color:#f3ead8!important}
+body.admin-app.mt :is(.secondary-button,.toolbar-actions button):hover{background:rgba(255,202,89,.1)!important}
+body.admin-app.mt .text-button{color:#ffca59!important}
+body.admin-app.mt .danger-button{border-radius:999px!important}
+body.admin-app.mt .switch-btn{border-radius:999px!important}
+body.admin-app.mt .segmented{background:#07070b!important;border-radius:999px!important;border:1px solid rgba(255,255,255,.12)}
+body.admin-app.mt .segmented button{border-radius:999px!important}
+body.admin-app.mt .segmented button.active{background:#ffca59!important;color:#3a0708!important}
+
+/* invoervelden */
+body.admin-app.mt :is(input,select,textarea){background:#0f1018!important;border:1px solid rgba(255,255,255,.18)!important;color:#f9f5ef!important;border-radius:12px!important}
+body.admin-app.mt :is(input,select,textarea):focus{outline:none!important;border-color:#ffca59!important;box-shadow:0 0 0 3px rgba(255,202,89,.15)!important}
+body.admin-app.mt input[type=checkbox],body.admin-app.mt input[type=radio]{accent-color:#ffca59}
+body.admin-app.mt .toast{background:#0b0b11!important;border:1px solid rgba(255,202,89,.5)!important;color:#fff!important;border-radius:999px!important}
+
+/* ── telefoon ── */
+#mtBottom{display:none}
+@media (max-width:820px){
+ body.admin-app.mt.mt-in .admin-main{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+ body.admin-app.mt.mt-in #mtBottom{display:grid}
+ #mtBottom{position:fixed;left:0;right:0;bottom:0;z-index:60;grid-auto-flow:column;grid-auto-columns:1fr;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(5,5,8,.96);border-top:1px solid rgba(255,202,89,.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+ #mtBottom button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px;padding:6px 2px;border:0;border-radius:14px;background:none;color:#bdb5a8;font:600 11px Arial,sans-serif;cursor:pointer}
+ #mtBottom button svg{width:24px;height:24px}
+ #mtBottom button.on{color:#ffcf76;background:rgba(255,202,89,.1)}
+ #mtBottom button[hidden]{display:none}
+ #mtBottom .badge{position:absolute;top:3px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#ffca59;color:#3a0708;font-size:11px;font-weight:800;line-height:18px}
+ #mtBottom .badge:empty{display:none}
+ body.admin-app.mt .toast{bottom:calc(92px + env(safe-area-inset-bottom))!important}
+ /* bovenste blokken alleen op Overzicht, en compact */
+ body.admin-app.mt.mt-in:not([data-mt-tab=overviewPanel]) :is(.admin-location-bar,.shop-panel,#legacyNotice){display:none!important}
+ body.admin-app.mt .shop-panel{padding:10px 12px!important;gap:10px!important;align-items:center}
+ body.admin-app.mt .shop-panel p{display:none}
+ body.admin-app.mt #legacyNotice{font-size:13px;padding:10px 12px!important}
+ body.admin-app.mt .admin-location-bar>div{padding:10px 12px!important}
+ /* grotere aanraakvlakken */
+ body.admin-app.mt :is(.btn-red,.secondary-button,.order-footer button,.switch-btn){min-height:44px}
+ body.admin-app.mt :is(input,select){min-height:44px;font-size:16px!important}
+ body.admin-app.mt .admin-title h1{font-size:28px!important}
+ body.admin-app.mt .topbar .workspace-crumb{display:none}
+ body.admin-app.mt .topbar .mark em{display:none}
+ /* tabellen horizontaal scrollbaar in plaats van uitlopen */
+ body.admin-app.mt .admin-main table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+}
+
+/* resterende blauwe vlakken */
+body.admin-app.mt .admin-location-bar,
+body.admin-app.mt .menu-admin-card,
+body.admin-app.mt .table-wrap,
+body.admin-app.mt .map-panel{background:#141210!important;border-color:rgba(212,175,55,.22)!important}
