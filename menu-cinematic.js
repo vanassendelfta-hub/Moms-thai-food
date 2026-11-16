@@ -12,7 +12,7 @@
  /* hoogte van de kop, zodat de zoekbalk er netjes onder plakt */
  const topbar=document.querySelector('.topbar');
  const setTop=()=>document.documentElement.style.setProperty('--mc-top',(topbar&&getComputedStyle(topbar).position==='sticky'?topbar.offsetHeight:0)+'px');
- setTop();addEventListener('resize',setTop);
+ setTop();addEventListener('resize',setTop);if(topbar&&window.ResizeObserver)new ResizeObserver(setTop).observe(topbar);
 
  /* populariteit: meest bestelde eerst */
  const loc=(window.MTFLocation&&window.MTFLocation.slug)||'spijkenisse';
