@@ -111,5 +111,15 @@
    requestAnimationFrame(loop);};
   if(reduce){cv.remove();document.documentElement.classList.remove('steam-in');}else requestAnimationFrame(loop);
  }
+ /* v2: kop zoals het voorbeeld – naam, Lijst-knop in de kop, kortingsbanner in de hero, zoekpil */
+ const strong=document.querySelector('.topbar .mark strong');if(strong)strong.textContent='Mom’s Thai Food';
+ const cartBtn=$('#cartBtn');if(listBtn&&cartBtn)cartBtn.before(listBtn);
+ const promo=document.querySelector('.welcome-banner'),slot=$('#mcPromoSlot');
+ if(promo&&slot){const c=promo.cloneNode(true);c.className='mc-promo';c.removeAttribute('aria-label');slot.replaceWith(c);
+  new MutationObserver(()=>{c.hidden=promo.hidden;}).observe(promo,{attributes:true,attributeFilter:['hidden']});c.hidden=promo.hidden;}
+ const openSearch=()=>{document.body.classList.add('mc-searching');if(!listMode)listBtn?.click();setTimeout(()=>{search?.focus({preventScroll:true});const tb=document.querySelector('.mc-toolbar');if(tb){const top=tb.parentElement.offsetTop+tb.offsetTop-(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mc-top'))||0);scrollTo({top:Math.max(0,grid.getBoundingClientRect().top+scrollY-tb.offsetHeight-(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mc-top'))||0)-8)});}},60);};
+ $('#mcSearchBtn')?.addEventListener('click',openSearch);
+ listBtn?.addEventListener('click',()=>{document.body.classList.toggle('mc-searching',listMode);if(!listMode&&search&&search.value){search.value='';renderMenu();}});
+ requestAnimationFrame(setTop);
  if(menu.length)renderMenu();
 })();

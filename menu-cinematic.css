@@ -99,3 +99,34 @@ html.steam-in.steam-run body::after{opacity:0}
 #menuGrid.mc-scenes{padding:0;display:block}
 .mc-toolbar #pills.chips{margin:10px auto 0!important;max-width:760px;width:100%}
 @media (min-width:800px){.mc-toolbar #pills.chips{justify-content:center}}
+
+/* ── v2: kop, knoppen en banner in de stijl van het voorbeeld ── */
+body.mc .topbar{background:linear-gradient(180deg,rgba(0,0,0,.94),rgba(0,0,0,.78))!important;border-bottom:1px solid rgba(255,202,89,.14)!important;box-shadow:none!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);height:auto!important;min-height:64px;padding:10px 14px!important;gap:10px!important;flex-wrap:wrap}
+body.mc .topbar .mark{gap:10px;min-width:0;flex:1}
+body.mc .topbar .mark img{width:40px!important;height:40px!important;border-radius:50%}
+body.mc .topbar .mark span{min-width:0}
+body.mc .topbar .mark strong{display:block;font:600 19px/1.1 Georgia,"Times New Roman",serif!important;color:#ffcf76!important;letter-spacing:.01em!important;text-transform:none!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.mc .topbar .mark em{display:none!important}
+body.mc .topbar .nav a{color:#e9e2d6!important;opacity:.85}
+body.mc .topbar .nav a:hover{color:#ffcf76!important;opacity:1}
+@media (max-width:820px){body.mc .topbar .nav{display:none!important}}
+body.mc .headercart{display:inline-flex!important;align-items:center;gap:8px!important;height:42px;min-height:42px!important;padding:0 8px 0 14px!important;border-radius:999px!important;border:1px solid rgba(255,202,89,.45)!important;background:rgba(12,16,34,.75)!important;color:#ffca59!important;margin:0!important}
+body.mc .headercart svg{width:20px;height:20px}
+body.mc .headercart .cart-label{display:none!important}
+body.mc .headercart span#count{display:inline-flex;align-items:center;justify-content:center;width:auto!important;min-width:26px!important;height:26px!important;padding:0 7px;border-radius:13px!important;background:#ffca59!important;color:#3a0708!important;font-size:13px!important;font-weight:800;margin:0!important}
+body.mc .topbar .mc-listbtn{height:42px;order:0}
+.mc-toolbar{top:var(--mc-top,64px)}
+.mc-toolbar .search-row{display:none}
+body.mc-searching .mc-toolbar .search-row{display:flex}
+.mc-toolbar #pills.chips{margin-top:4px!important}
+body.mc .mc-toolbar .chip{background:rgba(255,255,255,.05)!important;border:1px solid rgba(255,255,255,.2)!important;color:#e9e2d6!important;border-radius:999px!important}
+body.mc .mc-toolbar .chip.active{background:#ffca59!important;border-color:#ffca59!important;color:#3a0708!important;font-weight:700}
+.mc-hero{justify-content:flex-start;padding-top:28px}
+.mc-hero .mc-promo{display:flex!important;flex-direction:column;align-items:flex-start;gap:12px;width:min(620px,100%);margin:0 0 34px;padding:16px 18px;border-radius:14px;background:linear-gradient(110deg,rgba(148,12,13,.55),rgba(60,6,8,.35))!important;border:1px solid rgba(255,202,89,.4)!important;text-align:left;color:#e8ddcc}
+.mc-hero .mc-promo[hidden]{display:none!important}
+.mc-hero .mc-promo strong{color:#ffcf76;font-size:17px;line-height:1.3}
+.mc-hero .mc-promo p{margin:4px 0 0;font-size:14px;color:#e8ddcc;max-width:none}
+.mc-hero .mc-promo a{background:#ffca59!important;color:#3a0708!important;border:0!important;border-radius:999px!important;padding:10px 16px!important;font-weight:800;font-size:14px;text-decoration:none}
+.mc-searchbtn{display:flex;align-items:center;gap:10px;width:min(460px,100%);margin:26px auto 0;height:52px;padding:0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#d8d2c6;font-size:15px;cursor:text;text-align:left}
+.mc-searchbtn svg{width:18px;height:18px;color:#ffca59;flex:none}
+@media (min-width:821px){.mc-hero .mc-promo{flex-direction:row;align-items:center;justify-content:space-between}}
