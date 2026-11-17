@@ -12,7 +12,10 @@
   publishableKey:'sb_publishable_J1Ewyl4he9-KRj_jv8fIPA_S8vZ2v5_',
 
   /* Vestigingen. De eerste is de standaard. */
-  /* Testomgeving: gebruikt op de testlink van de platform-tak en lokaal, nooit op de echte site. */
+  /* Alleen deze adressen gebruiken de echte database. Elk ander adres (previews, losse testversies, lokaal) gebruikt de testdatabase. */
+  productionHosts:['momsthaifood.nl','www.momsthaifood.nl','bestellen.momsthaifood.nl','moms-thai-food-bestellen.vercel.app'],
+
+  /* Testomgeving */
   test:{
    supabaseUrl:'https://ipbvjszctqgtidcouidc.supabase.co',
    publishableKey:'sb_publishable_vgBUmNL3a1fShF4jMOzT8g_eTPTaQyE'
@@ -37,9 +40,9 @@
   return (config.locations[slug]||config.locations[config.defaultLocation]).cartKey;
  };
 
- /* Kies de testdatabase alleen op de testlink van de platform-tak (…-git-platform-….vercel.app) of lokaal. */
+ /* Echte database alleen op de productie-adressen; overal anders de testdatabase. */
  const host=(typeof location!=='undefined'&&location.hostname)||'';
- config.environment=/^(localhost|127\.0\.0\.1)$/.test(host)||host.includes('-git-platform-')?'test':'live';
+ config.environment=config.productionHosts.includes(host)?'live':'test';
  if(config.environment==='test'){config.supabaseUrl=config.test.supabaseUrl;config.publishableKey=config.test.publishableKey;}
 
  config.locationSlugs=Object.keys(config.locations);
