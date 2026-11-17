@@ -15,7 +15,7 @@
  setTop();addEventListener('resize',setTop);if(topbar&&window.ResizeObserver)new ResizeObserver(setTop).observe(topbar);
 
  /* populariteit: meest bestelde eerst */
- const loc=(window.MTFLocation&&window.MTFLocation.slug)||'spijkenisse';
+ const loc=(window.MTFLocation&&window.MTFLocation.slug)||SITE_CONFIG.defaultLocation;
  fetch(SUPA+'/rest/v1/rpc/mtf_dish_popularity',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({p_location:loc})})
   .then(r=>r.ok?r.json():[]).then(rows=>{if(Array.isArray(rows)&&rows.length){pop=new Map(rows.map(r=>[String(r.dish_id),Number(r.n)||0]));if(menu.length)renderMenu();}}).catch(()=>{});
 
@@ -112,7 +112,7 @@
   if(reduce){cv.remove();document.documentElement.classList.remove('steam-in');}else requestAnimationFrame(loop);
  }
  /* v2: kop zoals het voorbeeld – naam, Lijst-knop in de kop, kortingsbanner in de hero, zoekpil */
- const strong=document.querySelector('.topbar .mark strong');if(strong)strong.textContent='Mom’s Thai Food';
+ const strong=document.querySelector('.topbar .mark strong');if(strong)strong.textContent=SITE_CONFIG.name;
  const cartBtn=$('#cartBtn');if(listBtn&&cartBtn)cartBtn.before(listBtn);
  const promo=document.querySelector('.welcome-banner'),slot=$('#mcPromoSlot');
  if(promo&&slot){const c=promo.cloneNode(true);c.className='mc-promo';c.removeAttribute('aria-label');slot.replaceWith(c);

@@ -9,6 +9,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preload" as="image" href="/logo.png">
+<script src="/site-config.js"></script>
 <script>
 /* Binnen de site (bv. via 'Home' of het logo) direct naar de homepage, de intro alleen bij binnenkomst. */
 (function(){var go=false;try{var r=document.referrer&&new URL(document.referrer);if(r&&r.host===location.host&&!/^\/(intro)?$/.test(r.pathname))go=true;}catch(e){}
@@ -238,10 +239,10 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:Aria
  }
  render();setInterval(render,30000);
  /* iDEAL-melding alleen tonen als online betalen echt aan staat (of in voorbeeldmodus) */
- fetch('https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/mollie-pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})
+ fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/mollie-pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})
   .then(r=>r.json()).then(c=>{if(c&&c.enabled&&(!c.test||/[?&]mollietest=1/.test(location.search)))document.getElementById('pay').hidden=false;}).catch(()=>{});
  /* Uitzonderingsdagen (feestdagen, vakantie) ophalen */
- fetch('https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})})
+ fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})})
   .then(r=>r.json()).then(d=>{if(d&&d.ok&&Array.isArray(d.closures)&&R){R.setClosures(d.closures);render();}}).catch(()=>{});
 })();
 </script>

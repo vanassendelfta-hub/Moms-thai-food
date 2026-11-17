@@ -1,6 +1,6 @@
 /* Websitestatistieken in het beheer: bezoeken en unieke bezoekers per dag, week en maand. */
 (()=>{
- const API='https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/site-stats';
+ const API=SITE_CONFIG.supabaseUrl+'/functions/v1/site-stats';
  const C={views:'#c28628',visitors:'#4f93d6'};
  let unit='day',data=null,loading=false,hourDay='';
  viewNames.statsPanel='Websitestatistieken';

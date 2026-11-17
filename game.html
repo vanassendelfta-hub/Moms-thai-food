@@ -232,6 +232,7 @@
   </div>
 </div>
 
+<script src="/site-config.js"></script>
 <script>
 /* ===================== INSTELLINGEN ===================== */
 const CONFIG = {
@@ -755,7 +756,7 @@ function gameOver(){
   setTimeout(()=>show('over'), 600);
 }
 $('playBtn').onclick = startGame; $('againBtn').onclick = startGame; $('againBtn2').onclick = startGame;
-const GAME_API = 'https://uywydquzvdbpfjjrwsbt.supabase.co/functions/v1/game';
+const GAME_API = SITE_CONFIG.supabaseUrl+'/functions/v1/game';
 let sentRun = null;
 try{ $('emailInput').value = localStorage.getItem('wokEmail') || ''; }catch(e){}
 function msg(t, err){ $('sendMsg').textContent = t || ''; $('sendMsg').className = err ? 'err' : ''; }
