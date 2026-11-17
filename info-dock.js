@@ -14,21 +14,21 @@
  ];
  const css=`
 .mtf-dock{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.mtf-dock button.mtf-tab{pointer-events:auto;position:relative;display:flex;align-items:center;justify-content:center;width:42px;height:44px;padding:0;border-radius:12px 0 0 12px;border:1px solid rgba(255,202,89,.45);border-right:0;background:rgba(12,16,34,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#ffca59;cursor:pointer;box-shadow:-4px 6px 18px rgba(0,0,0,.35);transition:width .2s ease,background .2s ease}
+.mtf-dock button.mtf-tab{pointer-events:auto;position:relative;display:flex;align-items:center;justify-content:center;width:42px;height:44px;padding:0;border-radius:12px 0 0 12px;border:1px solid rgba(var(--mtf-gold-rgb),.45);border-right:0;background:rgba(12,16,34,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--mtf-gold);cursor:pointer;box-shadow:-4px 6px 18px rgba(0,0,0,.35);transition:width .2s ease,background .2s ease}
 .mtf-dock button.mtf-tab:hover,.mtf-dock button.mtf-tab[aria-expanded="true"]{width:50px;background:rgba(20,25,47,.96)}
-.mtf-dock button.mtf-tab:focus-visible{outline:3px solid #fff4de;outline-offset:2px}
+.mtf-dock button.mtf-tab:focus-visible{outline:3px solid var(--mtf-cream-warm);outline-offset:2px}
 .mtf-dock button.mtf-tab[hidden]{display:none}
-.mtf-dock .mtf-ico{font:800 14px/1 Arial,Helvetica,sans-serif;color:#ffca59;letter-spacing:-.02em;white-space:nowrap}.mtf-dock .mtf-ex{font-size:24px;font-family:Georgia,serif}.mtf-dock .mtf-new{font-size:11.5px;letter-spacing:0}
+.mtf-dock .mtf-ico{font:800 14px/1 Arial,Helvetica,sans-serif;color:var(--mtf-gold);letter-spacing:-.02em;white-space:nowrap}.mtf-dock .mtf-ex{font-size:24px;font-family:Georgia,serif}.mtf-dock .mtf-new{font-size:11.5px;letter-spacing:0}
 .mtf-dock .mtf-dot{position:absolute;top:7px;left:7px;width:8px;height:8px;border-radius:50%;background:#39d98a;box-shadow:0 0 0 2px rgba(12,16,34,.9)}
 .mtf-dock .mtf-dot.red{background:#e4363c}
-.mtf-dock .mtf-tip{position:absolute;right:calc(100% + 8px);top:50%;transform:translate(6px,-50%);white-space:nowrap;padding:6px 10px;border-radius:8px;background:#14192f;border:1px solid rgba(255,202,89,.35);color:#f9f5ef;font:600 13px Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s}
+.mtf-dock .mtf-tip{position:absolute;right:calc(100% + 8px);top:50%;transform:translate(6px,-50%);white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--mtf-navy);border:1px solid rgba(var(--mtf-gold-rgb),.35);color:var(--mtf-cream);font:600 13px Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s}
 @media(hover:hover){.mtf-dock button.mtf-tab:hover .mtf-tip{opacity:1;transform:translate(0,-50%)}}
 .mtf-scrim{position:fixed;inset:0;z-index:43;background:rgba(5,7,16,.35);opacity:0;pointer-events:none;transition:opacity .2s}
 .mtf-scrim.open{opacity:1;pointer-events:auto}
 .mtf-dp{position:fixed;z-index:44;right:58px;top:50%;width:min(420px,calc(100vw - 74px));max-height:min(78vh,640px);overflow:auto;-webkit-overflow-scrolling:touch;transform:translate(16px,-50%);opacity:0;visibility:hidden;transition:opacity .2s ease,transform .25s ease,visibility 0s .25s;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.55)}
 .mtf-dp.open{opacity:1;visibility:visible;transform:translate(0,-50%);transition:opacity .2s ease,transform .25s ease}
 .mtf-dp .mtf-close{position:sticky;top:0;float:right;z-index:2;margin:8px 8px -40px 0;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(12,16,34,.75);color:#fff;font:700 18px/1 Arial;cursor:pointer}
-.mtf-dp .mtf-close:focus-visible{outline:3px solid #fff4de;outline-offset:2px}
+.mtf-dp .mtf-close:focus-visible{outline:3px solid var(--mtf-cream-warm);outline-offset:2px}
 .mtf-dp>section,.mtf-dp>div:not(.mtf-x){margin:0!important;width:100%!important;max-width:none!important;box-sizing:border-box}
 .mtf-dp>.late-order,.mtf-dp>.welcome-banner{display:flex!important;flex-direction:column;align-items:flex-start!important;gap:16px;padding-right:52px!important}
 .mtf-dp>.special-hours{display:block!important;padding-right:52px!important}

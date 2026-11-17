@@ -4,14 +4,14 @@
 const nativeFetch=window.fetch.bind(window);window.fetch=function(input,options){if(typeof input==='string'&&input.startsWith(SITE_CONFIG.supabaseUrl+'/functions/v1/')&&options?.method?.toUpperCase()==='POST'&&typeof options.body==='string'){try{const body=JSON.parse(options.body);if(body&&typeof body==='object'&&!Array.isArray(body))options={...options,body:JSON.stringify({...body,location:state.slug})};}catch{}}return nativeFetch(input,options);};
 if(admin)return;
 /* Mandjesknop: gouden knop met teller-badge die alleen verschijnt als er iets in het mandje zit. */
-try{const st=document.createElement('style');st.id='cartStyle';st.textContent=`#cartBtn.headercart{position:relative;display:inline-flex;align-items:center;gap:9px;height:44px;width:auto;padding:0 18px 0 15px;border-radius:999px;background:linear-gradient(180deg,#ffd77d,#f2b43c);color:#3a0708;border:1px solid #ffe7ad;box-shadow:0 6px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55);font-weight:800;font-size:14px;letter-spacing:.01em;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+try{const st=document.createElement('style');st.id='cartStyle';st.textContent=`#cartBtn.headercart{position:relative;display:inline-flex;align-items:center;gap:9px;height:44px;width:auto;padding:0 18px 0 15px;border-radius:999px;background:linear-gradient(180deg,var(--mtf-gold-grad-top),var(--mtf-gold-grad-bottom));color:var(--mtf-wine);border:1px solid var(--mtf-gold-pale);box-shadow:0 6px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55);font-weight:800;font-size:14px;letter-spacing:.01em;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
 #cartBtn.headercart:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.6);filter:brightness(1.04)}
 #cartBtn.headercart:active{transform:translateY(0) scale(.97)}
-#cartBtn.headercart:focus-visible{outline:3px solid #fff4de;outline-offset:3px}
+#cartBtn.headercart:focus-visible{outline:3px solid var(--mtf-cream-warm);outline-offset:3px}
 #cartBtn.headercart:disabled{opacity:.55;cursor:not-allowed;transform:none}
 #cartBtn.headercart svg{width:20px;height:20px;stroke-width:2;flex:none}
 #cartBtn.headercart .cart-label{display:inline;background:none;color:inherit;border-radius:0;min-width:0;height:auto;margin:0;font-size:14px}
-#cartBtn.headercart #count{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#b3171c;color:#fff;font-size:12px;font-weight:800;line-height:1;border:2px solid #fff4de;margin:0;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+#cartBtn.headercart #count{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#b3171c;color:#fff;font-size:12px;font-weight:800;line-height:1;border:2px solid var(--mtf-cream-warm);margin:0;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.35)}
 #cartBtn.headercart[data-empty] #count{display:none}
 #cartBtn.headercart.cart-bump #count{animation:cartBump .45s ease}
 @keyframes cartBump{0%{transform:scale(1)}35%{transform:scale(1.35)}100%{transform:scale(1)}}

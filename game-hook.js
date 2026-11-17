@@ -17,7 +17,7 @@ if(!admin){
   const home=location.pathname==='/'||location.pathname==='/index'||location.pathname==='/index.html';
   let closed=false;try{closed=sessionStorage.getItem('mtf_game_pill')==='closed';}catch{}
   if(home&&!closed){
-   const s=document.createElement('style');s.textContent='.mtf-game-pill{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:6px;background:#940c0d;color:#fff;border:2px solid #f2c14e;border-radius:999px;padding:10px 12px 10px 16px;font:700 15px/1.2 system-ui,Arial;box-shadow:0 8px 20px rgba(0,0,0,.25)}.mtf-game-pill a{color:#fff;text-decoration:none}.mtf-game-pill button{background:none;border:0;color:#fff;font-size:18px;line-height:1;cursor:pointer;padding:0 4px;opacity:.8}';
+   const s=document.createElement('style');s.textContent='.mtf-game-pill{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:6px;background:var(--mtf-red);color:#fff;border:2px solid #f2c14e;border-radius:999px;padding:10px 12px 10px 16px;font:700 15px/1.2 system-ui,Arial;box-shadow:0 8px 20px rgba(0,0,0,.25)}.mtf-game-pill a{color:#fff;text-decoration:none}.mtf-game-pill button{background:none;border:0;color:#fff;font-size:18px;line-height:1;cursor:pointer;padding:0 4px;opacity:.8}';
    const p=document.createElement('div');p.className='mtf-game-pill';p.innerHTML='<a href="/game">🎮 Speel de Wok Challenge</a><button type="button" aria-label="Sluiten">×</button>';
    p.querySelector('button').onclick=()=>{p.remove();try{sessionStorage.setItem('mtf_game_pill','closed');}catch{}};
    document.head.append(s);document.body.append(p);

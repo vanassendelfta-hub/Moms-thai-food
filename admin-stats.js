@@ -14,11 +14,11 @@
  const style=document.createElement('style');
  style.textContent=`
  #statsPanel .stats-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
- #statsPanel .stats-kpi{padding:18px 20px;border-radius:14px;background:linear-gradient(110deg,#650a0c,#940c0d);color:#fff4de;border:1px solid #bd7e32}
+ #statsPanel .stats-kpi{padding:18px 20px;border-radius:14px;background:linear-gradient(110deg,var(--mtf-maroon),var(--mtf-red));color:var(--mtf-cream-warm);border:1px solid var(--mtf-bronze)}
  #statsPanel .stats-kpi small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
  #statsPanel .stats-kpi strong{display:block;font-size:34px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
  #statsPanel .stats-kpi span{font-size:13px;opacity:.9}
- #statsPanel .stats-card{background:#14192f;color:#f6f2ec;border:1px solid rgba(211,168,83,.33);border-radius:14px;padding:18px 20px;margin:16px 0}
+ #statsPanel .stats-card{background:var(--mtf-navy);color:#f6f2ec;border:1px solid rgba(211,168,83,.33);border-radius:14px;padding:18px 20px;margin:16px 0}
  #statsPanel .stats-card h2{margin:0 0 4px;font-size:18px;color:#f6f2ec}
  #statsPanel .stats-card p.hint{margin:0;color:#b2bbd0}
  #statsPanel .stats-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
@@ -26,7 +26,7 @@
  #statsPanel .stats-legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
  #statsPanel .stats-chart{position:relative;margin-top:12px}
  #statsPanel .stats-chart svg{display:block;width:100%;height:auto;overflow:visible}
- #statsPanel .stats-tip{position:absolute;pointer-events:none;background:#f6f2ec;color:#14192f;border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.45;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);transform:translate(-50%,-110%);opacity:0;transition:opacity .12s}
+ #statsPanel .stats-tip{position:absolute;pointer-events:none;background:#f6f2ec;color:var(--mtf-navy);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.45;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.25);transform:translate(-50%,-110%);opacity:0;transition:opacity .12s}
  #statsPanel .stats-tip b{display:block;margin-bottom:2px}
  #statsPanel .stats-tip i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
  #statsPanel .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}

@@ -8,5 +8,5 @@
 
 ## Nog te doen
 - [x] Lettertypes als variabelen: --mtf-font-heading, --mtf-font-serif, --mtf-font-body, --mtf-font-body-short (exacte stacks behouden). 71 plekken. Pixelcontrole: 28/32 identiek, rest anti-aliasing.
-- [ ] Kleuren in JS-gegenereerde stijlen (schedule.js, promotions.js, branch.js e.d.) laten verwijzen naar de variabelen.
+- [x] Kleuren in door scripts aangemaakte stijlen (schedule.js, branch.js, info-dock.js, game-hook.js, admin-stats.js): 31 plekken. Bewust niet: admin-receipts.js (los printvenster) en SVG/canvas-kleuren. Pixelcontrole: 30/32 identiek, 2 met <100 px anti-aliasing.
 - [ ] Overgebleven eenmalige kleuren beoordelen (blijven voorlopig letterlijk).
