@@ -1,0 +1,59 @@
+/* Huisstijl per bedrijf.
+   Dit bestand bepaalt de kleuren van de website en het beheer. Voor een ander restaurant:
+   kopieer dit bestand en pas de waarden aan; de rest van de CSS gebruikt alleen deze namen.
+   Waarden hieronder zijn exact de huidige kleuren van Mom's Thai Food. */
+:root{
+  /* Goud (accenten, knoppen, koppen) */
+  --mtf-gold:#ffca59;
+  --mtf-gold-rgb:255,202,89;          /* voor transparantie: rgba(var(--mtf-gold-rgb),.2) */
+  --mtf-gold-soft:#ffcf76;
+  --mtf-gold-2:#f5c766;
+  --mtf-amber-rgb:242,193,78;          /* #f2c14e, gebruikt met transparantie */
+  --mtf-gold-grad-top:#ffd77d;
+  --mtf-gold-grad-bottom:#f2b43c;
+  --mtf-gold-pale:#ffe7ad;
+  --mtf-gold-muted:#cda76a;
+  --mtf-gold-sand:#dfbd77;
+  --mtf-gold-bright:#ffd978;
+  --mtf-gold-deep:#e9a92a;
+  --mtf-gold-dim:#d3a853;
+  --mtf-bronze:#bd7e32;
+
+  /* Wijnrood en rood */
+  --mtf-wine:#3a0708;                 /* tekst op goud */
+  --mtf-wine-2:#390708;
+  --mtf-wine-3:#5e0d0b;
+  --mtf-maroon:#650a0c;
+  --mtf-red:#940c0d;
+  --mtf-red-rgb:148,12,13;
+  --mtf-red-2:#942025;
+  --mtf-red-3:#8e1019;
+  --mtf-red-4:#941e29;
+  --mtf-coral:#ff9d93;
+
+  /* Crème en zand (lichte achtergronden) */
+  --mtf-cream:#f9f5ef;
+  --mtf-cream-warm:#fff4de;
+  --mtf-cream-2:#fff8e9;
+  --mtf-cream-3:#fff2d7;
+  --mtf-cream-4:#fffaf0;
+  --mtf-sand:#ead9b8;
+  --mtf-sand-2:#f3dfc4;
+
+  /* Tekstkleuren op donker */
+  --mtf-text-light:#e9e2d6;
+  --mtf-text-soft:#d8d2c6;
+  --mtf-text-muted:#bdb5a8;
+  --mtf-text-muted-2:#cfc8bb;
+  --mtf-grey-blue:#aab0bc;
+
+  /* Donkere achtergronden */
+  --mtf-navy:#14192f;
+  --mtf-navy-deep:#090d29;
+  --mtf-ink:#0b0b11;
+  --mtf-ink-2:#07070b;
+  --mtf-ink-3:#0f1018;
+
+  /* Status */
+  --mtf-green:#34744b;
+}
