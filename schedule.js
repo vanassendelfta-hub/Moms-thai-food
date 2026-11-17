@@ -23,7 +23,7 @@
   slots.innerHTML=chosenDate?`<p class="booking-date">${esc(dateLabel(chosenDate))}</p><div class="booking-times" role="group" aria-label="Kies een tijdvak">${available.map(t=>`<button type="button" data-booktime="${t}" aria-pressed="${t===chosenTime}">${t}</button>`).join('')}</div>`:'<p>Kies eerst een beschikbare dag in de kalender.</p>';
   if(slots.querySelector('.booking-times'))slots.querySelector('.booking-times').scrollTop=oldScroll;
   slots.querySelectorAll('[data-booktime]').forEach(b=>b.onclick=()=>{chosenTime=b.dataset.booktime;time.value=chosenTime;draw();updateCheckout();slots.querySelector('[data-booktime="'+chosenTime+'"]')?.focus({preventScroll:true});});
-  const hint=document.querySelector('#scheduleHint');hint.textContent=chosenTime?'Gekozen: '+dateLabel(chosenDate)+' om '+chosenTime+'.':'Kies een beschikbare dag en tik daarna op een tijdvak. Voor dezelfde dag bestel je tot 18:00, op vrijdag en zondag tot 19:30.';
+  const hint=document.querySelector('#scheduleHint');hint.textContent=chosenTime?'Gekozen: '+dateLabel(chosenDate)+' om '+chosenTime+'.':(()=>{const i=cutoffInfo();return 'Kies een beschikbare dag en tik daarna op een tijdvak. Voor dezelfde dag bestel je tot '+i.base+(i.laterDays?', op '+i.laterDays+' tot '+i.laterTime:'')+'.';})();
  }
  const previousUpdate=updateCheckout;updateCheckout=function(){previousUpdate();if(!ready||!date.value||!time.value)document.querySelector('#submitOrder').disabled=true;};
  updateSchedule=function(reset=false){if(reset){chosenDate=ready?R.nextDate()||'':'';chosenTime='';if(chosenDate)month=chosenDate.slice(0,7);}draw();updateCheckout();};
@@ -35,7 +35,7 @@
   const line=g=>`<li><strong>${esc(label(g.from))}${g.to!==g.from?' t/m '+esc(label(g.to)):''}</strong> · Gesloten: ${esc(g.reason)}</li>`;
   banner.innerHTML='<div><p class="eyebrow">AANGEPASTE OPENINGSTIJDEN</p><h2>Even goed om te weten</h2><ul>'+groups.slice(0,3).map(line).join('')+'</ul>'+(groups.length>3?'<details><summary>Alle sluitingsdagen bekijken</summary><ul>'+groups.slice(3).map(line).join('')+'</ul></details>':'')+'<p>Op de overige dagen gelden onze normale openingstijden. In de bestelkalender zie je alle beschikbare momenten.</p></div>';
  }
- async function refresh(){if(fetching)return;fetching=true;try{const r=await fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})});const d=await r.json();if(!r.ok||!d.ok||!Array.isArray(d.closures))throw Error('Beschikbaarheid kon niet worden opgehaald.');rows=d.closures;R.setClosures(rows);const first=!ready;ready=true;if(first){chosenDate=R.nextDate()||'';if(chosenDate)month=chosenDate.slice(0,7);}showClosures();draw();updateCheckout();lateOrder();}catch{ready=false;date.value='';time.value='';if(wrap)wrap.innerHTML='<p role="alert">Beschikbaarheid niet bereikbaar. <button type="button" id="retrySchedule">Opnieuw proberen</button></p>';document.querySelector('#retrySchedule')?.addEventListener('click',refresh);slots.innerHTML='';updateCheckout();}finally{fetching=false;}}
+ async function refresh(){if(fetching)return;fetching=true;try{const r=await fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})});const d=await r.json();if(!r.ok||!d.ok||!Array.isArray(d.closures))throw Error('Beschikbaarheid kon niet worden opgehaald.');rows=d.closures;R.setClosures(rows);if(Array.isArray(d.hours)&&R.setHours(d.hours)){rewriteTexts();lateOrder();}const first=!ready;ready=true;if(first){chosenDate=R.nextDate()||'';if(chosenDate)month=chosenDate.slice(0,7);}showClosures();draw();updateCheckout();lateOrder();}catch{ready=false;date.value='';time.value='';if(wrap)wrap.innerHTML='<p role="alert">Beschikbaarheid niet bereikbaar. <button type="button" id="retrySchedule">Opnieuw proberen</button></p>';document.querySelector('#retrySchedule')?.addEventListener('click',refresh);slots.innerHTML='';updateCheckout();}finally{fetching=false;}}
 
  /* Laat bestellen op vrijdag en zondag tot 19:30: aankondiging en duidelijke teksten op elke pagina. */
  const style=document.createElement('style');
@@ -44,30 +44,43 @@
  const ann=document.createElement('section');ann.className='late-order';ann.setAttribute('aria-label','Laat bestellen op vrijdag en zondag');
  (document.querySelector('.welcome-banner')||document.querySelector('.topbar')).after(ann);
  const onMenu=!!document.querySelector('#menu');
+ /* Teksten over besteltijden komen uit de openingstijden (database). Standaard: tot 18:00, op vrijdag en zondag tot 19:30. */
+ const dayName=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+ const joinEn=a=>a.length>1?a.slice(0,-1).join(', ')+' en '+a.at(-1):(a[0]||'');
+ function cutoffInfo(){
+  const w=R.weekHours(),days=[1,2,3,4,5,6,0].filter(d=>w.hours[d]),count={};
+  for(const d of days){const c=w.cutoffs[d];count[c]=(count[c]||0)+1;}
+  const base=Number(Object.keys(count).sort((a,b)=>count[b]-count[a]||a-b)[0]??1080),later=days.filter(d=>w.cutoffs[d]>base);
+  return {days,w,base:R.formatTime(base),laterDays:joinEn(later.map(d=>dayName[d])),laterTime:later.length?R.formatTime(Math.max(...later.map(d=>w.cutoffs[d]))):'',isLate:d=>w.cutoffs[d]>base};
+ }
  function lateOrder(){
-  const c=R.clock(),wd=new Date(c.date+'T12:00:00Z').getUTCDay(),late=wd===5||wd===0,cut=R.cutoff(c.date)*60,left=cut-c.seconds;
+  const c=R.clock(),wd=new Date(c.date+'T12:00:00Z').getUTCDay(),info=cutoffInfo(),late=info.isLate(wd),cut=R.cutoff(c.date)*60,left=cut-c.seconds;
+  const L=info.laterDays,LT=info.laterTime,B=info.base;
   const openToday=!!R.opening(c.date);
   const cta=`<a class="btn-red" href="${onMenu?'#menu':'/menu.html'}">Bestel nu →</a>`;
   if(openToday&&left>0){
    const h=Math.floor(left/3600),m=Math.floor(left%3600/60);
    const rest=h?`nog ${h} uur${m?' en '+m+' min':''}`:`nog ${Math.max(m,1)} min`;
    const until=R.formatTime(R.cutoff(c.date));
-   ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Vandaag nog Thais eten? Bestel tot ${until} uur</strong><p>${late?'Op vrijdag en zondag bestel je voor dezelfde dag zelfs tot 19:30':'Voortaan bestel je voor dezelfde dag tot 18:00, op vrijdag en zondag tot 19:30'} · ${rest}</p></div>${cta}`;
+   ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Vandaag nog Thais eten? Bestel tot ${until} uur</strong><p>${late?`Op ${L} bestel je voor dezelfde dag zelfs tot ${LT}`:`Voortaan bestel je voor dezelfde dag tot ${B}${L?`, op ${L} tot ${LT}`:''}`} · ${rest}</p></div>${cta}`;
   }else{
-   ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Voortaan bestellen tot 18:00 uur voor dezelfde dag</strong><p>Op vrijdag en zondag zelfs tot 19:30 uur. Vooruitbestellen voor een volgende openingsdag kan altijd.</p></div>${cta}`;
+   ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Voortaan bestellen tot ${B} uur voor dezelfde dag</strong><p>${L?`Op ${L} zelfs tot ${LT} uur. `:''}Vooruitbestellen voor een volgende openingsdag kan altijd.</p></div>${cta}`;
   }
  }
+ function renderOpeningList(info){
+  const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  document.querySelectorAll('.opening-list').forEach(list=>{
+   list.innerHTML=info.days.map(d=>{const [o,cl]=info.w.hours[d],late=info.isLate(d);return `<div><dt>${cap(dayName[d])}</dt><dd>${R.formatTime(o)} – ${R.formatTime(cl)} uur<span class="order-until${late?' is-late':''}">Bestellen voor vandaag tot ${R.formatTime(info.w.cutoffs[d])}</span></dd></div>`;}).join('');
+  });
+ }
  function rewriteTexts(){
-  const oldLine='Bestel uiterlijk om 16:00 voor dezelfde dag';
+  const oldLine='Bestel uiterlijk om 16:00 voor dezelfde dag',info=cutoffInfo(),L=info.laterDays,LT=info.laterTime,B=info.base;
   document.querySelectorAll('p').forEach(p=>{
    if(p.closest('.late-order'))return;
-   if(p.textContent.startsWith('Bestel uiterlijk om 16:00 uur voor dezelfde dag')){p.innerHTML='Bestellen voor dezelfde dag kan tot <strong>18:00 uur</strong>, op <strong>vrijdag en zondag tot 19:30 uur</strong>. Kies altijd vooraf een bezorg- of afhaalmoment binnen onze openingstijden. Vooruitbestellen voor een volgende openingsdag kan ook.';return;}
-   if(p.textContent.includes(oldLine)&&p.children.length===0)p.textContent=p.textContent.replace(oldLine,'Bestel voor dezelfde dag tot 18:00 (vrijdag en zondag tot 19:30)');
+   if(p.dataset.cutoffText==='long'||p.textContent.startsWith('Bestel uiterlijk om 16:00 uur voor dezelfde dag')){p.dataset.cutoffText='long';p.innerHTML=`Bestellen voor dezelfde dag kan tot <strong>${B} uur</strong>${L?`, op <strong>${L} tot ${LT} uur</strong>`:''}. Kies altijd vooraf een bezorg- of afhaalmoment binnen onze openingstijden. Vooruitbestellen voor een volgende openingsdag kan ook.`;return;}
+   if(p.dataset.cutoffText==='short'||(p.textContent.includes(oldLine)&&p.children.length===0)){if(!p.dataset.cutoffText){p.dataset.cutoffText='short';p.dataset.cutoffTemplate=p.textContent;}p.textContent=p.dataset.cutoffTemplate.replace(oldLine,`Bestel voor dezelfde dag tot ${B}${L?` (${L} tot ${LT})`:''}`);}
   });
-  document.querySelectorAll('.opening-list > div').forEach(row=>{
-   const day=row.querySelector('dt')?.textContent.trim(),dd=row.querySelector('dd');if(!dd||dd.querySelector('.order-until'))return;
-   const late=day==='Vrijdag'||day==='Zondag',s=document.createElement('span');s.className='order-until'+(late?' is-late':'');s.textContent='Bestellen voor vandaag tot '+(late?'19:30':'18:00');dd.append(s);
-  });
+  renderOpeningList(info);
  }
  rewriteTexts();lateOrder();setInterval(lateOrder,30000);
  /* Oude zinnen 'uiterlijk om 16:00' (bv. uit app.js of beheer) direct bijwerken naar de nieuwe besteltijd. */

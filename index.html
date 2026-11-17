@@ -243,7 +243,7 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:Aria
   .then(r=>r.json()).then(c=>{if(c&&c.enabled&&(!c.test||/[?&]mollietest=1/.test(location.search)))document.getElementById('pay').hidden=false;}).catch(()=>{});
  /* Uitzonderingsdagen (feestdagen, vakantie) ophalen */
  fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})})
-  .then(r=>r.json()).then(d=>{if(d&&d.ok&&Array.isArray(d.closures)&&R){R.setClosures(d.closures);render();}}).catch(()=>{});
+  .then(r=>r.json()).then(d=>{if(d&&d.ok&&Array.isArray(d.closures)&&R){R.setClosures(d.closures);if(Array.isArray(d.hours))R.setHours(d.hours);render();}}).catch(()=>{});
 })();
 </script>
 </body>

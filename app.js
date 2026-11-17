@@ -38,7 +38,7 @@ function updateSchedule(reset=false){
  const date=$('[name=date]'),time=$('[name=time]');date.min=MTFOrderRules.clock().date;
  if(reset||!date.value)date.value=MTFOrderRules.nextDate();
  const h=MTFOrderRules.opening(date.value);date.setCustomValidity('');time.disabled=!h;
- if(!h){date.setCustomValidity('We zijn open op maandag, dinsdag, donderdag, vrijdag en zondag.');time.value='';$('#scheduleHint').textContent='Deze dag zijn we gesloten. Kies maandag, dinsdag, donderdag, vrijdag of zondag.';}
+ if(!h){date.setCustomValidity('We zijn open op '+MTFOrderRules.openDaysText('en')+'.');time.value='';$('#scheduleHint').textContent='Deze dag zijn we gesloten. Kies '+MTFOrderRules.openDaysText()+'.';}
  else{time.min=MTFOrderRules.formatTime(h[0]);time.max=MTFOrderRules.formatTime(h[1]);if(!time.value||time.value<time.min||time.value>time.max)time.value=time.min;$('#scheduleHint').textContent='Kies een moment tussen '+time.min+' en '+time.max+' uur. Voor dezelfde dag bestel je uiterlijk om 16:00.';}
  updateCheckout();
 }
