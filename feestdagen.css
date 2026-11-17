@@ -1,10 +1,10 @@
 /* Feestdagpagina's (kerst, sinterklaas, oudejaarsdag, nieuwsbrief) – huisstijl zwart/goud */
 [hidden]{display:none!important}
-body{margin:0;background:#000;color:var(--mtf-text-light);font:17px/1.6 Arial,Helvetica,sans-serif}
+body{margin:0;background:#000;color:var(--mtf-text-light);font:17px/1.6 var(--mtf-font-body)}
 header,main,footer{max-width:1180px;margin:auto;padding:24px}
 header{position:sticky;top:0;z-index:20;display:flex;gap:14px 24px;align-items:center;flex-wrap:wrap;max-width:none;padding:10px 14px;background:linear-gradient(180deg,rgba(0,0,0,.94),rgba(0,0,0,.8));border-bottom:1px solid rgba(var(--mtf-gold-rgb),.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 header>a{display:flex;align-items:center;gap:10px;text-decoration:none}
-header>a::after{content:"Mom’s Thai Food";font:600 19px/1.1 Georgia,"Times New Roman",serif;color:var(--mtf-gold-soft)}
+header>a::after{content:"Mom’s Thai Food";font:600 19px/1.1 var(--mtf-font-heading);color:var(--mtf-gold-soft)}
 header img{width:40px;height:40px;border-radius:50%}
 nav{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
@@ -12,8 +12,8 @@ nav a{flex:none;display:inline-flex;align-items:center;height:34px;padding:0 14p
 nav a[aria-current=page]{background:rgba(var(--mtf-gold-rgb),.14);border-color:rgba(var(--mtf-gold-rgb),.6);color:var(--mtf-gold-soft)}
 @media(max-width:750px){nav{width:100%}}
 a{color:var(--mtf-gold)}
-h1{font:400 clamp(36px,5vw,60px)/1.12 Georgia,"Times New Roman",serif;color:var(--mtf-gold-soft);margin:.3em 0 .4em}
-h2{font:400 26px/1.2 Georgia,"Times New Roman",serif;color:var(--mtf-gold-soft);margin:0 0 12px}
+h1{font:400 clamp(36px,5vw,60px)/1.12 var(--mtf-font-heading);color:var(--mtf-gold-soft);margin:.3em 0 .4em}
+h2{font:400 26px/1.2 var(--mtf-font-heading);color:var(--mtf-gold-soft);margin:0 0 12px}
 .hero>div>p:first-child{font-size:12px;letter-spacing:.3em;color:var(--mtf-gold-muted);text-transform:uppercase}
 button,.button{font:inherit;font-weight:800;background:linear-gradient(180deg,var(--mtf-gold-grad-top),var(--mtf-gold-grad-bottom));color:var(--mtf-wine);border:1px solid var(--mtf-gold-pale);border-radius:999px;padding:12px 22px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.55)}
 button:disabled{opacity:.45}

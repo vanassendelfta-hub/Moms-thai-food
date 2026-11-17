@@ -56,4 +56,12 @@
 
   /* Status */
   --mtf-green:#34744b;
+
+  /* Lettertypes. Huidig ontwerp gebruikt twee families in een paar varianten;
+     voor een nieuw restaurant zet je de koppen-namen op hetzelfde koppenlettertype
+     en de tekst-namen op hetzelfde tekstlettertype. */
+  --mtf-font-heading:Georgia,"Times New Roman",serif;
+  --mtf-font-serif:Georgia,serif;
+  --mtf-font-body:Arial,Helvetica,sans-serif;
+  --mtf-font-body-short:Arial,sans-serif;
 }

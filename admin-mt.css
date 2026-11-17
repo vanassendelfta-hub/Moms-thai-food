@@ -1,7 +1,7 @@
 /* Beheer – huisstijl zwart/goud + telefoonvriendelijk. Laadt als laatste; verandert geen functies. */
 body.admin-app.mt{background:#000!important;color:#ece6dc}
-body.admin-app.mt h1,body.admin-app.mt h2{font-family:Georgia,"Times New Roman",serif!important;font-weight:400!important;color:var(--mtf-gold-soft)!important}
-body.admin-app.mt h3,body.admin-app.mt .sidebar-brand span{font-family:Georgia,"Times New Roman",serif}
+body.admin-app.mt h1,body.admin-app.mt h2{font-family:var(--mtf-font-heading)!important;font-weight:400!important;color:var(--mtf-gold-soft)!important}
+body.admin-app.mt h3,body.admin-app.mt .sidebar-brand span{font-family:var(--mtf-font-heading)}
 body.admin-app.mt .eyebrow{color:var(--mtf-gold-muted)!important;letter-spacing:.28em}
 body.admin-app.mt .hint{color:#b7afa3}
 body.admin-app.mt a{color:var(--mtf-gold)}
@@ -10,7 +10,7 @@ body.admin-app.mt a{color:var(--mtf-gold)}
 body.admin-app.mt .topbar{background:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.84))!important;border-bottom:1px solid rgba(var(--mtf-gold-rgb),.16)!important;box-shadow:none!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 body.admin-app.mt .topbar .mark img{border-radius:50%}
 body.admin-app.mt .topbar .mark strong{font-size:0!important;letter-spacing:0!important}
-body.admin-app.mt .topbar .mark strong::after{content:"Mom’s Thai Food";font:600 18px/1.1 Georgia,"Times New Roman",serif;color:var(--mtf-gold-soft)}
+body.admin-app.mt .topbar .mark strong::after{content:"Mom’s Thai Food";font:600 18px/1.1 var(--mtf-font-heading);color:var(--mtf-gold-soft)}
 body.admin-app.mt .topbar .mark em{color:var(--mtf-gold-muted)!important;font-style:normal;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
 body.admin-app.mt .workspace-crumb strong{color:var(--mtf-gold-soft)}
 body.admin-app.mt .icon-button{background:rgba(12,16,34,.75)!important;border:1px solid rgba(var(--mtf-gold-rgb),.45)!important;color:var(--mtf-gold)!important;border-radius:999px!important}
@@ -37,7 +37,7 @@ body.admin-app.mt tbody tr:hover{background:rgba(var(--mtf-gold-rgb),.05)!import
 body.admin-app.mt #legacyNotice,body.admin-app.mt #financeNotice{background:rgba(var(--mtf-gold-rgb),.07)!important;border:1px solid rgba(var(--mtf-gold-rgb),.25)!important;border-left:3px solid var(--mtf-gold)!important;border-radius:12px!important;color:var(--mtf-sand)}
 body.admin-app.mt .task-login-alert{background:linear-gradient(110deg,rgba(var(--mtf-red-rgb),.45),rgba(30,20,10,.5))!important;border:1px solid rgba(var(--mtf-gold-rgb),.35)!important;border-radius:16px!important}
 body.admin-app.mt .overview-tip{background:rgba(var(--mtf-gold-rgb),.06)!important}
-body.admin-app.mt .metric strong,body.admin-app.mt .dashstats strong{color:var(--mtf-gold-soft);font-family:Georgia,serif}
+body.admin-app.mt .metric strong,body.admin-app.mt .dashstats strong{color:var(--mtf-gold-soft);font-family:var(--mtf-font-serif)}
 
 /* knoppen */
 body.admin-app.mt :is(.btn-red,.order-footer button){border-radius:999px!important;border:1px solid var(--mtf-gold-pale)!important;background:linear-gradient(180deg,var(--mtf-gold-grad-top),var(--mtf-gold-grad-bottom))!important;color:var(--mtf-wine)!important;font-weight:800!important;box-shadow:0 8px 20px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.55)!important}
@@ -63,7 +63,7 @@ body.admin-app.mt .toast{background:var(--mtf-ink)!important;border:1px solid rg
  body.admin-app.mt.mt-in .admin-main{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
  body.admin-app.mt.mt-in #mtBottom{display:grid}
  #mtBottom{position:fixed;left:0;right:0;bottom:0;z-index:60;grid-auto-flow:column;grid-auto-columns:1fr;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(5,5,8,.96);border-top:1px solid rgba(var(--mtf-gold-rgb),.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
- #mtBottom button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px;padding:6px 2px;border:0;border-radius:14px;background:none;color:var(--mtf-text-muted);font:600 11px Arial,sans-serif;cursor:pointer}
+ #mtBottom button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px;padding:6px 2px;border:0;border-radius:14px;background:none;color:var(--mtf-text-muted);font:600 11px var(--mtf-font-body-short);cursor:pointer}
  #mtBottom button svg{width:24px;height:24px}
  #mtBottom button.on{color:var(--mtf-gold-soft);background:rgba(var(--mtf-gold-rgb),.1)}
  #mtBottom button[hidden]{display:none}
