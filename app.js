@@ -1,6 +1,6 @@
 const SUPA=SITE_CONFIG.supabaseUrl; const KEY=SITE_CONFIG.publishableKey;
 const euro=n=>new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(Number(n)||0),$=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],escapeHTML=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-let menuCategorySettings=[],menuCategoryNotes=new Map(),menuCategoryOrder=[],menuAddons=[],menu=[],cart=[],activeCategory='Alles',shopOpen=true;const homePage=!!document.querySelector('[data-home]');let favoriteIds=['tom-kha-kai','groene-curry-rund','loempia-per-2','pastei-per-4'];const CART_KEY=SITE_CONFIG.cartKey(window.MTFLocation?.slug);cart=MTF.cart.load(CART_KEY); /* Standaardfoto bij een gerecht zonder eigen foto: regels staan in site-config.js. */
+let menuCategorySettings=[],menuCategoryNotes=new Map(),menuCategoryOrder=[],menuAddons=[],menu=[],cart=[],activeCategory='Alles',shopOpen=true;const homePage=!!document.querySelector('[data-home]');let favoriteIds=SITE_CONFIG.favorites||['tom-kha-kai','groene-curry-rund','loempia-per-2','pastei-per-4'];const CART_KEY=SITE_CONFIG.cartKey(window.MTFLocation?.slug);cart=MTF.cart.load(CART_KEY); /* Standaardfoto bij een gerecht zonder eigen foto: regels staan in site-config.js. */
 const photoFor=x=>SITE_CONFIG.fallbackPhoto(x);
 /* Weergave via vervangbare sjablonen (mtf-templates.js). */
 const T=name=>MTF.templates.get(name),tpl=()=>({esc:escapeHTML,euro,photo:photoFor,shopOpen});

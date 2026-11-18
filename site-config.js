@@ -16,6 +16,9 @@
   test:null,
   demoLabel:'DEMO · geen echte bestellingen',
 
+  /* Vier favorieten op de homepagina (gerecht-id's = menunummers). */
+  favorites:['27','1','7','51'],
+
   defaultLocation:'spijkenisse',
   locations:{
    'spijkenisse':{

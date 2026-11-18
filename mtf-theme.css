@@ -8,7 +8,7 @@ body.mt .topbar .mark{gap:10px;min-width:0;flex:1}
 body.mt .topbar .mark img{width:40px!important;height:40px!important;border-radius:50%}
 body.mt .topbar .mark span{min-width:0}
 body.mt .topbar .mark strong{display:block;font-size:0!important;letter-spacing:0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-body.mt .topbar .mark strong::after{content:"Mom’s Thai Food";font:600 19px/1.1 var(--mtf-font-heading);color:var(--mtf-gold-soft)}
+body.mt .topbar .mark strong::after{content:"Forum Cateringservice";font:600 19px/1.1 var(--mtf-font-heading);color:var(--mtf-gold-soft)}
 body.mt .topbar .mark em{display:none!important}
 body.mt .topbar .nav a{color:var(--mtf-text-light)!important;opacity:.85;text-decoration:none}
 body.mt .topbar .nav a:hover,body.mt .topbar .nav a[aria-current]{color:var(--mtf-gold-soft)!important;opacity:1}
@@ -64,7 +64,7 @@ body.mt .hero.mt-hero{position:relative;overflow:hidden;min-height:calc(100svh -
 .mt-hero .mt-bg{position:absolute;inset:0;z-index:0}
 .mt-hero .mt-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);opacity:0;transition:opacity 1.4s cubic-bezier(.22,.61,.2,1)}
 .mt-hero .mt-bg video.on{opacity:1}
-.mt-hero .mt-shade{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 50% 42%,rgba(8,10,24,.15) 0%,rgba(8,10,24,.55) 55%,rgba(4,5,14,.92) 100%),linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 55%,#000 100%)}
+.mt-hero .mt-shade{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 50% 42%,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.92) 100%),linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 55%,#000 100%)}
 .mt-hero .hero-inner{position:relative;z-index:2;display:block!important;max-width:680px;margin:0 auto;text-align:center}
 .mt-hero .hero-copy{display:flex;flex-direction:column;align-items:center;gap:14px}
 .mt-hero .hero-brand-logo{width:clamp(170px,min(50vw,32vh),280px)!important;height:auto!important;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 0 34px rgba(var(--mtf-gold-rgb),.28));margin:0!important}
