@@ -62,7 +62,7 @@
    const h=Math.floor(left/3600),m=Math.floor(left%3600/60);
    const rest=h?`nog ${h} uur${m?' en '+m+' min':''}`:`nog ${Math.max(m,1)} min`;
    const until=R.formatTime(R.cutoff(c.date));
-   ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Vandaag nog Thais eten? Bestel tot ${until} uur</strong><p>${late?`Op ${L} bestel je voor dezelfde dag zelfs tot ${LT}`:`Voortaan bestel je voor dezelfde dag tot ${B}${L?`, op ${L} tot ${LT}`:''}`} · ${rest}</p></div>${cta}`;
+   ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Vandaag nog lekker Chinees eten? Bestel tot ${until} uur</strong><p>${late?`Op ${L} bestel je voor dezelfde dag zelfs tot ${LT}`:`Voortaan bestel je voor dezelfde dag tot ${B}${L?`, op ${L} tot ${LT}`:''}`} · ${rest}</p></div>${cta}`;
   }else{
    ann.innerHTML=`<div><strong><span class="late-badge">NIEUW</span>Voortaan bestellen tot ${B} uur voor dezelfde dag</strong><p>${L?`Op ${L} zelfs tot ${LT} uur. `:''}Vooruitbestellen voor een volgende openingsdag kan altijd.</p></div>${cta}`;
   }

@@ -1,1 +1,1 @@
-{"cleanUrls": true, "redirects": [{"source": "/dagmenu", "destination": "/menu", "permanent": true}, {"source": "/welkom3", "destination": "/actie", "permanent": false}, {"source": "/welkom3.html", "destination": "/actie", "permanent": false}, {"source": "/welkom10", "destination": "/actie", "permanent": false}, {"source": "/intro", "destination": "/", "permanent": false}]}
+{"cleanUrls": true, "redirects": [{"source": "/intro", "destination": "/", "permanent": false}]}

@@ -1,11 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap");
 /* Huisstijl per bedrijf.
    Dit bestand bepaalt de kleuren van de website en het beheer. Voor een ander restaurant:
    kopieer dit bestand en pas de waarden aan; de rest van de CSS gebruikt alleen deze namen.
-   Waarden hieronder zijn exact de huidige kleuren van Mom's Thai Food. */
+   Forum Cateringservice: rood en goud uit het logo, zwarte achtergrond. */
 :root{
   /* Goud (accenten, knoppen, koppen) */
-  --mtf-gold:#ffca59;
-  --mtf-gold-rgb:255,202,89;          /* voor transparantie: rgba(var(--mtf-gold-rgb),.2) */
+  --mtf-gold:#f6c64a;
+  --mtf-gold-rgb:246,198,74;          /* voor transparantie: rgba(var(--mtf-gold-rgb),.2) */
   --mtf-gold-soft:#ffcf76;
   --mtf-gold-2:#f5c766;
   --mtf-amber-rgb:242,193,78;          /* #f2c14e, gebruikt met transparantie */
@@ -20,15 +21,15 @@
   --mtf-bronze:#bd7e32;
 
   /* Wijnrood en rood */
-  --mtf-wine:#3a0708;                 /* tekst op goud */
+  --mtf-wine:#2a0405;                 /* tekst op goud */
   --mtf-wine-2:#390708;
-  --mtf-wine-3:#5e0d0b;
-  --mtf-maroon:#650a0c;
-  --mtf-red:#940c0d;
-  --mtf-red-rgb:148,12,13;
-  --mtf-red-2:#942025;
-  --mtf-red-3:#8e1019;
-  --mtf-red-4:#941e29;
+  --mtf-wine-3:#6a0a0e;
+  --mtf-maroon:#7a080e;
+  --mtf-red:#c80f1a;
+  --mtf-red-rgb:200,15,26;
+  --mtf-red-2:#b8151f;
+  --mtf-red-3:#a90f19;
+  --mtf-red-4:#b51a24;
   --mtf-coral:#ff9d93;
 
   /* Crème en zand (lichte achtergronden) */
@@ -48,11 +49,11 @@
   --mtf-grey-blue:#aab0bc;
 
   /* Donkere achtergronden */
-  --mtf-navy:#14192f;
-  --mtf-navy-deep:#090d29;
-  --mtf-ink:#0b0b11;
-  --mtf-ink-2:#07070b;
-  --mtf-ink-3:#0f1018;
+  --mtf-navy:#141010;
+  --mtf-navy-deep:#0a0707;
+  --mtf-ink:#0b0909;
+  --mtf-ink-2:#060505;
+  --mtf-ink-3:#120e0e;
 
   /* Status */
   --mtf-green:#34744b;
@@ -60,8 +61,8 @@
   /* Lettertypes. Huidig ontwerp gebruikt twee families in een paar varianten;
      voor een nieuw restaurant zet je de koppen-namen op hetzelfde koppenlettertype
      en de tekst-namen op hetzelfde tekstlettertype. */
-  --mtf-font-heading:Georgia,"Times New Roman",serif;
-  --mtf-font-serif:Georgia,serif;
+  --mtf-font-heading:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --mtf-font-serif:"Cormorant Garamond",Georgia,serif;
   --mtf-font-body:Arial,Helvetica,sans-serif;
   --mtf-font-body-short:Arial,sans-serif;
 }

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mom's Thai Food – Thais eten bij jou thuis</title>
-<meta name="description" content="Huisgemaakt Thais eten, bezorgd of afgehaald. Bekijk tot hoe laat je vandaag kunt bestellen.">
+<title>Forum Cateringservice – Chinees Oosterse specialiteiten</title>
+<meta name="description" content="Forum Cateringservice in Spijkenisse: Chinees Oosterse specialiteiten, bezorgd, afgehaald of als buffet op locatie.">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="/logo.png">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preload" as="image" href="/logo.png">
+<link rel="apple-touch-icon" href="/forum/icon-180.png">
+<link rel="preload" as="image" href="/forum/pand-vloot.jpg">
 <script src="/site-config.js"></script>
 <script src="/mtf-api.js"></script>
 <script>
@@ -18,201 +18,140 @@ if(go){location.replace('/home'+location.search);}else{document.write('<script s
 </script>
 <link rel="stylesheet" href="/theme.css">
 <style>
-:root{--gold:var(--mtf-gold);--gold2:var(--mtf-gold-soft);--ink:var(--mtf-cream);--muted:var(--mtf-text-soft);--navy:#0c1022;--ease:cubic-bezier(.22,.61,.2,1)}
+:root{--gold:var(--mtf-gold);--ink:var(--mtf-cream);--red:var(--mtf-red);--ease:cubic-bezier(.22,.61,.2,1)}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(--mtf-font-body);overflow:hidden}
 .stage{position:fixed;inset:0;overflow:hidden;background:#000}
 
-/* Achtergrondvideo */
-.bg{position:absolute;inset:0;opacity:0;transition:opacity 1.6s var(--ease)}
-.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 9s var(--ease)}
-.bg::after{content:"";position:absolute;inset:0;background:
- radial-gradient(ellipse at 50% 42%,rgba(8,10,24,.18) 0%,rgba(8,10,24,.55) 55%,rgba(4,5,14,.9) 100%),
- linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 55%,rgba(5,6,18,.85) 100%)}
-.grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1s steps(4) infinite}
-@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(0,0)}}
+/* Fotoreeks met langzame camerabeweging */
+.reel{position:absolute;inset:0}
+.shot{position:absolute;inset:0;opacity:0;transition:opacity 1.8s var(--ease)}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.18) translate(var(--fx,0),var(--fy,0));transition:transform 7.5s linear;filter:saturate(1.05) contrast(1.05)}
+.shot.on{opacity:1}
+.shot.on img{transform:scale(1.02) translate(var(--tx,0),var(--ty,0))}
+.reel::after{content:"";position:absolute;inset:0;background:
+ radial-gradient(ellipse at 50% 45%,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.92) 100%),
+ linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 60%,rgba(0,0,0,.75))}
+.grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}50%{transform:translate(-4%,3%)}100%{transform:translate(3%,-2%)}}
 
-/* Filmdoek: twee zwarte panelen die openschuiven */
-.bar{position:absolute;left:0;right:0;height:50.5%;background:#000;z-index:3;transition:transform 1.7s cubic-bezier(.76,0,.24,1)}
+/* Filmbalken */
+.bar{position:absolute;left:0;right:0;height:11vh;background:#000;z-index:3;transition:transform 1.6s var(--ease)}
 .bar.top{top:0}.bar.bot{bottom:0}
+.s4 .bar.top{transform:translateY(-100%)}.s4 .bar.bot{transform:translateY(100%)}
 
-/* Hallo in het Thais */
-.hello{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;pointer-events:none}
-.hello .th{font-family:var(--mtf-font-heading);font-style:italic;font-weight:400;font-size:clamp(58px,13vw,150px);line-height:1.1;color:var(--gold2);letter-spacing:.01em;opacity:0;filter:blur(14px);transform:scale(1.08);transition:opacity 1.3s var(--ease),filter 1.3s var(--ease),transform 2.4s var(--ease);text-shadow:0 0 40px rgba(var(--mtf-gold-rgb),.25)}
-.hello .line{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transition:width 1.4s var(--ease) .5s}
-.hello .sub{font:700 12px/1 var(--mtf-font-body-short);letter-spacing:.42em;text-transform:uppercase;color:var(--mtf-gold-muted);opacity:0;transform:translateY(6px);transition:opacity 1s var(--ease) .8s,transform 1s var(--ease) .8s;padding-left:.42em}
+/* Bijschriften tijdens de reeks */
+.cap{position:absolute;left:0;right:0;bottom:16vh;z-index:4;text-align:center;font-family:var(--mtf-font-heading);font-size:clamp(20px,4.4vw,34px);letter-spacing:.04em;color:var(--ink);text-shadow:0 2px 18px rgba(0,0,0,.8);opacity:0;transform:translateY(10px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.cap.on{opacity:1;transform:none}
+.cap small{display:block;margin-top:6px;font-family:var(--mtf-font-body);font-size:clamp(11px,2.6vw,13px);letter-spacing:.32em;text-transform:uppercase;color:var(--gold)}
 
-/* Hoofdinhoud */
-.main{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3.2vh,30px);padding:max(24px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));text-align:center}
-.logo{width:clamp(180px,min(56vw,36vh),330px);aspect-ratio:1;border-radius:50%;opacity:0;transform:scale(.86);filter:blur(10px) drop-shadow(0 0 0 rgba(var(--mtf-gold-rgb),0));transition:opacity 1.4s var(--ease),transform 1.8s var(--ease),filter 1.6s var(--ease)}
-.brand{margin:-6px 0 0;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;transform:translateY(10px);transition:opacity 1.2s var(--ease) .35s,transform 1.2s var(--ease) .35s}
-.brand strong{font:500 clamp(30px,7.4vw,52px)/1.05 var(--mtf-font-heading);color:var(--gold2);letter-spacing:.03em;text-shadow:0 2px 18px rgba(0,0,0,.6)}
-.brand em{font:italic clamp(14px,3.6vw,18px)/1.2 var(--mtf-font-serif);color:var(--mtf-sand-2);text-shadow:0 1px 10px rgba(0,0,0,.7)}
-.s3 .brand{opacity:1;transform:none}
-.logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:50%}
-.status{display:inline-flex;align-items:center;gap:10px;max-width:min(560px,100%);padding:11px 18px;border-radius:999px;background:rgba(8,10,24,.55);border:1px solid rgba(var(--mtf-gold-rgb),.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:clamp(14px,3.6vw,17px);line-height:1.35;color:var(--ink);opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-.status b{color:var(--gold)}
-.pay{display:inline-flex;align-items:center;gap:9px;margin-top:-8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);font-size:clamp(13px,3.4vw,15px);color:var(--mtf-sand-2);opacity:0;transform:translateY(10px);transition:opacity 1s var(--ease) .3s,transform 1s var(--ease) .3s}
-.pay[hidden]{display:none}
-.pay svg{width:18px;height:18px;flex:none;color:var(--gold)}
-.pay b{color:#fff}
-.s4 .pay{opacity:1;transform:none}
-.dot{flex:none;width:10px;height:10px;border-radius:50%;background:#39d98a;box-shadow:0 0 0 0 rgba(57,217,138,.6);animation:pulse 2s infinite}
-.dot.off{background:#e0a64a;box-shadow:none;animation:none}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(57,217,138,.55)}70%{box-shadow:0 0 0 10px rgba(57,217,138,0)}100%{box-shadow:0 0 0 0 rgba(57,217,138,0)}}
-.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:172px;height:56px;padding:0 28px;border-radius:999px;font-weight:800;font-size:17px;letter-spacing:.02em;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,background .2s ease,filter .2s ease}
-.btn.primary{background:linear-gradient(180deg,var(--mtf-gold-grad-top),var(--mtf-gold-grad-bottom));color:var(--mtf-wine);border:1px solid var(--mtf-gold-pale);box-shadow:0 10px 28px rgba(0,0,0,.45),0 0 0 0 rgba(var(--mtf-gold-rgb),.0),inset 0 1px 0 rgba(255,255,255,.6)}
-.btn.primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 28px rgba(var(--mtf-gold-rgb),.35),inset 0 1px 0 rgba(255,255,255,.6)}
-.btn.ghost{color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.btn.ghost:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
-.btn:active{transform:scale(.97)}
-.btn:focus-visible{outline:3px solid var(--mtf-cream-warm);outline-offset:4px}
-.btn svg{width:20px;height:20px;flex:none}
-.skip{position:absolute;z-index:5;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));font:700 12px Arial;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);background:none;border:0;padding:10px;cursor:pointer;transition:opacity .6s}
-.btns [data-game-link],[data-game-link],.mtf-game-pill,.mtf-dock,.mtf-dp,.mtf-scrim{display:none!important}
-.snd{position:absolute;z-index:6;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));display:flex;align-items:center;gap:8px;height:42px;padding:0 14px 0 12px;border-radius:999px;border:1px solid rgba(var(--mtf-gold-rgb),.45);background:rgba(8,10,24,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--mtf-gold);font:700 13px var(--mtf-font-body-short);cursor:pointer;opacity:.85;transition:opacity .3s,background .2s}
-.snd:hover{opacity:1;background:rgba(20,25,47,.8)}
-.snd:focus-visible{outline:3px solid var(--mtf-cream-warm);outline-offset:3px}
-.snd svg{width:20px;height:20px;flex:none}
-.snd .lbl{white-space:nowrap}
-.snd.on .lbl{display:none}
-.snd.on{padding:0;width:42px;justify-content:center}
-.snd.ask{animation:askPulse 2.4s ease-in-out infinite}
-@keyframes askPulse{0%,100%{box-shadow:0 0 0 0 rgba(var(--mtf-gold-rgb),0)}50%{box-shadow:0 0 0 6px rgba(var(--mtf-gold-rgb),.18)}}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Welkom in het Chinees */
+.hello{position:absolute;inset:0;z-index:4;display:grid;place-content:center;justify-items:center;gap:14px;pointer-events:none;opacity:0;transition:opacity 1.2s var(--ease)}
+.s1 .hello{opacity:1}.s2 .hello{opacity:0}
+.hello .zh{font-family:"Noto Serif SC","Songti SC",serif;font-size:clamp(54px,14vw,120px);color:var(--gold);letter-spacing:.12em;text-shadow:0 0 40px rgba(var(--mtf-gold-rgb),.35)}
+.hello .line{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transition:width 1.6s var(--ease) .4s}
+.s1 .hello .line{width:min(320px,60vw)}
+.hello .sub{font-size:clamp(12px,3vw,15px);letter-spacing:.42em;text-transform:uppercase;color:var(--ink)}
 
-/* Fases */
-.s1 .hello .th{opacity:1;filter:blur(0);transform:scale(1)}
-.s1 .hello .line{width:min(260px,50vw)}
-.s1 .hello .sub{opacity:1;transform:none}
-.s2 .hello{transition:opacity 1s var(--ease),transform 1.4s var(--ease);opacity:0;transform:translateY(-4vh) scale(.96)}
-.s2 .bar.top{transform:translateY(-101%)}
-.s2 .bar.bot{transform:translateY(101%)}
-.s2 .bg{opacity:1}
-.s2 .bg video{transform:scale(1.02)}
-.s3 .logo{opacity:1;transform:scale(1);filter:blur(0) drop-shadow(0 0 34px rgba(var(--mtf-gold-rgb),.28))}
+/* Titelscherm */
+.main{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(14px,2.6vh,22px);padding:24px;text-align:center}
+.logo{width:min(560px,86vw);opacity:0;transform:scale(.9);filter:blur(10px);transition:opacity 1.4s var(--ease),transform 1.8s var(--ease),filter 1.6s var(--ease)}
+.logo img{width:100%;display:block;mix-blend-mode:screen}
+.s4 .logo{opacity:1;transform:none;filter:drop-shadow(0 0 30px rgba(var(--mtf-red-rgb),.35))}
+.tag{margin:0;font-family:var(--mtf-font-heading);font-style:italic;font-size:clamp(18px,4vw,26px);color:var(--ink);opacity:0;transition:opacity 1.2s var(--ease) .3s}
+.s4 .tag{opacity:1}
+.status{display:inline-flex;align-items:center;gap:10px;max-width:min(560px,100%);padding:11px 18px;border-radius:999px;background:rgba(0,0,0,.55);border:1px solid rgba(var(--mtf-gold-rgb),.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:clamp(14px,3.6vw,16px);line-height:1.35;opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease) .5s,transform 1s var(--ease) .5s}
 .s4 .status{opacity:1;transform:none}
-.s4 .btns{opacity:1;transform:none;transition-delay:.18s}
+.dot{flex:none;width:9px;height:9px;border-radius:50%;background:#3ccf6a;box-shadow:0 0 0 0 rgba(60,207,106,.6);animation:pulse 2s infinite}
+.dot.off{background:#d9a441;animation:none}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(60,207,106,0)}100%{box-shadow:0 0 0 0 rgba(60,207,106,0)}}
+.btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease) .8s,transform 1s var(--ease) .8s}
+.s4 .btns{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s}
+.btn svg{width:18px;height:18px}
+.btn.primary{background:linear-gradient(180deg,#e11a24,var(--red));color:#fff;box-shadow:0 10px 28px rgba(var(--mtf-red-rgb),.45),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.primary:hover,.btn.primary:focus-visible{transform:translateY(-2px);box-shadow:0 14px 34px rgba(var(--mtf-red-rgb),.6)}
+.btn.ghost{color:var(--ink);border:1px solid rgba(var(--mtf-gold-rgb),.55);background:rgba(0,0,0,.35)}
+.btn.ghost:hover,.btn.ghost:focus-visible{background:rgba(var(--mtf-gold-rgb),.15)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.skip{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:6;background:rgba(0,0,0,.5);color:var(--ink);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:9px 16px;font-size:13px;cursor:pointer;transition:opacity .6s}
 .s4 .skip{opacity:0;pointer-events:none}
-/* Overgang naar het menu: wok zoomt in, stoom vult het beeld */
-.stage.leaving .bg video{transform:scale(1.55)!important;filter:blur(16px) brightness(.55) saturate(1.3);transition:transform 2.2s var(--ease),filter 1.6s var(--ease)}
-.stage.leaving .main,.stage.leaving .snd,.stage.leaving .skip{opacity:0!important;transform:scale(1.12);filter:blur(8px);transition:opacity .9s var(--ease),transform 1.4s var(--ease),filter 1.2s var(--ease)}
-#steam{position:fixed;inset:0;z-index:20;pointer-events:none;width:100%;height:100%}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01s!important;transition-delay:0s!important;animation:none!important}}
-@media (max-width:420px){.btn{min-width:0;flex:1 1 140px;height:54px;padding:0 18px}.btns{width:100%;max-width:360px}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.leaving .main{opacity:0;transition:opacity .5s}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="stage" id="stage">
- <div class="bg" aria-hidden="true">
-  <video id="vid" muted playsinline loop autoplay preload="auto"></video>
-  <div class="grain"></div>
- </div>
+ <div class="reel" id="reel" aria-hidden="true"></div>
+ <div class="grain" aria-hidden="true"></div>
  <div class="bar top" aria-hidden="true"></div>
  <div class="bar bot" aria-hidden="true"></div>
 
  <div class="hello" aria-hidden="true">
-  <span class="th" lang="th-Latn">Sawasdee</span>
+  <span class="zh" lang="zh-Hant">歡迎</span>
   <span class="line"></span>
-  <span class="sub"><span lang="th">สวัสดี</span> · Welkom</span>
+  <span class="sub">Welkom bij Forum</span>
  </div>
+ <p class="cap" id="cap" aria-hidden="true"></p>
 
  <main class="main">
-  <h1 class="sr">Mom's Thai Food – Thais eten bij jou thuis</h1>
-  <div class="logo"><img src="/logo.png" alt=""></div>
-  <p class="brand" aria-hidden="true"><strong>Mom’s Thai Food</strong><em>Thais eten bij jou thuis!</em></p>
+  <h1 class="sr">Forum Cateringservice – Chinees Oosterse specialiteiten in Spijkenisse</h1>
+  <div class="logo"><img src="/forum/logo-wide.jpg" alt=""></div>
+  <p class="tag">Chinees Oosterse specialiteiten, thuisbezorgd of als buffet</p>
   <p class="status" id="status" role="status" aria-live="polite"><span class="dot" id="dot"></span><span id="statusText">Even kijken of je vandaag kunt bestellen…</span></p>
-  <p class="pay" id="pay" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg><span>Betaal veilig online met <b>iDEAL | Wero</b></span></p>
   <nav class="btns" aria-label="Verder naar">
    <a class="btn primary" id="orderBtn" href="/menu">Bestel nu
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+   <a class="btn ghost" href="/catering-paketten">Catering &amp; buffet</a>
    <a class="btn ghost" id="homeBtn" href="/home">Home</a>
   </nav>
  </main>
  <button class="skip" id="skip" type="button">Overslaan</button>
- <button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Geluid aanzetten"><svg id="sndIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg><span class="lbl">Geluid</span></button>
 </div>
 
 <script>
 (()=>{
- const CDN='https://cdn.jsdelivr.net/gh/vanassendelfta-hub/Moms-thai-food@576bc11bdf44170f76dbc9ed52788748c0cbabd3/intro/';
- const st=document.getElementById('stage'),vid=document.getElementById('vid');
+ const st=document.getElementById('stage'),reel=document.getElementById('reel'),cap=document.getElementById('cap');
  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-
- /* Video: staand voor telefoon, liggend voor computer */
- const portrait=matchMedia('(max-aspect-ratio: 1/1)');
- function pickVideo(){
-  const k=portrait.matches?'m':'d',src=CDN+'intro-'+k+'.mp4';
-  if(vid.dataset.src===src)return;
-  vid.dataset.src=src;vid.poster=CDN+'intro-'+k+'.jpg';vid.src=src;
-  if(!reduce){const p=vid.play();if(p&&p.catch)p.catch(()=>{});}
- }
- pickVideo();
- (portrait.addEventListener?portrait.addEventListener('change',pickVideo):portrait.addListener(pickVideo));
- if(reduce){vid.removeAttribute('autoplay');vid.pause();}
+ /* Shots: foto, bijschrift, camerabeweging (van → naar). */
+ const shots=[
+  ['/forum/pand-vloot.jpg','Kelvinweg 11, Spijkenisse','Onze keuken',['-3%','2%'],['2%','-1%']],
+  ['/forum/gerecht-kip-cashew.jpg','Vers uit de wok','Kong po · Cantonese stijl',['2%','3%'],['-2%','-2%']],
+  ['/forum/buffet.jpg','Uw buffet, wij verzorgen het','Catering op locatie',['0','-4%'],['0','3%']],
+  ['/forum/bus-evenement.jpg','Wij rijden voor u uit','Bezorging in de regio',['3%','0'],['-3%','1%']],
+  ['/forum/gerecht-bami-nasi.jpg','Bami, nasi of witte rijst','Bij elk hoofdgerecht',['-2%','-2%'],['2%','2%']]
+ ];
+ const els=shots.map(([src,,,f,t])=>{const d=document.createElement('div');d.className='shot';const i=new Image();i.src=src;i.alt='';i.decoding='async';
+  i.style.setProperty('--fx',f[0]);i.style.setProperty('--fy',f[1]);i.style.setProperty('--tx',t[0]);i.style.setProperty('--ty',t[1]);d.append(i);reel.append(d);return d;});
 
  /* Locatie meenemen naar de volgende pagina */
  try{const loc=window.MTFLocation&&window.MTFLocation.slug;if(loc&&loc!==SITE_CONFIG.defaultLocation){for(const id of ['orderBtn','homeBtn']){const a=document.getElementById(id);a.href=a.getAttribute('href')+'?location='+encodeURIComponent(loc);}}}catch{}
 
- /* Cinematische opening */
- const phases=['s1','s2','s3','s4'];let timers=[],done=false;
- function finish(){if(done)return;done=true;timers.forEach(clearTimeout);st.classList.add(...phases);}
+ /* Volgorde: welkom → vier shots met bijschrift → titelscherm op de eerste foto. */
+ let timers=[],done=false,cur=-1;
+ const show=i=>{els.forEach((e,k)=>e.classList.toggle('on',k===i));cur=i;};
+ const caption=i=>{cap.classList.remove('on');if(i<0)return;setTimeout(()=>{cap.innerHTML=shots[i][1]+'<small>'+shots[i][2]+'</small>';cap.classList.add('on');},350);};
+ function finish(){if(done)return;done=true;timers.forEach(clearTimeout);caption(-1);st.classList.add('s1','s2','s4');show(0);loopReel();}
+ let loopT;function loopReel(){clearInterval(loopT);if(reduce)return;loopT=setInterval(()=>show((cur+1)%els.length),7000);}
  if(reduce){finish();}else{
-  const at=[[200,'s1'],[3600,'s2'],[4600,'s3'],[5600,'s4']];
-  at.forEach(([t,c])=>timers.push(setTimeout(()=>{st.classList.add(c);if(c==='s4')finish();},t)));
+  const at=[[150,()=>st.classList.add('s1')],[2300,()=>{st.classList.add('s2');show(1);caption(1);}],
+   [5200,()=>{show(2);caption(2);}],[8100,()=>{show(3);caption(3);}],[11000,()=>{show(4);caption(4);}],[13600,finish]];
+  at.forEach(([t,f])=>timers.push(setTimeout(f,t)));
  }
  document.getElementById('skip').addEventListener('click',finish);
  addEventListener('keydown',e=>{if(!done&&(e.key==='Escape'||e.key===' '||e.key==='Enter'))finish();});
 
- /* Welkomstdeuntje: start vanzelf als de browser het toestaat, anders bij de eerste tik */
- const TUNE='https://cdn.jsdelivr.net/gh/vanassendelfta-hub/Moms-thai-food@3d3dc8b36cd6c0ff7b243fea21b1d2719fde0177/intro/welkom.m4a';
- const snd=document.getElementById('snd'),ico=document.getElementById('sndIco');
- const ON='<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',OFF='<path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/>';
- const audio=new Audio();audio.preload='auto';audio.src=TUNE;audio.volume=.75;
- const t0=performance.now();let pref='';try{pref=localStorage.getItem('mtf_sound')||'';}catch{}
- let playing=false,muted=pref==='off';
- function ui(){snd.classList.toggle('on',playing&&!muted);snd.classList.toggle('ask',!playing&&!muted);ico.innerHTML=(playing&&!muted)?ON:OFF;snd.setAttribute('aria-pressed',String(playing&&!muted));snd.setAttribute('aria-label',(playing&&!muted)?'Geluid uitzetten':'Geluid aanzetten');}
- function start(fromTap){
-  if(muted||playing)return;
-  const el=(performance.now()-t0)/1000-.2;
-  if(el>9){return;}
-  try{audio.currentTime=Math.max(0,fromTap?el:0);}catch{}
-  const p=audio.play();if(p&&p.then)p.then(()=>{playing=true;ui();}).catch(()=>{ui();});else{playing=true;ui();}
- }
- audio.addEventListener('ended',()=>{playing=false;snd.classList.remove('on','ask');snd.style.opacity='.55';ico.innerHTML=ON;snd.setAttribute('aria-label','Deuntje opnieuw afspelen');snd.dataset.replay='1';});
- snd.addEventListener('click',e=>{
-  e.stopPropagation();
-  if(snd.dataset.replay){delete snd.dataset.replay;snd.style.opacity='';muted=false;try{localStorage.removeItem('mtf_sound');}catch{}audio.currentTime=0;audio.play().then(()=>{playing=true;ui();}).catch(()=>{});return;}
-  if(playing&&!muted){muted=true;audio.pause();playing=false;try{localStorage.setItem('mtf_sound','off');}catch{}ui();return;}
-  muted=false;try{localStorage.removeItem('mtf_sound');}catch{}start(true);
- });
- /* Eerste tik ergens op het scherm zet het geluid aan (behalve op knoppen/links) */
- const firstTap=e=>{if(e.target.closest('a,button'))return;removeEventListener('pointerdown',firstTap,true);start(true);};
- addEventListener('pointerdown',firstTap,true);
- setTimeout(()=>start(false),200);ui();
-
- /* Bestel nu: stoom-overgang naar het menu (het menu laat de stoom daarna optrekken) */
+ /* Bestel nu: zachte overgang naar het menu */
  const orderBtn=document.getElementById('orderBtn');
  orderBtn.addEventListener('click',e=>{
   if(reduce||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
-  e.preventDefault();const href=orderBtn.href;if(st.classList.contains('leaving'))return;
-  finish();st.classList.add('leaving');try{vid.playbackRate=.35;}catch{}
-  const fade=setInterval(()=>{try{audio.volume=Math.max(0,audio.volume-.08);if(audio.volume<=0){clearInterval(fade);audio.pause();}}catch{clearInterval(fade);}},80);
-  const cv=document.createElement('canvas');cv.id='steam';st.appendChild(cv);const ctx=cv.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1);cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;
-  const sp=document.createElement('canvas');sp.width=sp.height=256;{const g=sp.getContext('2d'),gr=g.createRadialGradient(128,128,0,128,128,128);gr.addColorStop(0,'rgba(255,248,236,.55)');gr.addColorStop(.45,'rgba(250,240,225,.22)');gr.addColorStop(1,'rgba(250,240,225,0)');g.fillStyle=gr;g.fillRect(0,0,256,256);}
-  let puffs=[],t0=0,last=0,gone=false;const W=innerWidth,H=innerHeight;
-  const go=()=>{if(gone)return;gone=true;try{sessionStorage.setItem('mtf_steam','1');}catch{}location.href=href;};
-  const loop=ts=>{if(!t0){t0=ts;last=ts;}const dt=Math.min(.05,(ts-last)/1000),el=(ts-t0)/1000;last=ts;
-   if(el<.6)for(let i=0;i<4;i++)puffs.push({x:Math.random()*W,y:H*(.55+Math.random()*.6),r:(.22+Math.random()*.35)*Math.max(W,H),vy:-(H*(.45+Math.random()*.5)),vx:(Math.random()-.5)*80,life:0,max:1+Math.random()*.6});
-   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
-   const veil=Math.min(1,Math.pow(el/.55,1.5));const g=ctx.createLinearGradient(0,H,0,0);g.addColorStop(0,`rgba(240,232,220,${.92*veil})`);g.addColorStop(Math.min(1,.35+veil*.65),`rgba(236,228,216,${.86*veil})`);g.addColorStop(1,`rgba(236,228,216,${.5*veil+.36*Math.max(0,veil-.6)/.4})`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-   for(const p of puffs){p.life+=dt;p.y+=p.vy*dt;p.x+=p.vx*dt;p.r*=1+dt*.5;ctx.globalAlpha=Math.sin(Math.PI*Math.min(1,p.life/p.max))*.6;ctx.drawImage(sp,p.x-p.r,p.y-p.r,p.r*2,p.r*2);}
-   ctx.globalAlpha=1;if(el>=.62){ctx.fillStyle='#ece4d8';ctx.fillRect(0,0,W,H);return go();}requestAnimationFrame(loop);};
-  requestAnimationFrame(loop);setTimeout(go,1500);
+  e.preventDefault();finish();st.classList.add('leaving');
+  try{sessionStorage.setItem('mtf_steam','1');}catch{}
+  setTimeout(()=>{location.href=orderBtn.href;},450);
  });
- /* Terug via de terugknop: titelscherm weer normaal tonen */
- addEventListener('pageshow',e=>{if(e.persisted){st.classList.remove('leaving');const c=document.getElementById('steam');if(c)c.remove();try{vid.playbackRate=1;vid.play();}catch{}}});
+ addEventListener('pageshow',e=>{if(e.persisted)st.classList.remove('leaving');});
+
  /* Bestelstatus voor vandaag */
  const R=window.MTFOrderRules,txt=document.getElementById('statusText'),dot=document.getElementById('dot');
  const dayName=d=>new Intl.DateTimeFormat('nl-NL',{weekday:'long',timeZone:'UTC'}).format(new Date(d+'T12:00:00Z'));
@@ -228,10 +167,8 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
   if(!R){txt.textContent='Bekijk het menu en bestel direct online.';return;}
   const c=R.clock(),today=c.date,open=R.opening(today),cut=R.cutoff(today)*60,closed=R.closedReason(today);
   if(open&&c.seconds<=cut){
-   const left=cut-c.seconds,h=Math.floor(left/3600),m=Math.floor(left%3600/60);
-   const rest=left<=3*3600?' <span style="color:var(--mtf-text-soft)">· nog '+(h?h+' u ':'')+m+' min</span>':'';
    dot.className='dot';
-   txt.innerHTML='Vandaag bestellen kan nog tot <b>'+R.formatTime(R.cutoff(today))+'</b>'+rest;
+   txt.innerHTML='Vandaag bestellen kan nog tot <b>'+R.formatTime(R.cutoff(today))+'</b>';
    return;
   }
   dot.className='dot off';
@@ -240,10 +177,7 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
   txt.innerHTML=why+(lbl?' · bestel alvast voor <b>'+lbl+'</b>':'');
  }
  render();setInterval(render,30000);
- /* iDEAL-melding alleen tonen als online betalen echt aan staat (of in voorbeeldmodus) */
- MTF.fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/mollie-pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})
-  .then(r=>r.json()).then(c=>{if(c&&c.enabled&&(!c.test||/[?&]mollietest=1/.test(location.search)))document.getElementById('pay').hidden=false;}).catch(()=>{});
- /* Uitzonderingsdagen (feestdagen, vakantie) ophalen */
+ /* Uitzonderingsdagen en openingstijden uit de database */
  MTF.fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})})
   .then(r=>r.json()).then(d=>{if(d&&d.ok&&Array.isArray(d.closures)&&R){R.setClosures(d.closures);if(Array.isArray(d.hours))R.setHours(d.hours);render();}}).catch(()=>{});
 })();

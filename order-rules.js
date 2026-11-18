@@ -5,9 +5,9 @@
  const setClosures=rows=>{closures=new Map(rows.map(x=>[x.day,x.reason]));};
  const closedReason=date=>closures.get(date)||'';
  /* Standaardtijden (in minuten) tot de database ze levert via setHours(). Weekdag: 0 = zondag … 6 = zaterdag. */
- let hours={1:[960,1230],2:[960,1230],4:[960,1230],5:[960,1260],0:[960,1230]};
+ let hours={1:[720,1230],4:[720,1230],5:[720,1230],6:[720,1230],0:[720,1230]};
  /* Uiterste besteltijd voor dezelfde dag, in minuten. Vrijdag (5) en zondag (0): 19:30, overige open dagen: 18:00. */
- let cutoffs={5:1170,0:1170},defaultCutoff=1080;
+ let cutoffs={},defaultCutoff=1170;
  /* Openingstijden uit de database: [{weekday, open_time:'16:00:00', close_time, order_cutoff}]. */
  const toMin=t=>{const m=/^(\d{1,2}):(\d{2})/.exec(String(t||''));return m?Number(m[1])*60+Number(m[2]):NaN;};
  function setHours(rows){
@@ -44,7 +44,8 @@
   return true;
  }
  /* Bezorgregels in centen: minimum voor bezorgen, gratis bezorgen vanaf, bezorgkosten daaronder. */
- const delivery=Object.freeze({minimumCents:2000,freeFromCents:3500,feeCents:250});
+ /* Forum (demo): vaste bezorgkosten Spijkenisse e.o., geen minimum, geen gratis bezorgen. Bezorgzones per plaats volgen later. */
+ const delivery=Object.freeze({minimumCents:0,freeFromCents:Number.MAX_SAFE_INTEGER,feeCents:350});
  const euroText=c=>'€ '+(c/100).toFixed(2).replace('.',',');
  const deliveryFeeCents=(subtotalCents,method)=>method==='Bezorgen'&&subtotalCents<delivery.freeFromCents?delivery.feeCents:0;
  function price(subtotalCents,method){
