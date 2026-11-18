@@ -13,8 +13,10 @@
   - Oude tekst "uiterlijk om 16:00" in app.js vervangen door de echte besteltijd van die dag.
   - Getest oud tegen nieuw: mandjescenario (varianten, plus/min, max 50, bezorgen/afhalen rond € 20 en € 35, coupon, herladen, bestellen) in beide locaties gelijk; 500.025 prijsgevallen gelijk; paginaverzoeken, bestelflow en screenshots gelijk.
   - `supabase/functions/place-order/order-rules.js` bijgewerkt (gedrag gelijk); meenemen bij de volgende uitrol van place-order.
-- [ ] 3c. Gerechtkaarten en mandje tekenen via vervangbare sjablonen (per ontwerp aan te passen).
+- [x] 3c. Vervangbare sjablonen voor gerechtkaarten en mandje: `mtf-templates.js` (dishCard, favoriteCard, category, categoryPill, menuEmpty, cartLine, cartEmpty) met `MTF.templates.use({...})`.
+  - Standaardsjablonen geven byte-voor-byte dezelfde HTML (home, filmische menukaart, standaard menukaart, mandje; open en dicht; speciale tekens).
+  - Proef met eigen sjablonen: eigen kaarten, toevoegen, plus en totaal werken; onbekende sjabloonnaam geeft een foutmelding.
 - [x] 3d. Dagmenu-filter met vaste gerechtnamen bleek dode code (geen pagina heeft [data-day]) en is verwijderd.
       Regels voor standaardfoto's (photoFor in app.js én admin-extra.js) staan nu één keer in site-config.js
       (SITE_CONFIG.fallbackPhoto). Getest: 588 gevallen identiek; pagina's en verzoeken ongewijzigd.
-- [ ] 3e. Vaste element-ID's (#menuGrid, #cartItems, #form, #bookingCalendar) documenteren als 'contract' voor ontwerpen.
+- [x] 3e. Elementcontract vastgelegd in `ELEMENT-CONTRACT.md` (id's, veldnamen, knopattributen, laadvolgorde, sjablonen). Niet gepubliceerd op de website.
