@@ -128,15 +128,15 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
  /* Locatie meenemen naar de volgende pagina */
  try{const loc=window.MTFLocation&&window.MTFLocation.slug;if(loc&&loc!==SITE_CONFIG.defaultLocation){for(const id of ['orderBtn','homeBtn']){const a=document.getElementById(id);a.href=a.getAttribute('href')+'?location='+encodeURIComponent(loc);}}}catch{}
 
- /* Volgorde: welkom → vier shots met bijschrift → titelscherm op de eerste foto. */
+ /* Volgorde: welkom op het pand → pand → busje → overige shots → titelscherm op het pand. */
  let timers=[],done=false,cur=-1;
  const show=i=>{els.forEach((e,k)=>e.classList.toggle('on',k===i));cur=i;};
  const caption=i=>{cap.classList.remove('on');if(i<0)return;setTimeout(()=>{cap.innerHTML=shots[i][1]+'<small>'+shots[i][2]+'</small>';cap.classList.add('on');},350);};
  function finish(){if(done)return;done=true;timers.forEach(clearTimeout);caption(-1);st.classList.add('s1','s2','s4');show(0);loopReel();}
  let loopT;function loopReel(){clearInterval(loopT);if(reduce)return;loopT=setInterval(()=>show((cur+1)%els.length),7000);}
  if(reduce){finish();}else{
-  const at=[[150,()=>st.classList.add('s1')],[2300,()=>{st.classList.add('s2');show(1);caption(1);}],
-   [5200,()=>{show(2);caption(2);}],[8100,()=>{show(3);caption(3);}],[11000,()=>{show(4);caption(4);}],[13600,finish]];
+  const at=[[150,()=>{st.classList.add('s1');show(0);}],[2300,()=>{st.classList.add('s2');caption(0);}],
+   [5000,()=>{show(1);caption(1);}],[7900,()=>{show(2);caption(2);}],[10800,()=>{show(3);caption(3);}],[13700,()=>{show(4);caption(4);}],[16300,finish]];
   at.forEach(([t,f])=>timers.push(setTimeout(f,t)));
  }
  document.getElementById('skip').addEventListener('click',finish);
