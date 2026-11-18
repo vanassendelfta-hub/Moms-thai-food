@@ -112,7 +112,7 @@
 
  async function load(){if(loading)return;loading=true;$('#statsRefresh').disabled=true;try{
   const access=typeof freshAccess==='function'?await freshAccess():null;
-  const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json',...(access?{Authorization:'Bearer '+access}:{'x-admin-key':token})},body:JSON.stringify({action:'report',unit,...(unit==='hour'&&hourDay?{day:hourDay}:{})})});
+  const r=await MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json',...(access?{Authorization:'Bearer '+access}:{'x-admin-key':token})},body:JSON.stringify({action:'report',unit,...(unit==='hour'&&hourDay?{day:hourDay}:{})})});
   const x=await r.json();if(!r.ok||!x.ok)throw Error(x.error||'Statistieken konden niet worden geladen');data=x;render();
  }catch(e){toast(e.message);}finally{loading=false;$('#statsRefresh').disabled=false;}}
 

@@ -1,5 +1,6 @@
 <!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#940c0d"><meta name="robots" content="noindex"><title>Betaling — Mom's Thai Food</title><link rel="stylesheet" href="/theme.css">
 <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="refined.css"><script src="/site-config.js"></script>
+<script src="/mtf-api.js"></script>
 <script src="/branch.js"></script>
 <style>
 .pay-wrap{max-width:620px;margin:40px auto;padding:0 20px}
@@ -22,7 +23,7 @@
  const API=SITE_CONFIG.supabaseUrl+'/functions/v1/mollie-pay';
  const q=new URLSearchParams(location.search),order=q.get('order')||'',loc=q.get('location')==='oud-beijerland'?'oud-beijerland':'spijkenisse';
  const $=s=>document.querySelector(s),euro=n=>new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(Number(n)||0);
- const call=a=>fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:a,order_id:order,location:loc,origin:location.origin})}).then(r=>r.json());
+ const call=a=>MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:a,order_id:order,location:loc,origin:location.origin})}).then(r=>r.json());
  const show=(icon,title,html,actions)=>{$('#payIcon').innerHTML=icon;$('#payTitle').textContent=title;$('#payText').innerHTML=html;$('#payActions').innerHTML=actions||'';};
  const clearCart=()=>{try{localStorage.removeItem(loc==='oud-beijerland'?'mtf_cart_ob_v1':'mtf_cart_v1');}catch{}};
  const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

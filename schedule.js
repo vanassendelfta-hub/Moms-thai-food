@@ -35,7 +35,7 @@
   const line=g=>`<li><strong>${esc(label(g.from))}${g.to!==g.from?' t/m '+esc(label(g.to)):''}</strong> · Gesloten: ${esc(g.reason)}</li>`;
   banner.innerHTML='<div><p class="eyebrow">AANGEPASTE OPENINGSTIJDEN</p><h2>Even goed om te weten</h2><ul>'+groups.slice(0,3).map(line).join('')+'</ul>'+(groups.length>3?'<details><summary>Alle sluitingsdagen bekijken</summary><ul>'+groups.slice(3).map(line).join('')+'</ul></details>':'')+'<p>Op de overige dagen gelden onze normale openingstijden. In de bestelkalender zie je alle beschikbare momenten.</p></div>';
  }
- async function refresh(){if(fetching)return;fetching=true;try{const r=await fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})});const d=await r.json();if(!r.ok||!d.ok||!Array.isArray(d.closures))throw Error('Beschikbaarheid kon niet worden opgehaald.');rows=d.closures;R.setClosures(rows);if(Array.isArray(d.hours)&&R.setHours(d.hours)){rewriteTexts();lateOrder();}const first=!ready;ready=true;if(first){chosenDate=R.nextDate()||'';if(chosenDate)month=chosenDate.slice(0,7);}showClosures();draw();updateCheckout();lateOrder();}catch{ready=false;date.value='';time.value='';if(wrap)wrap.innerHTML='<p role="alert">Beschikbaarheid niet bereikbaar. <button type="button" id="retrySchedule">Opnieuw proberen</button></p>';document.querySelector('#retrySchedule')?.addEventListener('click',refresh);slots.innerHTML='';updateCheckout();}finally{fetching=false;}}
+ async function refresh(){if(fetching)return;fetching=true;try{const r=await MTF.fetch(SITE_CONFIG.supabaseUrl+'/functions/v1/place-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'schedule'})});const d=await r.json();if(!r.ok||!d.ok||!Array.isArray(d.closures))throw Error('Beschikbaarheid kon niet worden opgehaald.');rows=d.closures;R.setClosures(rows);if(Array.isArray(d.hours)&&R.setHours(d.hours)){rewriteTexts();lateOrder();}const first=!ready;ready=true;if(first){chosenDate=R.nextDate()||'';if(chosenDate)month=chosenDate.slice(0,7);}showClosures();draw();updateCheckout();lateOrder();}catch{ready=false;date.value='';time.value='';if(wrap)wrap.innerHTML='<p role="alert">Beschikbaarheid niet bereikbaar. <button type="button" id="retrySchedule">Opnieuw proberen</button></p>';document.querySelector('#retrySchedule')?.addEventListener('click',refresh);slots.innerHTML='';updateCheckout();}finally{fetching=false;}}
 
  /* Laat bestellen op vrijdag en zondag tot 19:30: aankondiging en duidelijke teksten op elke pagina. */
  const style=document.createElement('style');
@@ -94,29 +94,18 @@
 (async()=>{
  const API=SITE_CONFIG.supabaseUrl+'/functions/v1/mollie-pay',LABEL='Online betalen (iDEAL | Wero)';
  const form=document.querySelector('#form'),sel=form?.elements.payment;if(!sel)return;
- let cfg=null;try{cfg=await (await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})).json();}catch{return;}
+ let cfg=null;try{cfg=await (await MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})).json();}catch{return;}
  const preview=/[?&]mollietest=1/.test(location.search);
  if(!cfg?.enabled||(cfg.test&&!preview))return;
  const current=sel.value;sel.prepend(new Option(LABEL+(cfg.test?' · testmodus':''),LABEL));sel.value=current;
  const hint=document.createElement('p');hint.className='checkout-hint';hint.hidden=true;hint.textContent='Na het plaatsen ga je direct door naar je bankapp om veilig te betalen met iDEAL | Wero.';sel.closest('label').after(hint);
  sel.addEventListener('change',()=>{hint.hidden=sel.value!==LABEL;});
- const prevFetch=window.fetch;
- window.fetch=async function(input,opts){
-  const res=await prevFetch(input,opts);
-  try{
-   if(typeof input==='string'&&input.endsWith('/functions/v1/place-order')&&typeof opts?.body==='string'){
-    const b=JSON.parse(opts.body);
-    if(!b.action&&b.payment===LABEL&&res.ok){
-     const j=await res.clone().json();
-     if(j.ok&&j.order?.id){
-      const loc=window.MTFLocation?.slug||SITE_CONFIG.defaultLocation;
-      const c=await (await prevFetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'create',order_id:j.order.id,origin:location.origin})})).json().catch(()=>({}));
-      if(c.ok&&(c.checkout||c.paid)){try{localStorage.removeItem(SITE_CONFIG.cartKey(loc));}catch{}location.href=c.checkout||('/betaald?order='+j.order.id+'&location='+loc);return new Promise(()=>{});}
-      setTimeout(()=>{try{toast('Online betalen lukte niet. Je bestelling is wel ontvangen; je kunt bij ontvangst betalen.');}catch{}},300);
-     }
-    }
-   }
-  }catch{}
-  return res;
- };
+ /* Na een geplaatste bestelling met online betalen: betaling aanmaken en doorsturen naar de bank. */
+ MTF.onOrderPlaced(async({order,payment})=>{
+  if(payment!==LABEL||!order?.id)return;
+  const loc=window.MTFLocation?.slug||SITE_CONFIG.defaultLocation;
+  const c=await (await MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'create',order_id:order.id,origin:location.origin})})).json().catch(()=>({}));
+  if(c.ok&&(c.checkout||c.paid)){try{localStorage.removeItem(SITE_CONFIG.cartKey(loc));}catch{}location.href=c.checkout||('/betaald?order='+order.id+'&location='+loc);return 'redirect';}
+  setTimeout(()=>{try{toast('Online betalen lukte niet. Je bestelling is wel ontvangen; je kunt bij ontvangst betalen.');}catch{}},300);
+ });
 })();

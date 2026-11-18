@@ -1,6 +1,6 @@
 (()=>{
  const endpoint=SITE_CONFIG.supabaseUrl+'/functions/v1/promotions';
- const call=async b=>{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const d=await r.json();if(!r.ok||d.ok===false)throw Error(d.error||'Niet beschikbaar');return d;};
+ const call=async b=>{const r=await MTF.fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const d=await r.json();if(!r.ok||d.ok===false)throw Error(d.error||'Niet beschikbaar');return d;};
  const money=x=>new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(Number(x));
  const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const form=document.querySelector('#couponSignup');

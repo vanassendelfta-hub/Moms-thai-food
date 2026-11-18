@@ -2,7 +2,7 @@
 (()=>{
 const API=SITE_CONFIG.supabaseUrl+'/functions/v1/game';
 const admin=location.pathname.includes('admin');
-const call=async(action,params={},auth)=>{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json',...(auth||{})},body:JSON.stringify({action,...params})});const d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||'Verzoek mislukt');return d;};
+const call=async(action,params={},auth)=>{const r=await MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json',...(auth||{})},body:JSON.stringify({action,...params})});const d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||'Verzoek mislukt');return d;};
 const h=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ---------- Publieke website ---------- */
