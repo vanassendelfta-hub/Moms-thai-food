@@ -13,7 +13,7 @@ body.fm{--fm-red:var(--mtf-red,#c80f1a);--fm-gold:var(--mtf-gold,#f6c64a);--fm-i
 .fm-hero h1{margin:0 0 10px;font:700 clamp(38px,6vw,68px)/1 var(--fm-serif);color:#fff6e2;letter-spacing:-.5px}
 .fm-hero-copy>p:not(.fm-kicker){max-width:560px;margin:0;color:#ead9c4;line-height:1.6}
 .fm-portion{display:inline-flex;margin-top:20px;padding:4px;border:1px solid var(--fm-gold);border-radius:999px;background:#0009}
-.fm-portion button{border:0;background:transparent;color:#f3e3c4;font:600 14px/1 inherit;font-family:inherit;padding:11px 18px;border-radius:999px;cursor:pointer;min-height:40px}
+.fm-portion button{border:0;background:transparent;color:#f3e3c4;font-size:15px;font-weight:600;line-height:1;font-family:inherit;padding:11px 18px;border-radius:999px;cursor:pointer;min-height:40px}
 .fm-portion button[aria-pressed=true]{background:var(--fm-gold);color:#2a0405}
 
 /* Indeling: index links, kaart rechts */
@@ -22,10 +22,10 @@ body.fm{--fm-red:var(--mtf-red,#c80f1a);--fm-gold:var(--mtf-gold,#f6c64a);--fm-i
 .fm-index{position:sticky;top:calc(var(--fm-top,64px) + 20px);max-height:calc(100vh - 100px);overflow:auto;padding:16px 14px 18px;background:var(--fm-paper);border:1px solid var(--fm-line);border-radius:10px;scrollbar-width:thin}
 .fm-search{display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid var(--fm-line);border-radius:8px;background:#000;color:var(--fm-gold)}
 .fm-search svg{width:17px;height:17px;flex:none}
-.fm-search input{flex:1;min-width:0;border:0;background:transparent;color:#fff;font:15px inherit;font-family:inherit;padding:11px 0;outline:0}
+.fm-search input{flex:1;min-width:0;border:0;background:transparent;color:#fff;font-size:16px;font-family:inherit;padding:11px 0;outline:0}
 .fm-search:focus-within{border-color:var(--fm-gold)}
-.fm-pills.chips{display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;gap:1px;margin-top:12px;padding:0;background:none;border:0}
-.fm-group{display:flex;align-items:center;gap:8px;margin:14px 0 4px;color:var(--fm-gold);font:700 12px inherit;font-family:inherit;letter-spacing:1.6px;text-transform:uppercase}
+.fm-pills.chips{display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;gap:1px;margin:12px 0 0!important;padding:0;background:none;border:0}
+.fm-group{display:flex;align-items:center;gap:8px;margin:14px 0 4px;color:var(--fm-gold);font-size:12.5px;font-weight:700;line-height:1.2;letter-spacing:1.2px;text-transform:uppercase}
 .fm-group i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:4px;background:var(--fm-red);color:var(--fm-gold);font-size:13px;letter-spacing:0}
 .fm-pill{all:unset;box-sizing:border-box;display:block;width:100%;padding:7px 10px 7px 30px;border-radius:6px;color:#d9cdbb;font-size:14px;line-height:1.3;cursor:pointer}
 .fm-pill:hover{color:#fff;background:#ffffff0d}
@@ -63,7 +63,7 @@ body.fm:not(.fm-small) [data-small="1"],body.fm.fm-small [data-small="0"]{displa
 @media(max-width:900px){
  .fm-menu{display:block}
  .fm-index{position:sticky;top:var(--fm-top,64px);z-index:20;max-height:none;overflow:visible;margin:0 -24px 18px;padding:10px 16px;border-radius:0;border-width:0 0 1px;background:rgba(11,7,7,.96);backdrop-filter:blur(6px)}
- .fm-pills.chips{flex-direction:row;flex-wrap:nowrap;justify-content:flex-start;gap:6px;overflow-x:auto;padding-bottom:2px;margin-top:10px;scrollbar-width:none}
+ .fm-pills.chips{margin:10px 0 0!important;padding-top:0;flex-direction:row;flex-wrap:nowrap;justify-content:flex-start;gap:6px;overflow-x:auto;padding-bottom:2px;margin-top:10px;scrollbar-width:none}
  .fm-pills::-webkit-scrollbar{display:none}
  .fm-group{display:none!important}
  .fm-pill{flex:none;width:auto;padding:8px 13px;border:1px solid var(--fm-line);border-radius:999px;font-size:13px;white-space:nowrap}
@@ -85,3 +85,5 @@ body.fm:not(.fm-small) [data-small="1"],body.fm.fm-small [data-small="0"]{displa
  .fm-line b{flex-basis:100%;order:3;font-size:15px}
  .fm-seal{width:42px;height:42px;font-size:22px}
 }
+/* Ruimte voor het infolipje rechts, zodat het de plusknoppen niet bedekt */
+@media(max-width:900px){body.fm:has(.mtf-dock) .fm-dish{margin-right:30px}}

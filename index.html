@@ -117,9 +117,9 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
  /* Shots: foto, bijschrift, camerabeweging (van → naar). */
  const shots=[
   ['/forum/pand-vloot.jpg','Kelvinweg 11, Spijkenisse','Onze keuken',['-3%','2%'],['2%','-1%']],
+  ['/forum/bus-evenement.jpg','Wij rijden voor u uit','Bezorging in de regio',['3%','0'],['-3%','1%']],
   ['/forum/gerecht-kip-cashew.jpg','Vers uit de wok','Kong po · Cantonese stijl',['2%','3%'],['-2%','-2%']],
   ['/forum/buffet.jpg','Uw buffet, wij verzorgen het','Catering op locatie',['0','-4%'],['0','3%']],
-  ['/forum/bus-evenement.jpg','Wij rijden voor u uit','Bezorging in de regio',['3%','0'],['-3%','1%']],
   ['/forum/gerecht-bami-nasi.jpg','Bami, nasi of witte rijst','Bij elk hoofdgerecht',['-2%','-2%'],['2%','2%']]
  ];
  const els=shots.map(([src,,,f,t])=>{const d=document.createElement('div');d.className='shot';const i=new Image();i.src=src;i.alt='';i.decoding='async';

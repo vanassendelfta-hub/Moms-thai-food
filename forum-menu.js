@@ -35,7 +35,7 @@
  document.addEventListener('DOMContentLoaded',()=>{const bar=document.querySelector('.topbar');if(bar){const fit=()=>document.body.style.setProperty('--fm-top',bar.offsetHeight+'px');fit();if('ResizeObserver' in window)new ResizeObserver(fit).observe(bar);}
   let s=false;try{s=sessionStorage.getItem('forum_portion')==='small'}catch(e){}setPortion(s);
   /* Actieve categorie in de index volgen tijdens scrollen. */
-  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(!en.isIntersecting)return;document.querySelectorAll('.fm-pill').forEach(p=>{const on=p.dataset.target===en.target.id;p.classList.toggle('is-on',on);if(on&&matchMedia('(max-width:900px)').matches)p.scrollIntoView({block:'nearest',inline:'center'});});});},{rootMargin:'-30% 0px -65% 0px'});
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(!en.isIntersecting)return;document.querySelectorAll('.fm-pill').forEach(p=>{const on=p.dataset.target===en.target.id;p.classList.toggle('is-on',on);if(on&&matchMedia('(max-width:900px)').matches)p.scrollIntoView({block:'nearest',inline:'center'});});});},{rootMargin:'-40% 0px -55% 0px'});
    new MutationObserver(()=>{io.disconnect();document.querySelectorAll('.fm-cat').forEach(s=>io.observe(s));}).observe(document.getElementById('menuGrid'),{childList:true});}
  });
 })();

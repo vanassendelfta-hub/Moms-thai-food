@@ -1,0 +1,59 @@
+/* Forum Cateringservice: leesbaarheid.
+   Grotere basistekst, ruimere regelafstand en lichtere tekstkleuren op de donkere achtergrond.
+   Laden als laatste stylesheet op de publieke pagina's. */
+body:has(.site-footer){font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+body:has(.site-footer) p,body:has(.site-footer) li,body:has(.site-footer) dd,body:has(.site-footer) dt,body:has(.site-footer) td,body:has(.site-footer) th{color:#efe6d8}
+body:has(.site-footer) .content p,body:has(.site-footer) .content li{font-size:17px;line-height:1.7}
+/* Kleine kopjes boven titels: groter, minder gespreid */
+body:has(.site-footer) .eyebrow,.fm-kicker,.fm-cat-head small{font-size:13px!important;letter-spacing:1.4px!important;font-weight:700;color:#f4cf78!important}
+/* Titels: iets steviger zodat de dunne schreefletter goed leesbaar blijft */
+body:has(.site-footer) h1,body:has(.site-footer) h2{font-weight:700;letter-spacing:0}
+body:has(.site-footer) h3{font-weight:700}
+
+/* Homepage-kop: donkerder achter de tekst en grotere tekst */
+.mt-shade{background:radial-gradient(ellipse at 50% 55%,rgba(0,0,0,.72) 0%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.92) 100%),linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,#000 100%)!important}
+.hero-copy .hero-subtitle{font-size:clamp(19px,2vw,23px)!important;color:#fff3dc!important}
+.hero-copy p:not(.hero-subtitle){font-size:clamp(16px,1.5vw,18px)!important;line-height:1.65!important;color:#fff!important;text-shadow:0 1px 3px #000c;max-width:620px;margin-left:auto;margin-right:auto}
+
+/* Openingstijden en panelen */
+.opening-list dd small,.opening-list dd span,.opening-list .cutoff{font-size:14px!important;color:#f4d38a!important}
+.opening-panel p,.info-panel p{font-size:16.5px!important;line-height:1.7!important}
+.forum-zones td,.forum-zones th{font-size:16px}
+
+/* Formulieren: duidelijke labels en invoer */
+body:has(.site-footer) label{font-size:15.5px}
+body:has(.site-footer) input,body:has(.site-footer) select,body:has(.site-footer) textarea{font-size:16px!important;color:#fff}
+body:has(.site-footer) ::placeholder{color:#a9a09a;opacity:1}
+
+/* Knoppen: grotere tekst */
+body:has(.site-footer) .btn-red,body:has(.site-footer) .btn-green,body:has(.site-footer) .btn-ghost,.favorites-grid .dish button{font-size:15px!important}
+
+/* Footer */
+body:has(.site-footer) .site-footer{font-size:15px;color:#e3d9cb}
+body:has(.site-footer) .site-footer a,body:has(.site-footer) .site-footer span,body:has(.site-footer) .site-footer p{color:#e3d9cb;font-size:15px}
+body:has(.site-footer) .footer-bottom,body:has(.site-footer) .footer-bottom a{font-size:13.5px!important}
+
+/* Favorieten op home */
+.favorites-grid .dish-desc p{font-size:15px!important;color:#e6dccd!important;line-height:1.5}
+
+/* Mandje en afrekenen */
+body:has(.site-footer) .drawer p,body:has(.site-footer) .drawer small,body:has(.site-footer) .calendar-key,body:has(.site-footer) .booking-date{font-size:14px!important;color:#e6dccd!important}
+body:has(.site-footer) .cart-line{font-size:15px}
+body:has(.site-footer) .cart-line small{font-size:13px}
+
+/* Menukaart */
+.fm-body p{font-size:16px!important;line-height:1.5;color:#e6d9c4!important}
+.fm-line h4{font-size:21px!important;color:#fff6e4!important}
+.fm-line b{font-size:17px}
+.fm-pill{font-size:15.5px!important;color:#f0e5d3!important;padding-top:8px!important;padding-bottom:8px!important}
+.fm-pill.is-on{color:#2a0405!important}
+.fm-cat-head p{color:#f0dfc6!important;font-size:18px!important}
+.fm-hero-copy>p:not(.fm-kicker){font-size:17px!important;color:#fff3e0!important}
+.fm-hero:after{background:linear-gradient(90deg,#120203 0%,rgba(70,4,8,.9) 55%,rgba(18,2,3,.55) 100%)!important}
+.fm-search input{font-size:16px!important}
+@media(max-width:560px){
+ body:has(.site-footer) .content p,body:has(.site-footer) .content li{font-size:16.5px}
+ .fm-line h4{font-size:19.5px!important}
+ .fm-body p{font-size:15.5px!important}
+ .fm-pill{font-size:14.5px!important}
+}

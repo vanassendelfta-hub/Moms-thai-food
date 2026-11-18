@@ -92,6 +92,6 @@
 
  /* Duidelijk label zodat niemand de testsite voor de echte aanziet. */
  if(config.environment==='test'&&typeof document!=='undefined'){
-  document.addEventListener('DOMContentLoaded',()=>{const b=document.createElement('div');b.textContent=config.demoLabel||'TESTOMGEVING · geen echte bestellingen';b.style.cssText='position:fixed;left:8px;bottom:8px;z-index:99999;background:#c62828;color:#fff;font:700 12px/1 system-ui,sans-serif;padding:7px 10px;border-radius:6px;pointer-events:none;opacity:.92';document.body.appendChild(b);});
+  document.addEventListener('DOMContentLoaded',()=>{const b=document.createElement('div');b.textContent=config.demoLabel||'TESTOMGEVING · geen echte bestellingen';b.className='demo-strip';b.style.cssText='position:relative;z-index:99999;background:#c62828;color:#fff;font:700 13px/1.2 system-ui,sans-serif;padding:6px 12px;text-align:center;letter-spacing:.3px';document.body.prepend(b);});
  }
 })();
