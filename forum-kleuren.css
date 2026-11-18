@@ -1,0 +1,129 @@
+/* Forum Cateringservice: kleuren van forumcatering.nl.
+   Lichte achtergrond, oranje kopbalk met witte en gele navigatie, donkerrode accenten en
+   een lichtgrijze footer. Alleen voor de pagina's met <body class="... fc">; de intro blijft donker. */
+html body.fc{
+ --fc-orange:#e47b02;--fc-orange-2:#ed8f0c;--fc-orange-ink:#a34f00;
+ --fc-red:#970a11;--fc-red-2:#7a070d;--fc-yellow:#ffe600;
+ --fc-ink:#1f2933;--fc-ink-2:#3e4c59;--fc-ink-3:#52606d;
+ --fc-bg:#f9f9fb;--fc-card:#fff;--fc-line:#e2e8f0;--fc-line-2:#cbd5e0;--fc-footer:#d3d5d6;
+ --mtf-gold:#970a11;--mtf-gold-rgb:151,10,17;--mtf-gold-soft:#970a11;--mtf-gold-2:#970a11;--mtf-gold-muted:#a34f00;
+ --mtf-gold-grad-top:#ed8f0c;--mtf-gold-grad-bottom:#e47b02;--mtf-gold-pale:#a34f00;
+ --mtf-cream:#1f2933;--mtf-text-light:#1f2933;--mtf-text-soft:#3e4c59;--mtf-text-muted:#52606d;--mtf-text-muted-2:#52606d;--mtf-grey-blue:#52606d;
+ --mtf-wine:#fff;--mtf-ink:#fff;--mtf-ink-2:#fff;--mtf-ink-3:#f3f4f7;--mtf-navy:#fff;
+ background:var(--fc-bg)!important;color:var(--fc-ink)!important}
+html body.fc .content{background:transparent}
+
+/* Kopbalk */
+html body.fc .topbar{background:var(--fc-orange-2)!important;border-bottom:0!important;box-shadow:0 2px 10px rgba(31,41,51,.15)!important;backdrop-filter:none}
+html body.fc .topbar .mark strong{color:#fff!important}
+html body.fc .topbar .mark strong::after{color:#fff!important}
+html body.fc .topbar .mark em{color:#fff!important}
+html body.fc .topbar .mark img{background:#fff;border-radius:50%}
+html body.fc .topbar .nav a{color:#fff!important;font-weight:800;text-transform:uppercase;letter-spacing:.6px;background:transparent!important;border-color:transparent!important}
+html body.fc .topbar .nav a:hover,html body.fc .topbar .nav a[aria-current],html body.fc .topbar .nav a.active{color:var(--fc-yellow)!important}
+html body.fc .headercart{background:var(--fc-red)!important;border-color:var(--fc-red)!important;color:#fff!important}
+html body.fc .headercart svg{color:#fff!important;stroke:#fff}
+html body.fc .headercart span#count{background:var(--fc-yellow)!important;color:var(--fc-ink)!important}
+
+/* Tekst en koppen */
+html body.fc h1,html body.fc h2,html body.fc h3,html body.fc h4{color:var(--fc-red)!important}
+html body.fc p,html body.fc li,html body.fc dd,html body.fc dt,html body.fc td,html body.fc th,html body.fc label,html body.fc span{color:inherit}
+html body.fc .content p,html body.fc .content li,html body.fc .content dt,html body.fc .content td,html body.fc .content th,html body.fc main p{color:var(--fc-ink-2)!important}
+html body.fc .content strong,html body.fc .content b{color:var(--fc-ink)}
+html body.fc .eyebrow,html body.fc .fm-cat-head small{color:var(--fc-orange-ink)!important}
+html body.fc a{color:var(--fc-red)}
+html body.fc .content a:not([class]){color:var(--fc-red)!important;text-decoration:underline}
+
+/* Kaarten en panelen */
+html body.fc .opening-panel,html body.fc .info-panel,html body.fc .reviews-section,html body.fc #favorites,html body.fc .favorites-section,html body.fc .catering-form,html body.fc form.cform,html body.fc .forum-form,html body.fc section[id=aanvraag]{background:var(--fc-card)!important;border:1px solid var(--fc-line)!important;box-shadow:0 4px 18px rgba(31,41,51,.06)!important}
+html body.fc .opening-list div{border-color:var(--fc-line)!important}
+html body.fc .opening-list dd{color:var(--fc-red)!important}
+html body.fc .opening-list dd *{color:var(--fc-orange-ink)!important}
+html body.fc .forum-zones td,html body.fc .forum-zones th{border-color:var(--fc-line)!important}
+html body.fc .dish,html body.fc .favorites-grid .dish{background:var(--fc-card)!important;border:1px solid var(--fc-line)!important;box-shadow:0 4px 14px rgba(31,41,51,.07)!important}
+html body.fc .dish-desc h3,html body.fc .dish h3,html body.fc .dish h4{color:var(--fc-red)!important}
+html body.fc .dish-desc p,html body.fc .favorites-grid .dish-desc p{color:var(--fc-ink-3)!important}
+html body.fc .dish-footer b{color:var(--fc-ink)!important}
+html body.fc .favorites-grid .dish-desc{background:var(--fc-card)!important}
+html body.fc .favorites-grid .dish-image{-webkit-mask-image:none!important;mask-image:none!important}
+
+/* Knoppen */
+html body.fc .btn-green,html body.fc .btn-red,html body.fc .checkout-btn,html body.fc [data-add]:not(.fm-add),html body.fc button[type=submit]{background:var(--fc-red)!important;color:#fff!important;border:0!important;box-shadow:none!important;text-shadow:none!important}
+html body.fc .btn-green:hover,html body.fc .btn-red:hover,html body.fc .checkout-btn:hover{background:var(--fc-red-2)!important}
+html body.fc .btn-ghost{background:#fff!important;color:var(--fc-red)!important;border:2px solid var(--fc-red)!important}
+html body.fc .mt-hero .btn-ghost,html body.fc .hero .btn-ghost{background:rgba(0,0,0,.35)!important;color:#fff!important;border-color:#fff!important}
+
+/* Formulieren */
+html body.fc input,html body.fc select,html body.fc textarea{background:#fff!important;color:var(--fc-ink)!important;border:1px solid var(--fc-line-2)!important}
+html body.fc input:focus,html body.fc select:focus,html body.fc textarea:focus{border-color:var(--fc-orange)!important;outline:2px solid rgba(228,123,2,.35)!important}
+html body.fc ::placeholder{color:#7b8794!important}
+html body.fc label{color:var(--fc-ink)!important}
+html body.fc input[type=radio],html body.fc input[type=checkbox]{accent-color:var(--fc-red)}
+
+/* Foto-koppen houden witte tekst op een donkere laag */
+html body.fc .mt-hero h1,html body.fc .mt-hero .brand-tagline{color:#ffe08a!important}
+html body.fc .mt-hero p{color:#fff!important}
+html body.fc .fm-hero:after{background:linear-gradient(90deg,rgba(122,7,13,.95) 0%,rgba(151,10,17,.85) 45%,rgba(228,123,2,.55) 100%)!important}
+html body.fc .fm-hero h1{color:#fff!important}
+html body.fc .fm-hero .fm-kicker{color:var(--fc-yellow)!important}
+html body.fc .fm-hero p{color:#fff!important}
+html body.fc .fm-hero{border-bottom:4px solid var(--fc-orange)!important}
+html body.fc .fm-hero-seal{background:var(--fc-red);color:var(--fc-yellow);border-color:var(--fc-yellow);outline-color:var(--fc-yellow)}
+html body.fc .fm-portion{background:rgba(0,0,0,.3);border-color:#fff}
+html body.fc .fm-portion button{color:#fff}
+html body.fc .fm-portion button[aria-pressed=true]{background:var(--fc-yellow);color:var(--fc-ink)}
+
+/* Menukaart */
+html body.fc .fm-index{background:#fff!important;border:1px solid var(--fc-line)!important;box-shadow:0 4px 18px rgba(31,41,51,.06)}
+html body.fc .fm-search{background:#fff;border-color:var(--fc-line-2);color:var(--fc-orange-ink)}
+html body.fc .fm-search input{border:0!important;outline:0!important;background:transparent!important}
+html body.fc .fm-group{color:var(--fc-orange-ink)}
+html body.fc .fm-group i{background:var(--fc-red);color:var(--fc-yellow)}
+html body.fc .fm-pill{color:var(--fc-ink-2)!important}
+html body.fc .fm-pill:hover{background:#fdf1e2;color:var(--fc-ink)!important}
+html body.fc .fm-pill.is-on{background:var(--fc-orange-2)!important;color:var(--fc-ink)!important}
+html body.fc .fm-cat-head{border-bottom-color:var(--fc-orange)}
+html body.fc .fm-seal{background:var(--fc-red);color:var(--fc-yellow);box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 3px var(--fc-yellow)}
+html body.fc .fm-cat-head p{color:var(--fc-ink-3)!important}
+html body.fc .fm-dish{border-bottom-color:var(--fc-line)}
+html body.fc .fm-no{border-color:var(--fc-orange);color:var(--fc-red)}
+html body.fc .fm-line h4{color:var(--fc-ink)!important}
+html body.fc .fm-line i{border-bottom-color:rgba(228,123,2,.6)}
+html body.fc .fm-line b{color:var(--fc-red)}
+html body.fc .fm-body p{color:var(--fc-ink-3)!important}
+html body.fc .fm-add{background:var(--fc-orange);color:#fff;box-shadow:0 3px 10px rgba(228,123,2,.35)}
+html body.fc .fm-add:hover{background:var(--fc-red)}
+@media(max-width:900px){html body.fc .fm-index{background:rgba(255,255,255,.97)!important;border-width:0 0 1px!important;box-shadow:0 4px 10px rgba(31,41,51,.08)}html body.fc .fm-pill{border-color:var(--fc-line-2)!important}}
+
+/* Mandje, afrekenen en keuzevenster */
+html body.fc .drawer,html body.fc .dish-addon-dialog{background:#fff!important;color:var(--fc-ink)!important}
+html body.fc .drawer *:not(button):not(input):not(select):not(textarea),html body.fc .dish-addon-dialog *:not(button):not(input){color:var(--fc-ink)}
+html body.fc .drawer h2,html body.fc .drawer h3,html body.fc .dish-addon-dialog h2,html body.fc .dish-addon-dialog h3{color:var(--fc-red)!important}
+html body.fc .addon-choice{background:#fff!important;border:1px solid var(--fc-line-2)!important;color:var(--fc-ink)!important}
+html body.fc .addon-choice:has(input:checked){background:#fff4e5!important;border-color:var(--fc-orange)!important}
+html body.fc .addon-dialog-actions button{background:#fff!important;color:var(--fc-red)!important;border:2px solid var(--fc-red)!important}
+html body.fc .addon-dialog-actions button[type=submit],html body.fc .dish-addon-dialog [type=submit]{background:var(--fc-red)!important;color:#fff!important}
+html body.fc .method-row label,html body.fc .calendar-days button,html body.fc .booking-times button{background:#fff!important;color:var(--fc-ink)!important;border:1px solid var(--fc-line-2)!important}
+html body.fc .method-row label:has(input:checked),html body.fc .booking-times button[aria-pressed=true],html body.fc .calendar-days button[aria-pressed=true]{background:#fff4e5!important;border-color:var(--fc-orange)!important}
+html body.fc .calendar-days button:disabled{opacity:.4}
+html body.fc .cart-line{border-color:var(--fc-line)!important}
+html body.fc .backdrop{background:rgba(31,41,51,.45)!important}
+
+/* Footer */
+html body.fc .site-footer{background:var(--fc-footer)!important;max-width:none!important;padding-left:max(24px,calc((100vw - 1240px)/2))!important;padding-right:max(24px,calc((100vw - 1240px)/2))!important;border-top:4px solid var(--fc-orange)!important}
+html body.fc .site-footer,html body.fc .site-footer a,html body.fc .site-footer span,html body.fc .site-footer p,html body.fc .site-footer small{color:var(--fc-ink)!important}
+html body.fc .site-footer strong,html body.fc .site-footer h3{color:var(--fc-red)!important}
+html body.fc .footer-bottom{border-color:rgba(31,41,51,.15)!important}
+html body.fc .site-footer img{background:#fff;border-radius:50%}
+
+/* Correcties: tekst in knoppen, annuleerknop en het infolipje */
+html body.fc button *{color:inherit!important}
+html body.fc .addon-dialog-actions .btn-red{background:var(--fc-red)!important;color:#fff!important;border:0!important}
+html body.fc .addon-dialog-actions .secondary-button{background:#fff!important;color:var(--fc-red)!important;border:2px solid var(--fc-red)!important;box-shadow:none!important}
+html body.fc .mtf-dock button.mtf-tab{background:var(--fc-red)!important;border-color:var(--fc-red)!important;box-shadow:-3px 4px 12px rgba(31,41,51,.25)!important}
+html body.fc .mtf-dock .mtf-ico{color:#fff!important}
+html body.fc .eyebrow{color:var(--fc-orange-ink)!important}
+html body.fc.fc.fc input:not([type=radio]):not([type=checkbox]),html body.fc.fc.fc select,html body.fc.fc.fc textarea{background:#fff!important;color:var(--fc-ink)!important;border:1px solid var(--fc-line-2)!important}
+html body.fc.fc.fc .fm-search input{border:0!important;background:transparent!important}
+html body.fc.fc.fc .addon-dialog-actions button.btn-red{background:var(--fc-red)!important;color:#fff!important;border:0!important}
+html body.fc.fc.fc .addon-dialog-actions button.secondary-button{background:#fff!important;color:var(--fc-red)!important;border:2px solid var(--fc-red)!important}
