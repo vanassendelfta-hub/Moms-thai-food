@@ -21,11 +21,11 @@
 <script>
 (()=>{
  const API=SITE_CONFIG.supabaseUrl+'/functions/v1/mollie-pay';
- const q=new URLSearchParams(location.search),order=q.get('order')||'',loc=q.get('location')==='oud-beijerland'?'oud-beijerland':'spijkenisse';
+ const q=new URLSearchParams(location.search),order=q.get('order')||'',loc=SITE_CONFIG.validLocation(q.get('location'));
  const $=s=>document.querySelector(s),euro=n=>new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(Number(n)||0);
  const call=a=>MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:a,order_id:order,location:loc,origin:location.origin})}).then(r=>r.json());
  const show=(icon,title,html,actions)=>{$('#payIcon').innerHTML=icon;$('#payTitle').textContent=title;$('#payText').innerHTML=html;$('#payActions').innerHTML=actions||'';};
- const clearCart=()=>{try{localStorage.removeItem(loc==='oud-beijerland'?'mtf_cart_ob_v1':'mtf_cart_v1');}catch{}};
+ const clearCart=()=>{try{localStorage.removeItem(SITE_CONFIG.cartKey(loc));}catch{}};
  const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  let tries=0;
  async function check(){

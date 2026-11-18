@@ -1,8 +1,9 @@
 import {materials} from "./materials.ts";
+import {hasFeature} from "./locations.ts";
 export async function seasonalAdmin(db:any,b:any,actor:any){
  if(!String(b.action||'').startsWith('seasonal_'))return null;
  if(!actor.owner)throw Error('Alleen de eigenaar kan feestdagenacties beheren.');
- if(db.location?.slug!=='spijkenisse')throw Error('Feestdagenacties zijn ingesteld voor Spijkenisse.');
+ if(!hasFeature(db.location,'seasonal'))throw Error('Feestdagenacties zijn niet ingeschakeld voor deze vestiging.');
  if(b.action==='seasonal_material'){if(!['team','plan'].includes(b.kind))throw Error('Onbekend materiaal');return {data:materials[b.kind as keyof typeof materials]};}
  if(b.action==='seasonal_contacts'){
  const c=await db.from('mtf_contacts').select('email,name,phone,source,status,created_at,confirmed_at').order('created_at',{ascending:false}).limit(10000);if(c.error)throw c.error;

@@ -1,7 +1,8 @@
 import { seasonalAdmin } from "./seasonal.ts";
 import { receiptAdmin, receiptFolder } from './receipts.ts';
 import { addonAdmin } from "./addons.ts";
-import { selectAdminLocation, locationAdmin, authorizedService } from "./locations.ts";
+import { selectAdminLocation, locationAdmin, authorizedService, getLocation } from "./locations.ts";
+import { brand } from "./brand.ts";
 import { taskAdmin } from "./tasks.ts";
 import { menuCategoryAdmin } from "./menu-categories.ts";
 import { scheduleAdmin } from "./schedule.ts";
@@ -33,18 +34,21 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const action = body?.action;
     if(action==='location_provision_manager'&&await authorizedService(req)){
-      const location=await root.from('mtf_locations').select('*').eq('slug','oud-beijerland').single();if(location.error)throw location.error;
-      const email='vanassendelft.a@gmail.com',scoped=root.schema('mtf_ob');
+      /* Beheerder voor een (nieuwe) vestiging uitnodigen. Alleen met de service-sleutel. */
+      const email=String(body.email||'').trim().toLowerCase(),managerName=String(body.name||'').trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!managerName)throw Error('Geef e-mail en naam van de beheerder op');
+      const location={data:await getLocation(root,body.slug)};if(location.data.is_primary)throw Error('Gebruik voor de hoofdvestiging het gewone uitnodigen');
+      const scoped=root.schema(location.data.schema_name);
       const existing=await scoped.from('mtf_staff').select('user_id').eq('email',email).maybeSingle();if(existing.error)throw existing.error;
       if(existing.data&&body.prepare_only===true)return json({ok:true,prepared:true,existing:true});
       let invite=await root.auth.admin.generateLink({type:existing.data?'magiclink':'invite',email});let type=existing.data?'magiclink':'invite';
       if(invite.error){invite=await root.auth.admin.generateLink({type:'magiclink',email});type='magiclink';}
       if(invite.error)throw invite.error;
       const permissions=Object.fromEntries(['orders','menu','warehouse','costs','finance','users','shop','payments'].map(k=>[k,true]));
-      const user=invite.data.user;const staff=existing.data?{error:null}:await scoped.from('mtf_staff').insert({user_id:user.id,email,name:'Anthony van Assendelft',owner:false,active:true,permissions});if(staff.error)throw staff.error;
+      const user=invite.data.user;const staff=existing.data?{error:null}:await scoped.from('mtf_staff').insert({user_id:user.id,email,name:managerName,owner:false,active:true,permissions});if(staff.error)throw staff.error;
       if(body.prepare_only===true)return json({ok:true,prepared:true});
-      const url='https://momsthaifood.nl/admin?location=oud-beijerland&token_hash='+encodeURIComponent(invite.data.properties.hashed_token)+'&type='+type;
-      const job=await scoped.from('mtf_mail_jobs').insert({dedupe:'ob-manager-'+user.id+'-'+invite.data.properties.hashed_token,kind:'invite',to_email:email,payload:{name:'Anthony',url}}).select('id').single();if(job.error)throw job.error;
+      const url=brand.siteUrl+'/admin?location='+encodeURIComponent(location.data.slug)+'&token_hash='+encodeURIComponent(invite.data.properties.hashed_token)+'&type='+type;
+      const job=await scoped.from('mtf_mail_jobs').insert({dedupe:'manager-'+location.data.slug+'-'+user.id+'-'+invite.data.properties.hashed_token,kind:'invite',to_email:email,payload:{name:managerName.split(' ')[0],url}}).select('id').single();if(job.error)throw job.error;
       const db={from:(t:string)=>scoped.from(t),rpc:(n:string,p:any)=>scoped.rpc(n,p),auth:root.auth,location:location.data};
       return json({ok:true,mail:await processMail(db,job.data.id)});
     }

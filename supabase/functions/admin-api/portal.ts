@@ -1,3 +1,5 @@
+import {brand} from "./brand.ts";
+import {hasFeature,orderNumber} from "./locations.ts";
 export function paymentLink(value:any){
  let u:URL;try{if(typeof value!=='string'||!value.trim())throw Error();u=new URL(value.trim());}catch{throw Error('Vul een geldige betaallink in, beginnend met http:// of https://');}
  if(!['http:','https:'].includes(u.protocol)||!u.hostname)throw Error('Vul een geldige betaallink in, beginnend met http:// of https://');
@@ -10,7 +12,7 @@ function text(x:any,max=1000){return String(x??'').trim().slice(0,max);}
 const escapeHTML=(s:any)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 async function checked(q:any){const r=await q;if(r.error)throw r.error;return r.data;}
 async function allRows(build:any){let rows:any[]=[];for(let start=0;start<=10000;start+=500){const page=await checked(build().range(start,start+499));rows.push(...page);if(page.length<500)return rows;}throw Error('Kies een kortere periode');}
-const website='https://bestellen.momsthaifood.nl/admin.html';
+const website=brand.adminUrl;
 export async function processMail(db:any,id:string){
  const job=await checked(db.from('mtf_mail_jobs').select('*').eq('id',id).single());
  if(['sent','cancelled'].includes(job.status))return {status:job.status};
@@ -20,38 +22,38 @@ export async function processMail(db:any,id:string){
  if(!claimed)return {status:job.status};
  try{
   const p=job.payload;let subject,body,plain;
-  if(job.kind==='payment'&&db.location?.slug==='oud-beijerland'&&!db.location.published)throw Error('Vestigingsmail is nog niet vrijgegeven');
+  if(job.kind==='payment'&&db.location&&!db.location.is_primary&&!db.location.published)throw Error('Vestigingsmail is nog niet vrijgegeven');
   if(job.kind==='payment'){
    const order=await checked(db.from('orders').select('status,payment_url,payment_status').eq('id',p.order_id).single());
    if(order.status==='Geannuleerd'||order.payment_status==='Betaald'||order.payment_url!==p.url)throw Error('Betaalverzoek is vervallen');
-   subject=`Betaalverzoek ${p.number} – Mom’s Thai Food`;
+   subject=`Betaalverzoek ${p.number} – ${brand.name}`;
    const amount=new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(p.total);
    body=`<p>Hoi ${escapeHTML(p.name)},</p><p>Hier is het betaalverzoek voor bestelling <strong>${escapeHTML(p.number)}</strong> van <strong>${amount}</strong>.</p><p><a style="background:#940c0d;color:white;padding:14px 20px;display:inline-block;border-radius:8px" href="${escapeHTML(p.url)}">Betaal je bestelling</a></p><p>Werkt de knop niet? ${escapeHTML(p.url)}</p>`;
    plain=`Hoi ${p.name}, betaalverzoek ${p.number}, ${amount}: ${p.url}`;
   }else if(['newyear','marketing','marketing_confirm'].includes(job.kind)){
-   if(db.location?.slug!=='spijkenisse')throw Error('Campagne niet beschikbaar bij deze vestiging');
+   if(!hasFeature(db.location,'marketing'))throw Error('Campagne niet beschikbaar bij deze vestiging');
    const cancel=async()=>{await checked(db.from('mtf_mail_jobs').update({status:'cancelled',last_error:'Toestemming of actie niet meer geldig'}).eq('id',id));return {status:'cancelled'};};
    if(job.kind==='newyear'){
     const v=await checked(db.from('mtf_newyear_vouchers').select('*').eq('code',p.code).maybeSingle());
     const o=v?await checked(db.from('orders').select('status,customer_email').eq('id',v.order_id).single()):null;
     if(!v||v.disabled||!o||o.status==='Geannuleerd'||o.customer_email.toLowerCase()!==job.to_email.toLowerCase())return await cancel();
     subject='Jouw nieuwjaarscadeau: '+v.percent+'% korting';
-    plain=`Bedankt voor je borrelpakket! Gebruik ${v.code} voor ${v.percent}% korting op eten van ${v.valid_from} t/m ${v.valid_until}. Eenmalig, gekoppeld aan je e-mail en telefoonnummer. Niet combineerbaar. Bezorgkosten uitgesloten. Bestel via https://momsthaifood.nl/menu`;
-    body=`<p>Bedankt voor je borrelpakket!</p><h2>Jouw persoonlijke code: ${escapeHTML(v.code)}</h2><p>${escapeHTML(v.percent)}% korting op eten van ${escapeHTML(v.valid_from)} t/m ${escapeHTML(v.valid_until)}. Eenmalig met hetzelfde e-mailadres en telefoonnummer. Niet combineerbaar; bezorgkosten uitgesloten.</p><p><a href="https://momsthaifood.nl/menu">Bestel je favoriete gerechten</a></p>`;
+    plain=`Bedankt voor je borrelpakket! Gebruik ${v.code} voor ${v.percent}% korting op eten van ${v.valid_from} t/m ${v.valid_until}. Eenmalig, gekoppeld aan je e-mail en telefoonnummer. Niet combineerbaar. Bezorgkosten uitgesloten. Bestel via ${brand.siteUrl}/menu`;
+    body=`<p>Bedankt voor je borrelpakket!</p><h2>Jouw persoonlijke code: ${escapeHTML(v.code)}</h2><p>${escapeHTML(v.percent)}% korting op eten van ${escapeHTML(v.valid_from)} t/m ${escapeHTML(v.valid_until)}. Eenmalig met hetzelfde e-mailadres en telefoonnummer. Niet combineerbaar; bezorgkosten uitgesloten.</p><p><a href="${brand.siteUrl}/menu">Bestel je favoriete gerechten</a></p>`;
    }else{
     const c=await checked(db.from('mtf_contacts').select('*').eq('email',job.to_email).maybeSingle());
     if(!c)return await cancel();
     if(job.kind==='marketing_confirm'){
      if(c.status!=='pending'||c.confirm_token!==p.token||Date.now()-Date.parse(c.requested_at)>7*86400000)return await cancel();
-     const url='https://momsthaifood.nl/nieuwsbrief#confirm='+c.confirm_token;
-     subject='Bevestig je nieuwsbriefinschrijving';plain='Bevestig je inschrijving voor aanbiedingen van Mom’s Thai Food: '+url+' . Geen aanvraag gedaan? Negeer deze mail.';
-     body=`<p>Je hebt je aangemeld voor aanbiedingen en nieuws van Mom’s Thai Food.</p><p><a href="${url}">Ja, bevestig mijn inschrijving</a></p><p>Deze link is 7 dagen geldig. Geen aanvraag gedaan? Negeer deze mail.</p>`;
+     const url=brand.siteUrl+'/nieuwsbrief#confirm='+c.confirm_token;
+     subject='Bevestig je nieuwsbriefinschrijving';plain='Bevestig je inschrijving voor aanbiedingen van '+brand.name+': '+url+' . Geen aanvraag gedaan? Negeer deze mail.';
+     body=`<p>Je hebt je aangemeld voor aanbiedingen en nieuws van ${escapeHTML(brand.name)}.</p><p><a href="${url}">Ja, bevestig mijn inschrijving</a></p><p>Deze link is 7 dagen geldig. Geen aanvraag gedaan? Negeer deze mail.</p>`;
     }else{
      if(c.status!=='subscribed')return await cancel();
      const campaign=await checked(db.from('mtf_marketing_campaigns').select('*').eq('id',p.campaign_id).single());
-     const url='https://momsthaifood.nl/nieuwsbrief#unsubscribe='+c.unsubscribe_token;
-     subject=campaign.subject;plain=campaign.body+'\n\nMom’s Thai Food, Spijkenisse. Contact: info@momsthaifood.nl\nAfmelden: '+url;
-     body=`<p>Hoi ${escapeHTML(c.name)},</p><div style="white-space:pre-wrap">${escapeHTML(campaign.body)}</div><p>Mom’s Thai Food · Spijkenisse · <a href="https://momsthaifood.nl/contact">Contact en bedrijfsgegevens</a></p><p><a href="${url}">Afmelden voor marketingmails</a></p>`;
+     const url=brand.siteUrl+'/nieuwsbrief#unsubscribe='+c.unsubscribe_token;
+     subject=campaign.subject;plain=campaign.body+'\n\n'+brand.name+', '+brand.place+'. Contact: '+brand.replyTo+'\nAfmelden: '+url;
+     body=`<p>Hoi ${escapeHTML(c.name)},</p><div style="white-space:pre-wrap">${escapeHTML(campaign.body)}</div><p>${escapeHTML(brand.name)} · ${escapeHTML(brand.place)} · <a href="${brand.siteUrl}/contact">Contact en bedrijfsgegevens</a></p><p><a href="${url}">Afmelden voor marketingmails</a></p>`;
     }
    }
   }else if(job.kind==='task'){
@@ -59,14 +61,14 @@ export async function processMail(db:any,id:string){
    const assignment=await checked(db.from('mtf_task_assignees').select('user_id').eq('task_id',p.task_id).eq('user_id',p.user_id).maybeSingle());
    const user=await checked(db.from('mtf_staff').select('active,email').eq('user_id',p.user_id).maybeSingle());
    if(!task||!['Open','In uitvoering'].includes(task.status)||!assignment||!user?.active||user.email!==job.to_email){await checked(db.from('mtf_mail_jobs').update({status:'cancelled',last_error:'Toewijzing niet meer actief'}).eq('id',id));return {status:'cancelled'};}
-   const url='https://momsthaifood.nl/admin?section=taken&location='+encodeURIComponent(db.location?.slug||'spijkenisse');
+   const url=brand.siteUrl+'/admin?section=taken&location='+encodeURIComponent(db.location?.slug||'');
    const deadline=new Intl.DateTimeFormat('nl-NL',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(p.deadline+'T12:00:00Z'));
    subject='Taak toegewezen: '+String(p.title).replace(/[\r\n]/g,' ');
-   body=`<p>Hoi ${escapeHTML(p.name||'collega')},</p><p>Er is een taak aan jou toegewezen bij Mom’s Thai Food.</p><h2>${escapeHTML(p.title)}</h2><p><strong>Deadline: ${escapeHTML(deadline)}</strong></p><p style="white-space:pre-wrap">${escapeHTML(p.information||'Geen aanvullende informatie.')}</p><p>Aangemaakt door ${escapeHTML(p.creator)}. Alle betrokken gebruikers kunnen de status aanpassen.</p><p><a style="background:#940c0d;color:white;padding:14px 20px;display:inline-block;border-radius:8px" href="${url}">Bekijk de takenlijst</a></p><p>Log in met je persoonlijke account.<br>${url}</p>`;
+   body=`<p>Hoi ${escapeHTML(p.name||'collega')},</p><p>Er is een taak aan jou toegewezen bij ${escapeHTML(brand.name)}.</p><h2>${escapeHTML(p.title)}</h2><p><strong>Deadline: ${escapeHTML(deadline)}</strong></p><p style="white-space:pre-wrap">${escapeHTML(p.information||'Geen aanvullende informatie.')}</p><p>Aangemaakt door ${escapeHTML(p.creator)}. Alle betrokken gebruikers kunnen de status aanpassen.</p><p><a style="background:#940c0d;color:white;padding:14px 20px;display:inline-block;border-radius:8px" href="${url}">Bekijk de takenlijst</a></p><p>Log in met je persoonlijke account.<br>${url}</p>`;
    plain=`Hoi ${p.name||'collega'}, er is een taak aan jou toegewezen: ${p.title}. Deadline: ${deadline}.\n\n${p.information||''}\n\nAangemaakt door ${p.creator}. Bekijk de taak en wijzig de status via je persoonlijke account: ${url}`;
-  }else{subject='Uitnodiging voor '+(db.location?.name||'Mom’s Thai Food');body=`<p>Hoi ${escapeHTML(p.name)},</p><p>Je bent uitgenodigd voor ${escapeHTML(db.location?.name||'Mom’s Thai Food')} in de portal. Kies een eigen wachtwoord om je account te activeren.</p><p><a href="${escapeHTML(p.url)}">Account activeren</a></p><p>Deze persoonlijke link is tijdelijk geldig. Deel hem niet.</p>`;plain=`Activeer je Mom’s Thai Food-account: ${p.url}`;}
+  }else{subject='Uitnodiging voor '+(db.location?.name||brand.name);body=`<p>Hoi ${escapeHTML(p.name)},</p><p>Je bent uitgenodigd voor ${escapeHTML(db.location?.name||brand.name)} in de portal. Kies een eigen wachtwoord om je account te activeren.</p><p><a href="${escapeHTML(p.url)}">Account activeren</a></p><p>Deze persoonlijke link is tijdelijk geldig. Deel hem niet.</p>`;plain=`Activeer je ${brand.name}-account: ${p.url}`;}
   const key=Deno.env.get('RESEND_API_KEY');if(!key)throw Error('E-mailservice ontbreekt');
-  const r=await fetch('https://api.resend.com/emails',{method:'POST',signal:AbortSignal.timeout(15000),headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json','Idempotency-Key':`mtf-portal-${job.id}`},body:JSON.stringify({from:job.kind==='payment'&&db.location?.slug==='oud-beijerland'?"Mom's Thai Food Oud-Beijerland <"+db.location.order_email+">":"Mom's Thai Food <bestellingen@mail.momsthaifood.nl>",to:[job.to_email],reply_to:db.location?.mailbox_ready?db.location.order_email:'info@momsthaifood.nl' ,subject,text:plain,html:`<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>${escapeHTML(subject)}</title></head><body style="background:#fffaf4;color:#262222;font-family:Arial;padding:24px;line-height:1.6"><h1 style="color:#940c0d">Mom’s Thai Food</h1>${body}<p>Thais eten bij jou thuis!</p></body></html>`})});
+  const r=await fetch('https://api.resend.com/emails',{method:'POST',signal:AbortSignal.timeout(15000),headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json','Idempotency-Key':`mtf-portal-${job.id}`},body:JSON.stringify({from:job.kind==='payment'&&db.location&&!db.location.is_primary?String(db.location.name).replace(/’/g,"'")+" <"+db.location.order_email+">":brand.mailName+" <"+brand.mailFrom+">",to:[job.to_email],reply_to:db.location?.mailbox_ready?db.location.order_email:brand.replyTo ,subject,text:plain,html:`<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>${escapeHTML(subject)}</title></head><body style="background:#fffaf4;color:#262222;font-family:Arial;padding:24px;line-height:1.6"><h1 style="color:${brand.color}">${escapeHTML(brand.name)}</h1>${body}<p>${escapeHTML(brand.tagline)}</p></body></html>`})});
   const result=await r.json();if(!r.ok)throw Error('E-mailservice gaf fout '+r.status);
   await checked(db.from('mtf_mail_jobs').update({status:'sent',resend_id:result.id,sent_at:new Date().toISOString(),last_error:null}).eq('id',id));return {status:'sent'};
  }catch(e){await checked(db.from('mtf_mail_jobs').update({status:'failed',last_error:String(e).slice(0,300)}).eq('id',id));return {status:'failed'};}
@@ -111,13 +113,13 @@ export async function portalAction(db:any,body:any,actor:any){
   const existing=await checked(db.from('mtf_staff').select('*').eq('email',email).maybeSingle());if(existing)throw Error('Dit account bestaat al. Gebruik Opnieuw uitnodigen of wijzig de rechten.');
   const {data,error}=await db.auth.admin.generateLink({type:'invite',email});if(error)throw error;
   await checked(db.from('mtf_staff').insert({user_id:data.user.id,email,name:text(body.name,100),owner,permissions}));
-  const url=website+'?location='+encodeURIComponent(db.location?.slug||'spijkenisse')+'&token_hash='+encodeURIComponent(data.properties.hashed_token)+'&type=invite';
+  const url=website+'?location='+encodeURIComponent(db.location?.slug||'')+'&token_hash='+encodeURIComponent(data.properties.hashed_token)+'&type=invite';
   const job=await checked(db.from('mtf_mail_jobs').insert({dedupe:'invite-'+data.user.id+'-'+data.properties.hashed_token,kind:'invite',to_email:email,payload:{name:text(body.name,100),url}}).select('id').single());return {ok:true,mail:await processMail(db,job.id)};
  }
  if(a==='staff_reinvite'){
   requireRight(actor,'users');const user=await checked(db.from('mtf_staff').select('*').eq('user_id',body.id).single());if(!user.active)throw Error('Activeer eerst het account');
   const {data,error}=await db.auth.admin.generateLink({type:'magiclink',email:user.email});if(error)throw error;
-  const job=await checked(db.from('mtf_mail_jobs').insert({dedupe:'invite-'+user.user_id+'-'+data.properties.hashed_token,kind:'invite',to_email:user.email,payload:{name:user.name,url:website+'?location='+encodeURIComponent(db.location?.slug||'spijkenisse')+'&token_hash='+encodeURIComponent(data.properties.hashed_token)+'&type=magiclink'}}).select('id').single());return {mail:await processMail(db,job.id)};
+  const job=await checked(db.from('mtf_mail_jobs').insert({dedupe:'invite-'+user.user_id+'-'+data.properties.hashed_token,kind:'invite',to_email:user.email,payload:{name:user.name,url:website+'?location='+encodeURIComponent(db.location?.slug||'')+'&token_hash='+encodeURIComponent(data.properties.hashed_token)+'&type=magiclink'}}).select('id').single());return {mail:await processMail(db,job.id)};
  }
  if(a==='staff_update'){
   requireRight(actor,'users');const user=await checked(db.from('mtf_staff').select('*').eq('user_id',body.id).single());if(user.owner)throw Error('Het eigenaarsaccount blijft actief en behoudt alle rechten');
@@ -128,7 +130,7 @@ export async function portalAction(db:any,body:any,actor:any){
   const u=paymentLink(body.url);
   await checked(db.from('orders').update({payment_url:u.href}).eq('id',o.id));const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(u.href)))).map(x=>x.toString(16).padStart(2,'0')).join('');
   const dedupe='pay-'+o.id+'-'+hash;let job=await checked(db.from('mtf_mail_jobs').select('id').eq('dedupe',dedupe).maybeSingle());
-  if(!job){const number=db.location?.slug==='oud-beijerland'?'MTFOB'+String(o.order_number).padStart(5,'0'):Number(o.order_number)<=999?'MTF00284'+String(o.order_number).padStart(3,'0'):String(o.order_number);const insert=await db.from('mtf_mail_jobs').insert({dedupe,kind:'payment',to_email:o.customer_email,payload:{order_id:o.id,number,name:o.customer_name,total:Number(o.total),url:u.href}}).select('id').single();if(insert.error?.code==='23505')job=await checked(db.from('mtf_mail_jobs').select('id').eq('dedupe',dedupe).single());else{if(insert.error)throw insert.error;job=insert.data;}}
+  if(!job){const number=orderNumber(db.location,o.order_number);const insert=await db.from('mtf_mail_jobs').insert({dedupe,kind:'payment',to_email:o.customer_email,payload:{order_id:o.id,number,name:o.customer_name,total:Number(o.total),url:u.href}}).select('id').single();if(insert.error?.code==='23505')job=await checked(db.from('mtf_mail_jobs').select('id').eq('dedupe',dedupe).single());else{if(insert.error)throw insert.error;job=insert.data;}}
   return {mail:await processMail(db,job.id)};
  }
  if(a==='payment_status'){requireRight(actor,'payments');if(!['Open','Betaald'].includes(body.status))throw Error('Ongeldige betaalstatus');await checked(db.from('orders').update({payment_status:body.status}).eq('id',body.id));return {ok:true};}

@@ -21,19 +21,50 @@
    publishableKey:'sb_publishable_vgBUmNL3a1fShF4jMOzT8g_eTPTaQyE'
   },
 
+  /* Vestigingen. defaultLocation is de hoofdvestiging.
+     Per vestiging:
+     - cartKey: sleutel van het winkelmandje in de browser;
+     - orderNumber(raw): bestelnummer zoals klant en beheer het zien;
+     - features: extra's die alleen bij deze vestiging horen ('welkom10', 'seasonal' = feestdagenmenu, 'marketing' = nieuwsbrief en campagnes);
+     - page (optioneel): hoe de site zich aanpast als deze vestiging gekozen is.
+       l is de vestiging uit de database (name, address, order_email, published). */
   defaultLocation:'spijkenisse',
   locations:{
-   'spijkenisse':{cartKey:'mtf_cart_v1'},
-   'oud-beijerland':{cartKey:'mtf_cart_ob_v1'}
+   'spijkenisse':{
+    cartKey:'mtf_cart_v1',
+    /* Bestaande nummering: MTF00284001 t/m MTF00284999. */
+    orderNumber:raw=>{const n=Number(raw);return Number.isSafeInteger(n)&&n>=1&&n<=999?'MTF00284'+String(raw).padStart(3,'0'):String(raw??'');},
+    features:['welkom10','seasonal','marketing']
+   },
+   'oud-beijerland':{
+    cartKey:'mtf_cart_ob_v1',
+    orderNumber:raw=>'MTFOB'+String(raw??'').padStart(5,'0'),
+    features:[],
+    page:{
+     title:'Mom’s Thai Food Oud-Beijerland',
+     barText:l=>l.address+' · Maximaal 10 km via de autoroute'+(l.published?'':' · Nog niet geopend'),
+     /* Teksten over het werkgebied van de hoofdvestiging worden vervangen. */
+     replaceText:/Spijkenisse|Hoogvliet/,
+     replacementText:l=>'Thais eten in Oud-Beijerland en omgeving. '+l.address+'.',
+     contactText:l=>l.address+' · '+l.order_email,
+     useOrderEmail:true,
+     hidePhone:true,
+     addressPlaceholders:['Straat en huisnummer','Postcode en plaats']
+    }
+   }
   }
  };
 
- /* Bestelnummer zoals klant en beheer het zien. Spijkenisse houdt de bestaande nummering (MTF00284001 t/m MTF00284999). */
- config.orderNumber=function(slug,raw){
-  const n=Number(raw);
-  if(slug==='oud-beijerland')return 'MTFOB'+String(raw??'').padStart(5,'0');
-  return Number.isSafeInteger(n)&&n>=1&&n<=999?'MTF00284'+String(raw).padStart(3,'0'):String(raw??'');
- };
+ const loc=slug=>config.locations[slug]||config.locations[config.defaultLocation];
+
+ /* Bestelnummer zoals klant en beheer het zien. */
+ config.orderNumber=function(slug,raw){return loc(slug).orderNumber(raw);};
+
+ /* Heeft deze vestiging een bepaald extraatje (bijv. 'welkom10', 'seasonal')? */
+ config.hasFeature=function(slug,name){return (config.locations[slug]?.features||[]).includes(name);};
+
+ /* Bestaat deze vestiging in de instellingen? Zo niet: de hoofdvestiging. */
+ config.validLocation=function(slug){return Object.hasOwn(config.locations,slug)?slug:config.defaultLocation;};
 
  /* Standaardfoto voor een gerecht zonder eigen foto: eerst op woorden in de naam, dan op categorie.
     Inhoud is bedrijfsspecifiek; de volgorde telt (eerste treffer wint). */
@@ -71,7 +102,7 @@
 
  /* Sleutel van het winkelmandje in de browser, per vestiging. */
  config.cartKey=function(slug){
-  return (config.locations[slug]||config.locations[config.defaultLocation]).cartKey;
+  return loc(slug).cartKey;
  };
 
  /* Echte database alleen op de productie-adressen; overal anders de testdatabase. */
