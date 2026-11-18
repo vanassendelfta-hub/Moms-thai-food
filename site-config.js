@@ -37,7 +37,7 @@
              homeDeals (combideals op home), cinematicMenu (filmische menukaart), game, infoDock, stats.
     Beheer:  tasks, map (bezorgkaart), warehouse (magazijn), finance, receipts (bonnen), seasonal (feestdagen),
              adminPromotions (coupons en reviews beheren), addons (extra's bij gerechten), siteStats (websitestatistieken). */
- config.modules=['cinematicMenu','homeDeals','infoDock',
+ config.modules=['homeDeals','infoDock',
   'map','receipts','seasonal','addons','tasks','finance'];
  config.module=function(name){return config.modules.includes(name);};
  /* Script van een module alleen laden als de module aan staat. Gebruik tijdens het laden van de pagina:

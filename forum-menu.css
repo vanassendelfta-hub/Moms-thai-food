@@ -1,0 +1,87 @@
+/* Forum Cateringservice: menukaart in de stijl van een klassieke Chinese kaart.
+   Rood lak, goud en zwart; genummerde gerechten met prijs na een stippellijn. */
+body.fm{--fm-red:var(--mtf-red,#c80f1a);--fm-gold:var(--mtf-gold,#f6c64a);--fm-ink:#0b0707;--fm-paper:#140c0b;--fm-line:rgba(246,198,74,.22);--fm-serif:'Cormorant Garamond',Georgia,serif;background:var(--fm-ink)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Kop met foto, rood zegel en portieschakelaar */
+.fm-hero{position:relative;overflow:hidden;border-bottom:3px double var(--fm-gold);background:#1a0304}
+.fm-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;filter:saturate(.9)}
+.fm-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#120203 0%,rgba(90,5,10,.82) 48%,rgba(18,2,3,.35) 100%)}
+.fm-hero-in{position:relative;z-index:1;max-width:1240px;margin:auto;padding:clamp(34px,6vw,64px) 24px;display:flex;gap:clamp(18px,4vw,40px);align-items:center}
+.fm-hero-seal{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:clamp(74px,10vw,104px);padding:14px 0;background:var(--fm-red);border:2px solid var(--fm-gold);outline:1px solid var(--fm-gold);outline-offset:4px;border-radius:6px;color:var(--fm-gold);font:700 clamp(34px,5vw,50px)/1.05 "Noto Serif SC","Songti SC",serif;box-shadow:0 10px 30px #0008}
+.fm-kicker{margin:0 0 6px;color:var(--fm-gold);font-size:12px;letter-spacing:2.4px;text-transform:uppercase}
+.fm-hero h1{margin:0 0 10px;font:700 clamp(38px,6vw,68px)/1 var(--fm-serif);color:#fff6e2;letter-spacing:-.5px}
+.fm-hero-copy>p:not(.fm-kicker){max-width:560px;margin:0;color:#ead9c4;line-height:1.6}
+.fm-portion{display:inline-flex;margin-top:20px;padding:4px;border:1px solid var(--fm-gold);border-radius:999px;background:#0009}
+.fm-portion button{border:0;background:transparent;color:#f3e3c4;font:600 14px/1 inherit;font-family:inherit;padding:11px 18px;border-radius:999px;cursor:pointer;min-height:40px}
+.fm-portion button[aria-pressed=true]{background:var(--fm-gold);color:#2a0405}
+
+/* Indeling: index links, kaart rechts */
+.fm-content{max-width:1240px;margin:auto;padding:28px 24px 40px}
+.fm-menu{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;align-items:start}
+.fm-index{position:sticky;top:calc(var(--fm-top,64px) + 20px);max-height:calc(100vh - 100px);overflow:auto;padding:16px 14px 18px;background:var(--fm-paper);border:1px solid var(--fm-line);border-radius:10px;scrollbar-width:thin}
+.fm-search{display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid var(--fm-line);border-radius:8px;background:#000;color:var(--fm-gold)}
+.fm-search svg{width:17px;height:17px;flex:none}
+.fm-search input{flex:1;min-width:0;border:0;background:transparent;color:#fff;font:15px inherit;font-family:inherit;padding:11px 0;outline:0}
+.fm-search:focus-within{border-color:var(--fm-gold)}
+.fm-pills.chips{display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;gap:1px;margin-top:12px;padding:0;background:none;border:0}
+.fm-group{display:flex;align-items:center;gap:8px;margin:14px 0 4px;color:var(--fm-gold);font:700 12px inherit;font-family:inherit;letter-spacing:1.6px;text-transform:uppercase}
+.fm-group i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:4px;background:var(--fm-red);color:var(--fm-gold);font-size:13px;letter-spacing:0}
+.fm-pill{all:unset;box-sizing:border-box;display:block;width:100%;padding:7px 10px 7px 30px;border-radius:6px;color:#d9cdbb;font-size:14px;line-height:1.3;cursor:pointer}
+.fm-pill:hover{color:#fff;background:#ffffff0d}
+.fm-pill.is-on{color:#2a0405;background:var(--fm-gold);font-weight:600}
+.fm-pill:focus-visible{outline:2px solid var(--fm-gold);outline-offset:1px}
+body.fm:not(.fm-small) [data-small="1"],body.fm.fm-small [data-small="0"]{display:none!important}
+
+/* Categorie: rood zegel, serif titel, dubbele gouden lijn */
+#menuGrid{min-width:0}
+#menuGrid.loading{color:#cbb;padding:40px 0}
+.fm-cat{scroll-margin-top:90px;margin:0 0 42px}
+.fm-cat-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:14px;margin-bottom:6px;border-bottom:3px double var(--fm-gold)}
+.fm-seal{flex:none;display:grid;place-items:center;width:52px;height:52px;background:var(--fm-red);color:var(--fm-gold);border-radius:6px;font:700 28px "Noto Serif SC","Songti SC",serif;box-shadow:inset 0 0 0 2px #2a0405,inset 0 0 0 3px var(--fm-gold)}
+.fm-cat-head small{color:var(--mtf-gold-muted,#cda76a);font-size:11px;letter-spacing:1.8px;text-transform:uppercase}
+.fm-cat-head h3{margin:2px 0 0;font:700 clamp(26px,3.2vw,36px)/1.1 var(--fm-serif);color:#fff3dc}
+.fm-cat-head p{margin:6px 0 0;color:#cdb9a0;font:italic 600 17px/1.4 var(--fm-serif)}
+.fm-list{display:grid;grid-template-columns:1fr 1fr;column-gap:34px}
+
+/* Gerechtregel: nummer, naam ..... prijs, plusknop */
+.fm-dish{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--fm-line)}
+.fm-no{display:grid;place-items:center;min-width:36px;height:36px;padding:0 6px;border:1px solid var(--fm-gold);border-radius:50%;color:var(--fm-gold);font:700 15px var(--fm-serif);box-sizing:border-box}
+.fm-no--x{border-style:dotted}
+.fm-line{display:flex;align-items:baseline;gap:8px}
+.fm-line h4{margin:0;color:#fff1d6;font:700 19px/1.25 var(--fm-serif)}
+.fm-line i{flex:1;min-width:14px;border-bottom:2px dotted rgba(246,198,74,.45);transform:translateY(-4px)}
+.fm-line b{color:var(--fm-gold);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fm-body p{margin:4px 0 0;color:#bfae98;font-size:14px;line-height:1.45}
+.fm-hot{display:inline-grid;place-items:center;width:20px;height:20px;margin-left:4px;border-radius:50%;background:var(--fm-red);color:#fff;font:700 11px sans-serif;vertical-align:2px}
+.fm-add{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;border:0;background:var(--fm-red);color:#fff;font:400 24px/1 sans-serif;cursor:pointer;box-shadow:0 0 0 1px #0007,0 4px 12px rgba(200,15,26,.35);transition:transform .15s,background .15s}
+.fm-add:hover{background:#e01b27;transform:scale(1.07)}
+.fm-add:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.fm-empty{color:#cbb;padding:30px 0}
+
+@media(max-width:1100px){.fm-list{grid-template-columns:1fr}}
+@media(max-width:900px){
+ .fm-menu{display:block}
+ .fm-index{position:sticky;top:var(--fm-top,64px);z-index:20;max-height:none;overflow:visible;margin:0 -24px 18px;padding:10px 16px;border-radius:0;border-width:0 0 1px;background:rgba(11,7,7,.96);backdrop-filter:blur(6px)}
+ .fm-pills.chips{flex-direction:row;flex-wrap:nowrap;justify-content:flex-start;gap:6px;overflow-x:auto;padding-bottom:2px;margin-top:10px;scrollbar-width:none}
+ .fm-pills::-webkit-scrollbar{display:none}
+ .fm-group{display:none!important}
+ .fm-pill{flex:none;width:auto;padding:8px 13px;border:1px solid var(--fm-line);border-radius:999px;font-size:13px;white-space:nowrap}
+ .fm-content{padding:0 16px 32px}
+ .fm-index{margin:0 -16px 16px}
+ .fm-cat{scroll-margin-top:calc(var(--fm-top,64px) + 160px)}
+}
+@media(max-width:560px){
+ .fm-hero-in{padding:26px 16px;gap:14px;align-items:flex-start}
+ .fm-hero-seal{width:58px;font-size:28px;padding:10px 0;outline-offset:3px}
+ .fm-hero-copy>p:not(.fm-kicker){font-size:14px}
+ .fm-portion{display:flex}
+ .fm-portion button{flex:1;padding:10px 8px;font-size:13px}
+ .fm-dish{gap:10px}
+ .fm-no{min-width:32px;height:32px;font-size:14px}
+ .fm-line{flex-wrap:wrap;column-gap:6px}
+ .fm-line h4{font-size:18px}
+ .fm-line i{display:none}
+ .fm-line b{flex-basis:100%;order:3;font-size:15px}
+ .fm-seal{width:42px;height:42px;font-size:22px}
+}
