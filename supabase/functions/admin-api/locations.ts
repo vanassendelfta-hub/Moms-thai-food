@@ -13,6 +13,8 @@ export async function getLocation(root:any,slug:any=null){
  if(!l)throw Error('Onbekende vestiging');
  if(!SCHEMA_RE.test(l.schema_name)||(l.is_primary&&l.schema_name!=='public'))throw Error('Ongeldige vestigingsconfiguratie');return l;
 }
+/* Vestiging met deze slug, anders de hoofdvestiging. Voor openbare aanroepen die bij een onbekende vestiging terugvallen. */
+export async function locationOrPrimary(root:any,slug:any){if(slug){try{return await getLocation(root,slug);}catch{/* terugvallen */}}return await getLocation(root,null);}
 export function scopedDb(root:any,l:any){const db=l.schema_name==='public'?root:root.schema(l.schema_name);return {from:(t:string)=>db.from(t),rpc:(n:string,p:any)=>db.rpc(n,p),auth:root.auth,storage:root.storage,location:l,root};}
 export async function selectAdminLocation(root:any,body:any,user:any,legacy=false){
  const all=await checked(root.from('mtf_locations').select('*').order('created_at').order('slug'));

@@ -120,7 +120,7 @@
  /* Echte database alleen op de productie-adressen; overal anders de testdatabase. */
  const host=(typeof location!=='undefined'&&location.hostname)||'';
  config.environment=config.productionHosts.includes(host)?'live':'test';
- if(config.environment==='test'){config.supabaseUrl=config.test.supabaseUrl;config.publishableKey=config.test.publishableKey;}
+ if(config.environment==='test'&&config.test?.supabaseUrl){config.supabaseUrl=config.test.supabaseUrl;config.publishableKey=config.test.publishableKey;}
 
  config.locationSlugs=Object.keys(config.locations);
  Object.freeze(config.modules);

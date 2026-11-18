@@ -45,5 +45,18 @@ Nog te doen bij livegang 4a
   Alles uit = geen modulescripts of -aanroepen, geen iDEAL-keuze, bestellen werkt, beheer toont alleen Overzicht,
   Bestellingen, Gerechten, Gebruikers en Openingstijden; geen fouten.
 - Later (platformbeheer): modules ook op de server afdwingen voor betaalde pakketten.
-## 4c. Nieuwe klant-database uit migraties — open
+## 4c. Nieuwe klant opzetten — klaar (bestanden en handleiding; nog geen echte tweede klant)
+
+- Alle serverfuncties staan nu in de repository (eerder ontbraken mollie-pay, promotions, site-stats, game,
+  review-mail-worker, portal-mail-worker en dynamic-handler). Vaste vestigingen, websiteadressen, merknaam,
+  logo's en adres zijn vervangen door `locations.ts` en `brand.ts`.
+- Gedeelde serverbestanden staan in `supabase/functions/_shared/`; `tools/sync_shared.py` kopieert ze naar elke functie
+  (`--check` controleert).
+- `supabase/platform/`: volledig schema (hoofdvestiging), opstartgedeelte (extensies, opslag, startinstellingen,
+  hoofdvestiging, geplande mailtaken) en sjabloon voor een extra vestiging; generatoren in `platform_tools.sql`.
+  Getest in een teruggedraaide transactie in de testdatabase: alles bouwt op, aantallen gelijk aan het origineel.
+- `PLATFORM-NIEUWE-KLANT.md`: stappenplan, lijst met geheimen, uitrol van functies en controlelijst.
+- De nieuwe versies van de zeven functies zijn nog niet uitgerold (test heeft bewust geen mail/Mollie);
+  bij livegang samen uitrollen en controleren met een echte bestelling.
+- Nog open: een echte proefinstallatie in een leeg Supabase-project (gratis plan: maximaal 2 actieve projecten).
 ## 4d. Platformbeheer — open
