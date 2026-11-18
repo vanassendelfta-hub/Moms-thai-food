@@ -29,7 +29,7 @@ Getest
 - Echte testfunctie `admin-hours` (test): eigenaar standaard Spijkenisse en toegang tot beide; medewerker alleen Spijkenisse; onbekende vestiging geweigerd.
 
 Nog te doen bij livegang 4a
-- `admin-api` is aangepast maar nog niet naar test of live gezet (te groot voor één upload via deze koppeling; eerst `materials.ts` naar privé-opslag, dan uitrollen).
+- `admin-api` staat op test; live uitrollen met de live `materials.ts` (zie LIVEGANG-FASE4.md).
 - Migratie op live draaien (voegt alleen kolommen toe en verruimt controles; oude servercode blijft werken).
 - Daarna `place-order`, `admin-hours`, `admin-api` live uitrollen, dan de website.
 
@@ -56,8 +56,10 @@ Nog te doen bij livegang 4a
   hoofdvestiging, geplande mailtaken) en sjabloon voor een extra vestiging; generatoren in `platform_tools.sql`.
   Getest in een teruggedraaide transactie in de testdatabase: alles bouwt op, aantallen gelijk aan het origineel.
 - `PLATFORM-NIEUWE-KLANT.md`: stappenplan, lijst met geheimen, uitrol van functies en controlelijst.
-- De nieuwe versies van de zeven functies zijn nog niet uitgerold (test heeft bewust geen mail/Mollie);
-  bij livegang samen uitrollen en controleren met een echte bestelling.
+- Alle tien functies staan nu op test (versie van branch `platform`; `dynamic-handler` met verify_jwt aan, de rest uit).
+  `admin-api` op test volledig getest (30 aanroepen: anoniem 401, medewerker- en eigenaarrechten, vestigingen).
+  Mail en Mollie zijn in test bewust niet ingesteld; die delen worden bij de livegang gecontroleerd met een echte bestelling.
+- Livegang: zie `LIVEGANG-FASE4.md` (volgorde, controles, terugdraaien).
 - Nog open: een echte proefinstallatie in een leeg Supabase-project (gratis plan: maximaal 2 actieve projecten).
 ## 4d. Platformbeheer — eerste versie klaar
 
