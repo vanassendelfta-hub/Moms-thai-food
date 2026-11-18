@@ -66,6 +66,10 @@ revoke all on function public.mtf_catering_submit(jsonb) from public;
 revoke all on function public.mtf_catering_staff() from public;
 revoke all on function public.mtf_catering_list() from public;
 revoke all on function public.mtf_catering_set_status(uuid,text) from public;
+-- Supabase geeft anon/authenticated standaard uitvoerrecht; expliciet intrekken.
+revoke execute on function public.mtf_catering_list() from anon;
+revoke execute on function public.mtf_catering_set_status(uuid,text) from anon;
+revoke execute on function public.mtf_catering_staff() from anon, authenticated;
 grant execute on function public.mtf_catering_submit(jsonb) to anon, authenticated;
 grant execute on function public.mtf_catering_list() to authenticated;
 grant execute on function public.mtf_catering_set_status(uuid,text) to authenticated;
