@@ -119,8 +119,7 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
   ['/forum/pand-vloot.jpg','Kelvinweg 11, Spijkenisse','Onze keuken',['-3%','2%'],['2%','-1%']],
   ['/forum/bus-evenement.jpg','Wij rijden voor u uit','Bezorging in de regio',['3%','0'],['-3%','1%']],
   ['/forum/gerecht-kip-cashew.jpg','Vers uit de wok','Kong po · Cantonese stijl',['2%','3%'],['-2%','-2%']],
-  ['/forum/buffet.jpg','Uw buffet, wij verzorgen het','Catering op locatie',['0','-4%'],['0','3%']],
-  ['/forum/gerecht-bami-nasi.jpg','Bami, nasi of witte rijst','Bij elk hoofdgerecht',['-2%','-2%'],['2%','2%']]
+  ['/forum/buffet.jpg','Uw buffet, wij verzorgen het','Catering op locatie',['0','-4%'],['0','3%']]
  ];
  const els=shots.map(([src,,,f,t])=>{const d=document.createElement('div');d.className='shot';const i=new Image();i.src=src;i.alt='';i.decoding='async';
   i.style.setProperty('--fx',f[0]);i.style.setProperty('--fy',f[1]);i.style.setProperty('--tx',t[0]);i.style.setProperty('--ty',t[1]);d.append(i);reel.append(d);return d;});
@@ -128,7 +127,7 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
  /* Locatie meenemen naar de volgende pagina */
  try{const loc=window.MTFLocation&&window.MTFLocation.slug;if(loc&&loc!==SITE_CONFIG.defaultLocation){for(const id of ['orderBtn','homeBtn']){const a=document.getElementById(id);a.href=a.getAttribute('href')+'?location='+encodeURIComponent(loc);}}}catch{}
 
- /* Volgorde: welkom op het pand → pand → busje → overige shots → titelscherm op het pand. */
+ /* Volgorde: welkom op het pand → pand → busje → wok → buffet → titelscherm op het pand. */
  let timers=[],done=false,cur=-1;
  const show=i=>{els.forEach((e,k)=>e.classList.toggle('on',k===i));cur=i;};
  const caption=i=>{cap.classList.remove('on');if(i<0)return;setTimeout(()=>{cap.innerHTML=shots[i][1]+'<small>'+shots[i][2]+'</small>';cap.classList.add('on');},350);};
@@ -136,7 +135,7 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
  let loopT;function loopReel(){clearInterval(loopT);if(reduce)return;loopT=setInterval(()=>show((cur+1)%els.length),7000);}
  if(reduce){finish();}else{
   const at=[[150,()=>{st.classList.add('s1');show(0);}],[2300,()=>{st.classList.add('s2');caption(0);}],
-   [5000,()=>{show(1);caption(1);}],[7900,()=>{show(2);caption(2);}],[10800,()=>{show(3);caption(3);}],[13700,()=>{show(4);caption(4);}],[16300,finish]];
+   [4700,()=>{show(1);caption(1);}],[7100,()=>{show(2);caption(2);}],[9500,()=>{show(3);caption(3);}],[12000,finish]];
   at.forEach(([t,f])=>timers.push(setTimeout(f,t)));
  }
  document.getElementById('skip').addEventListener('click',finish);
