@@ -7,7 +7,12 @@
       online-mislukt gedragen zich identiek aan de vorige versie.
 
 ## Volgende stappen
-- [ ] 3b. Mandje en prijsberekening uit app.js losmaken als module (MTF.cart), zonder de HTML-opbouw aan te raken.
+- [x] 3b. Mandje en prijsberekening uit app.js losmaken als module (MTF.cart), zonder de HTML-opbouw aan te raken.
+  - `mtf-cart.js` (na order-rules.js, vóór app.js): key, line, count, subtotalCents, canIncrease, items, load, save, quote.
+  - Bezorgregels staan één keer in `MTFOrderRules.delivery` (minimum € 20, gratis vanaf € 35, anders € 2,50) en `deliveryFeeCents()`; app.js en de couponcode rekenen niet meer zelf.
+  - Oude tekst "uiterlijk om 16:00" in app.js vervangen door de echte besteltijd van die dag.
+  - Getest oud tegen nieuw: mandjescenario (varianten, plus/min, max 50, bezorgen/afhalen rond € 20 en € 35, coupon, herladen, bestellen) in beide locaties gelijk; 500.025 prijsgevallen gelijk; paginaverzoeken, bestelflow en screenshots gelijk.
+  - `supabase/functions/place-order/order-rules.js` bijgewerkt (gedrag gelijk); meenemen bij de volgende uitrol van place-order.
 - [ ] 3c. Gerechtkaarten en mandje tekenen via vervangbare sjablonen (per ontwerp aan te passen).
 - [x] 3d. Dagmenu-filter met vaste gerechtnamen bleek dode code (geen pagina heeft [data-day]) en is verwijderd.
       Regels voor standaardfoto's (photoFor in app.js én admin-extra.js) staan nu één keer in site-config.js

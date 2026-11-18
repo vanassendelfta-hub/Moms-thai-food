@@ -43,11 +43,15 @@
   if(date===c.date&&m*60<=c.seconds)throw Error('Kies een afhaal- of bezorgmoment dat nog in de toekomst ligt.');
   return true;
  }
+ /* Bezorgregels in centen: minimum voor bezorgen, gratis bezorgen vanaf, bezorgkosten daaronder. */
+ const delivery=Object.freeze({minimumCents:2000,freeFromCents:3500,feeCents:250});
+ const euroText=c=>'€ '+(c/100).toFixed(2).replace('.',',');
+ const deliveryFeeCents=(subtotalCents,method)=>method==='Bezorgen'&&subtotalCents<delivery.freeFromCents?delivery.feeCents:0;
  function price(subtotalCents,method){
   if(!Number.isSafeInteger(subtotalCents)||subtotalCents<0)throw Error('Ongeldig bestelbedrag.');
   if(!['Afhalen','Bezorgen'].includes(method))throw Error('Kies afhalen of bezorgen.');
-  if(method==='Bezorgen'&&subtotalCents<2000)throw Error('Voor bezorgen geldt een minimale bestelwaarde van € 20,00, exclusief bezorgkosten.');
-  const deliveryCents=method==='Bezorgen'&&subtotalCents<3500?250:0;
+  if(method==='Bezorgen'&&subtotalCents<delivery.minimumCents)throw Error('Voor bezorgen geldt een minimale bestelwaarde van '+euroText(delivery.minimumCents)+', exclusief bezorgkosten.');
+  const deliveryCents=deliveryFeeCents(subtotalCents,method);
   return {subtotal:subtotalCents/100,delivery_fee:deliveryCents/100,total:(subtotalCents+deliveryCents)/100};
  }
  function nextDate(now=new Date()){
@@ -55,7 +59,7 @@
   for(let i=0;i<366;i++){const date=d.toISOString().slice(0,10);if(opening(date)&&(date!==c.date||c.seconds<=cutoff(date)*60))return date;d.setUTCDate(d.getUTCDate()+1);}
  }
  const formatTime=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
- return {clock,opening,validateMoment,price,nextDate,formatTime,setClosures,closedReason,cutoff,setHours,openDaysText,weekHours:()=>JSON.parse(JSON.stringify({hours,cutoffs}))};
+ return {clock,opening,validateMoment,price,delivery,deliveryFeeCents,nextDate,formatTime,setClosures,closedReason,cutoff,setHours,openDaysText,weekHours:()=>JSON.parse(JSON.stringify({hours,cutoffs}))};
  }
  root.MTFOrderRules=Object.assign(create(),{create});
 })(globalThis);
