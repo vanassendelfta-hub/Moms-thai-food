@@ -1,0 +1,38 @@
+# Fase 4 – meerdere klanten
+
+Alles in deze fase gebeurt eerst op de branch `platform` en in de testdatabase (ipbvjszctqgtidcouidc).
+Live alleen samen met Anthony, op een sluitingsdag.
+
+## 4a. Vestigingen en merk niet meer vast in de code — klaar (test)
+
+Website
+- `site-config.js`: per vestiging `cartKey`, `orderNumber`, `features` (welkom10, seasonal, marketing) en optioneel `page` (titel, balktekst, tekstvervanging, contact, telefoon verbergen, adresvelden).
+- Gedeelde scripts (branch.js, welkom10.js, welkom3.js, index.html, betaald.html, admin-feestdagen.js, admin-locations.js) kennen geen vestigingsnamen meer.
+- Het formulier "vestiging gereedmaken" in admin.html noemt zijn vestiging via `data-slug`.
+
+Database (migratie `20261118120000_flexible_locations.sql`, alleen test)
+- `mtf_locations`: `is_primary` (precies één, altijd schema public), `features`, `order_prefix`/`order_pad`/`order_max`.
+- Vaste lijsten (`slug in (spijkenisse, oud-beijerland)`, `schema in (public, mtf_ob)`) vervangen door formaatcontroles; reviewmails verwijzen naar `mtf_locations`.
+- `mtf_location_schema(slug)`; `mtf_dish_popularity` en `mtf_enqueue_review_mail` werken voor elke vestiging.
+
+Servercode (supabase/functions)
+- `locations.ts` (drie kopieën, zelfde kern): hoofdvestiging en schema uit de tabel, `hasFeature`, `orderNumber`.
+- `brand.ts`: merknaam, website, afzender, reply-to, plaats, slogan en kleur via secrets `MTF_*`; standaard de waarden van Mom's Thai Food.
+- `place-order`: WELKOM10, feestdagenmenu en nieuwsbrief volgen `features`.
+- `admin-api`: betaal-/campagne-/uitnodigingsmails via `brand`; feestdagenbeheer via `features`; `location_provision_manager` is algemeen (slug, e-mail, naam) en bevat geen persoonlijke gegevens meer.
+
+Getest
+- Website oud tegen nieuw: 60 combinaties pagina × vestiging × open/dicht gelijk; mandje, HTML, paginaverzoeken en bestelflow gelijk.
+- Database: populariteit (alle vestigingen, ook met tijdelijke OB-bestellingen) en reviewmail-vestiging gelijk aan voorheen.
+- Bestelnummers server: 57.154 gevallen gelijk aan de oude formule.
+- Echte testfunctie `place-order` (test): standaardvestiging, onbekende/ongeldige vestiging, WELKOM10 en feestdagenmenu alleen bij Spijkenisse, nieuwsbrief alleen bij Spijkenisse, offertes kloppen.
+- Echte testfunctie `admin-hours` (test): eigenaar standaard Spijkenisse en toegang tot beide; medewerker alleen Spijkenisse; onbekende vestiging geweigerd.
+
+Nog te doen bij livegang 4a
+- `admin-api` is aangepast maar nog niet naar test of live gezet (te groot voor één upload via deze koppeling; eerst `materials.ts` naar privé-opslag, dan uitrollen).
+- Migratie op live draaien (voegt alleen kolommen toe en verruimt controles; oude servercode blijft werken).
+- Daarna `place-order`, `admin-hours`, `admin-api` live uitrollen, dan de website.
+
+## 4b. Extra's als modules aan/uit — open
+## 4c. Nieuwe klant-database uit migraties — open
+## 4d. Platformbeheer — open
