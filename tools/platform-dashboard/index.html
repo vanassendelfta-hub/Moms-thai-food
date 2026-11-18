@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Platformbeheer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Plan: rustig werkscherm; klantkaarten met een gezondheidsstreep links, samenvatting bovenaan, bewerken in een paneel. */
+:root{
+  --bg:#f4f5f2; --surface:#ffffff; --ink:#1b2027; --muted:#5d6672; --line:#dfe2dc; --accent:#9a5b13; --accent-ink:#ffffff;
+  --ok:#1d7a46; --warn:#a85b06; --bad:#b4302a; --idle:#8a929c;
+  --ok-bg:#e6f3ea; --warn-bg:#fbefdc; --bad-bg:#f8e3e1; --idle-bg:#eceef0;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14171b; --surface:#1c2026; --ink:#e8eaec; --muted:#9aa3ad; --line:#2e343c; --accent:#e3a74f; --accent-ink:#1b1408;
+  --ok:#5cc58a; --warn:#e9a54a; --bad:#ef7b70; --idle:#7c858f;
+  --ok-bg:#183126; --warn-bg:#35270f; --bad-bg:#3a1c1a; --idle-bg:#262b31; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#14171b; --surface:#1c2026; --ink:#e8eaec; --muted:#9aa3ad; --line:#2e343c; --accent:#e3a74f; --accent-ink:#1b1408;
+  --ok:#5cc58a; --warn:#e9a54a; --bad:#ef7b70; --idle:#7c858f;
+  --ok-bg:#183126; --warn-bg:#35270f; --bad-bg:#3a1c1a; --idle-bg:#262b31; color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--font-body)}
+main{max-width:1180px;margin:0 auto;padding:28px 20px 60px;display:grid;gap:22px}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-size:26px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:17px;font-weight:600}
+.mono{font-family:var(--font-mono);font-size:13px}
+.muted{color:var(--muted)}
+header.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end;justify-content:space-between}
+header.top p{margin:4px 0 0;color:var(--muted);max-width:64ch}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer;border-radius:8px;padding:9px 14px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button:disabled{opacity:.55;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px}
+.tile b{font-size:24px;font-variant-numeric:tabular-nums}
+.tile span{color:var(--muted);font-size:13px}
+.notice{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 14px;color:var(--muted)}
+.notice.warn{border-color:var(--warn);color:var(--ink);background:var(--warn-bg)}
+.clients{display:grid;gap:12px}
+.client{display:grid;grid-template-columns:6px 1fr;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stripe{background:var(--idle)}
+.client[data-health="ok"] .stripe{background:var(--ok)}
+.client[data-health="warn"] .stripe{background:var(--warn)}
+.client[data-health="bad"] .stripe{background:var(--bad)}
+.client .body{padding:14px 16px;display:grid;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.row.between{justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:600;background:var(--idle-bg);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.fact{display:grid;gap:1px}
+.fact span{font-size:12px;color:var(--muted)}
+.fact b{font-weight:600;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-size:12.5px;color:var(--muted)}
+.checks{display:grid;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.check{display:grid;grid-template-columns:18px 1fr;gap:8px;font-size:14px}
+.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:var(--idle)}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.locs{width:100%;border-collapse:collapse;font-size:13.5px}
+.locs-wrap{overflow-x:auto}
+.locs th,.locs td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+.locs th{color:var(--muted);font-weight:500;font-size:12px}
+.locs td.num{font-variant-numeric:tabular-nums;text-align:right}
+.locs th.num{text-align:right}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);padding:0;width:min(720px,calc(100% - 32px))}
+dialog::backdrop{background:rgba(10,12,16,.45)}
+dialog form{display:grid;gap:14px;padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+fieldset{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:8px}
+legend{padding:0 6px;color:var(--muted);font-size:13px}
+.modgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 14px}
+.modgrid label{display:flex;gap:8px;align-items:center;color:var(--ink);font-size:14px}
+.modgrid input{width:auto}
+.formbar{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.err{color:var(--bad);font-size:13px;min-height:1em}
+.empty{padding:30px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+@media (prefers-reduced-motion:no-preference){button{transition:filter .15s}button:hover:not(:disabled){filter:brightness(.97)}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div>
+      <h1>Platformbeheer</h1>
+      <p>Alle restaurants op het bestelplatform: pakket, abonnement, modules en of hun database, mail en website gezond zijn.</p>
+    </div>
+    <div class="actions">
+      <button id="checkAll" type="button">Alles controleren</button>
+      <button id="addClient" type="button" class="primary">Klant toevoegen</button>
+    </div>
+  </header>
+
+  <section class="tiles" aria-label="Samenvatting">
+    <div class="tile"><b id="tActive">–</b><span>actieve klanten</span></div>
+    <div class="tile"><b id="tMrr">–</b><span>abonnementen per maand</span></div>
+    <div class="tile"><b id="tSetup">–</b><span>opstartkosten dit jaar</span></div>
+    <div class="tile"><b id="tAttention">–</b><span>klanten met aandacht nodig</span></div>
+  </section>
+
+  <div id="status" class="notice" role="status">Klantgegevens laden…</div>
+
+  <section class="clients" id="clients" aria-label="Klanten"></section>
+</main>
+
+<dialog id="editor" aria-labelledby="editorTitle">
+  <form id="clientForm" method="dialog">
+    <h2 id="editorTitle">Klant</h2>
+    <div class="grid2">
+      <label for="fName">Naam<input id="fName" name="name" required maxlength="120"></label>
+      <label for="fDomain">Websitedomein<input id="fDomain" name="domain" placeholder="restaurant.nl" maxlength="120"></label>
+      <label for="fStatus">Status
+        <select id="fStatus" name="status">
+          <option value="actief">Actief</option><option value="proef">Proefperiode</option><option value="opbouw">In opbouw</option>
+          <option value="test">Testomgeving</option><option value="gepauzeerd">Gepauzeerd</option><option value="opgezegd">Opgezegd</option>
+        </select></label>
+      <label for="fPackage">Pakket
+        <select id="fPackage" name="package"><option value="Basis">Basis</option><option value="Maatwerk">Maatwerk</option><option value="Eigen">Eigen bedrijf</option></select></label>
+      <label for="fSetup">Opstartkosten (€, eenmalig)<input id="fSetup" name="setupFee" type="number" min="0" step="1" inputmode="decimal"></label>
+      <label for="fMonthly">Abonnement (€ per maand)<input id="fMonthly" name="monthlyFee" type="number" min="0" step="1" inputmode="decimal"></label>
+      <label for="fStart">Startdatum<input id="fStart" name="startDate" type="date"></label>
+      <label for="fContact">Contactpersoon<input id="fContact" name="contact" maxlength="160"></label>
+    </div>
+    <fieldset>
+      <legend>Koppelingen voor de controle</legend>
+      <div class="grid2">
+        <label for="fSupabase">Supabase-project-ID<input id="fSupabase" name="supabaseProjectId" class="mono" pattern="[a-z]{20}" placeholder="20 kleine letters"></label>
+        <label for="fVercel">Vercel-project-ID<input id="fVercel" name="vercelProjectId" class="mono" placeholder="prj_…"></label>
+        <label for="fTeam">Vercel-team-ID<input id="fTeam" name="vercelTeamId" class="mono" placeholder="team_…"></label>
+        <label for="fBranch">Vercel-branch (leeg = productie)<input id="fBranch" name="vercelBranch" class="mono" placeholder="bijv. platform"></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Modules (zoals in site-config.js)</legend>
+      <div class="modgrid" id="modGrid"></div>
+    </fieldset>
+    <label for="fNotes">Notities<textarea id="fNotes" name="notes" maxlength="2000"></textarea></label>
+    <p class="err" id="formErr" role="alert"></p>
+    <div class="formbar">
+      <button type="button" id="deleteClient">Verwijderen</button>
+      <div class="actions"><button type="button" id="cancelEdit">Annuleren</button><button type="submit" class="primary" id="saveClient">Opslaan</button></div>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="confirmDelete" aria-labelledby="delTitle">
+  <form method="dialog">
+    <h2 id="delTitle">Klant verwijderen?</h2>
+    <p id="delText" class="muted"></p>
+    <div class="formbar"><span></span><div class="actions"><button value="cancel">Annuleren</button><button value="yes" class="primary">Verwijderen</button></div></div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+  const MODULES = [
+    ["onlinePayment","Online betalen (iDEAL/Wero)"],["promotions","Coupons en reviews"],["welkom10","Welkomstkorting"],["campaigns","Campagnes"],
+    ["homeDeals","Combideals op home"],["cinematicMenu","Filmische menukaart"],["game","Game"],["infoDock","Infodock"],["stats","Bezoekersstatistieken"],
+    ["tasks","Takenlijst"],["map","Bezorgkaart"],["warehouse","Magazijn"],["finance","Financiën"],["receipts","Bonnen en boekhouding"],
+    ["seasonal","Feestdagen"],["adminPromotions","Coupons beheren"],["addons","Extra's bij gerechten"],["siteStats","Statistieken in beheer"]
+  ];
+  const MOD_LABEL = Object.fromEntries(MODULES);
+  const STATUS_LABEL = {actief:"Actief",proef:"Proefperiode",opbouw:"In opbouw",test:"Testomgeving",gepauzeerd:"Gepauzeerd",opgezegd:"Opgezegd"};
+  const PAYING = new Set(["actief","proef"]);
+  const $ = s => document.querySelector(s);
+  const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const euro = n => new Intl.NumberFormat("nl-NL",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(Number(n)||0);
+  const when = iso => { if(!iso) return "–"; const d = new Date(iso); if(isNaN(d)) return "–";
+    return new Intl.DateTimeFormat("nl-NL",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Europe/Amsterdam"}).format(d); };
+  const ago = iso => { if(!iso) return "nooit"; const m = (Date.now()-new Date(iso).getTime())/60000;
+    if(m<2) return "zojuist"; if(m<90) return Math.round(m)+" min geleden"; if(m<48*60) return Math.round(m/60)+" uur geleden"; return Math.round(m/1440)+" dagen geleden"; };
+
+  let db = null, mcp = null, canWrite = true;
+  let clients = [], health = {}, editingId = null, busy = new Set();
+
+  /* ---------- weergave ---------- */
+  function overall(h){
+    if(!h) return "idle";
+    const levels = (h.checks||[]).map(c => c.level);
+    return levels.includes("bad") ? "bad" : levels.includes("warn") ? "warn" : levels.length ? "ok" : "idle";
+  }
+  function renderTiles(){
+    const year = String(new Date().getFullYear());
+    const paying = clients.filter(c => PAYING.has(c.status));
+    $("#tActive").textContent = String(clients.filter(c => c.status === "actief").length);
+    $("#tMrr").textContent = euro(paying.reduce((s,c) => s + (Number(c.monthlyFee)||0), 0));
+    $("#tSetup").textContent = euro(clients.filter(c => String(c.startDate||"").startsWith(year)).reduce((s,c) => s + (Number(c.setupFee)||0), 0));
+    $("#tAttention").textContent = String(clients.filter(c => ["bad","warn"].includes(overall(health[c.id]))).length);
+  }
+  function checkRow(c){ return `<div class="check"><span class="dot ${c.level}" aria-hidden="true"></span><div><b>${esc(c.title)}</b> <span class="muted">${esc(c.detail||"")}</span></div></div>`; }
+  function locTable(h){
+    const locs = h?.db?.locations; if(!Array.isArray(locs) || !locs.length) return "";
+    return `<div class="locs-wrap"><table class="locs"><thead><tr><th>Vestiging</th><th>Op de site</th><th>Winkel</th><th class="num">Vandaag</th><th class="num">7 dagen</th><th class="num">Omzet 7 d.</th><th>Laatste bestelling</th></tr></thead><tbody>${
+      locs.map(l => `<tr><td>${esc(l.name||l.slug)}${l.is_primary?' <span class="muted">(hoofd)</span>':''}</td><td>${l.published?"ja":"nee"}</td><td>${l.shop_open?'<span class="pill ok">open</span>':'<span class="pill">dicht</span>'}</td><td class="num">${l.orders_today??"–"}</td><td class="num">${l.orders_7d??"–"}</td><td class="num">${l.revenue_7d!=null?euro(l.revenue_7d):"–"}</td><td>${esc(when(l.last_order_at))}</td></tr>`).join("")}</tbody></table></div>`;
+  }
+  function render(){
+    renderTiles();
+    const box = $("#clients");
+    if(!clients.length){ box.innerHTML = `<div class="empty">Nog geen klanten. Kies <b>Klant toevoegen</b> om de eerste vast te leggen.</div>`; return; }
+    const order = {bad:0,warn:1,idle:2,ok:3};
+    const list = [...clients].sort((a,b) => (order[overall(health[a.id])]-order[overall(health[b.id])]) || String(a.name).localeCompare(String(b.name),"nl"));
+    box.innerHTML = list.map(c => {
+      const h = health[c.id], state = overall(h);
+      const statePill = state==="ok"?'<span class="pill ok">Gezond</span>':state==="warn"?'<span class="pill warn">Aandacht</span>':state==="bad"?'<span class="pill bad">Probleem</span>':'<span class="pill">Niet gecontroleerd</span>';
+      const mods = Array.isArray(c.modules) ? c.modules : [];
+      const dep = h?.deploy;
+      return `<article class="client" data-health="${state}" aria-labelledby="n-${esc(c.id)}">
+        <div class="stripe" aria-hidden="true"></div>
+        <div class="body">
+          <div class="row between">
+            <div class="row"><h3 id="n-${esc(c.id)}">${esc(c.name)}</h3>${statePill}<span class="pill">${esc(STATUS_LABEL[c.status]||c.status||"–")}</span><span class="pill">${esc(c.package||"–")}</span></div>
+            <div class="actions"><button type="button" data-check="${esc(c.id)}" ${busy.has(c.id)?"disabled":""}>${busy.has(c.id)?"Bezig…":"Controleren"}</button><button type="button" data-edit="${esc(c.id)}">Bewerken</button></div>
+          </div>
+          <div class="facts">
+            <div class="fact"><span>Website</span><b>${c.domain?`<a href="https://${esc(c.domain)}" rel="noopener">${esc(c.domain)}</a>`:"–"}</b></div>
+            <div class="fact"><span>Abonnement</span><b>${euro(c.monthlyFee)} / mnd</b></div>
+            <div class="fact"><span>Opstartkosten</span><b>${euro(c.setupFee)}</b></div>
+            <div class="fact"><span>Klant sinds</span><b>${c.startDate?esc(new Intl.DateTimeFormat("nl-NL",{day:"numeric",month:"long",year:"numeric"}).format(new Date(c.startDate+"T12:00:00"))):"–"}</b></div>
+            <div class="fact"><span>Versie op de site</span><b class="mono">${dep?.sha?esc(dep.sha.slice(0,7)):"–"}</b></div>
+            <div class="fact"><span>Gecontroleerd</span><b>${h?.checkedAt?esc(ago(h.checkedAt)):"nog niet"}</b></div>
+          </div>
+          <div class="chips" aria-label="Modules">${mods.length?mods.map(m => `<span class="chip">${esc(MOD_LABEL[m]||m)}</span>`).join(""):'<span class="muted">Alleen de basis (bestellen, menu, openingstijden, gebruikers)</span>'}</div>
+          ${h?`<div class="checks">${(h.checks||[]).map(checkRow).join("")}${dep?.message?`<div class="check"><span></span><div class="muted">Laatste uitrol ${esc(when(dep.createdAt))}: ${esc(dep.message)}</div></div>`:""}</div>${locTable(h)}`:""}
+          ${c.notes?`<p class="muted" style="margin:0">${esc(c.notes)}</p>`:""}
+        </div></article>`;
+    }).join("");
+  }
+  function setStatus(text, warn){ const s = $("#status"); s.hidden = !text; s.textContent = text||""; s.classList.toggle("warn", !!warn); }
+
+  /* ---------- controle via de Supabase- en Vercel-koppeling ---------- */
+  const FALLBACK_SQL = "select json_build_object('locations', json_build_array(json_build_object('slug','hoofd','name','Hoofdvestiging','is_primary',true,'published',true," +
+    "'shop_open',(select is_open from public.shop_settings where id)," +
+    "'orders_today',(select count(*) from public.orders where (created_at at time zone 'Europe/Amsterdam')::date=(now() at time zone 'Europe/Amsterdam')::date and status<>'Geannuleerd')," +
+    "'orders_7d',(select count(*) from public.orders where created_at>now()-interval '7 days' and status<>'Geannuleerd')," +
+    "'revenue_7d',(select coalesce(sum(total),0) from public.orders where created_at>now()-interval '7 days' and status<>'Geannuleerd')," +
+    "'last_order_at',(select max(created_at) from public.orders)," +
+    "'outbox_pending',(select count(*) from public.order_email_outbox where status in ('pending','processing') and created_at<now()-interval '5 minutes')," +
+    "'outbox_failed',(select count(*) from public.order_email_outbox where status='failed' and attempts>=5)," +
+    "'mail_jobs_failed',(select count(*) from public.mtf_mail_jobs where status='failed' and created_at>now()-interval '7 days'))), 'fallback', true) as health";
+  function sqlRows(payload){
+    const text = typeof payload === "string" ? payload : (payload && typeof payload.result === "string" ? payload.result : JSON.stringify(payload));
+    const inner = /<untrusted-data-[^>]*>\s*([\s\S]*?)\s*<\/untrusted-data/.exec(text);
+    const raw = inner ? inner[1] : text;
+    const start = raw.indexOf("["), end = raw.lastIndexOf("]");
+    if(start < 0 || end < start) throw new Error("Onverwacht antwoord van de database");
+    return JSON.parse(raw.slice(start, end+1));
+  }
+  function connectorProblem(e, name){
+    const code = e?.code;
+    if(code === "server_not_connected") return `${name} is niet gekoppeld. Voeg ${name} toe in claude.ai bij Instellingen → Connectoren.`;
+    if(code === "needs_reauth") return `Koppel ${name} opnieuw in claude.ai bij Instellingen → Connectoren.`;
+    if(code === "approval_required" || code === "not_in_manifest") return `Deze pagina heeft nog geen toestemming voor ${name}. Kies Controleren en sta het toe.`;
+    if(code === "selection_required") return `Kies welke ${name}-koppeling deze pagina gebruikt.`;
+    if(code === "server_unavailable") return `${name} reageert nu niet. Probeer het zo opnieuw.`;
+    if(code === "tool_error") return `${name} meldt: ${String(e.message||"fout").slice(0,160)}`;
+    return `${name}: ${String(e?.message||"onbekende fout").slice(0,160)}`;
+  }
+  async function checkClient(c){
+    if(!mcp){ setStatus("Controleren kan alleen als deze pagina in claude.ai is geopend met je Supabase- en Vercel-koppeling.", true); return; }
+    busy.add(c.id); render();
+    const checks = []; const out = {checkedAt:new Date().toISOString(), checks};
+    try{
+      if(c.supabaseProjectId){
+        let project = null;
+        try{ const r = await mcp.callTool("Supabase","get_project",{id:c.supabaseProjectId},{cache:false}); project = r.payload; }
+        catch(e){ checks.push({level:"bad",title:"Database",detail:connectorProblem(e,"Supabase")}); }
+        if(project){
+          const st = project.status || project?.project?.status;
+          if(st === "ACTIVE_HEALTHY"){
+            checks.push({level:"ok",title:"Database",detail:"actief"});
+            let hdata = null;
+            try{ const r = await mcp.callTool("Supabase","execute_sql",{project_id:c.supabaseProjectId,query:"select public.mtf_platform_health() as health"},{cache:false}); hdata = sqlRows(r.payload)[0]?.health; }
+            catch(e){
+              try{ const r = await mcp.callTool("Supabase","execute_sql",{project_id:c.supabaseProjectId,query:FALLBACK_SQL},{cache:false}); hdata = sqlRows(r.payload)[0]?.health; }
+              catch(e2){ checks.push({level:"bad",title:"Gegevens",detail:connectorProblem(e2,"Supabase")}); }
+            }
+            if(hdata){
+              out.db = hdata;
+              const L = hdata.locations||[];
+              const pend = L.reduce((s,l)=>s+(l.outbox_pending||0),0), failed = L.reduce((s,l)=>s+(l.outbox_failed||0),0), jobs = L.reduce((s,l)=>s+(l.mail_jobs_failed||0),0);
+              checks.push(failed?{level:"bad",title:"Bestelmails",detail:`${failed} definitief mislukt`}:pend?{level:"warn",title:"Bestelmails",detail:`${pend} wachten langer dan 5 minuten`}:{level:"ok",title:"Bestelmails",detail:"wachtrij leeg"});
+              if(jobs) checks.push({level:"warn",title:"Overige mails",detail:`${jobs} mislukt in de laatste 7 dagen`});
+              if(hdata.review_failed) checks.push({level:"warn",title:"Reviewmails",detail:`${hdata.review_failed} definitief mislukt`});
+              const cron = Array.isArray(hdata.cron) ? hdata.cron : [];
+              const badCron = cron.filter(j => j.active && j.last_status && j.last_status !== "succeeded");
+              if(cron.length) checks.push(badCron.length?{level:"bad",title:"Geplande taken",detail:badCron.map(j=>j.job+": "+j.last_status).join(", ")}:{level:"ok",title:"Geplande taken",detail:`${cron.length} lopen`});
+              else if(!hdata.fallback && PAYING.has(c.status)) checks.push({level:"warn",title:"Geplande taken",detail:"geen mailtaken ingesteld"});
+              if(hdata.fallback) checks.push({level:"warn",title:"Platformversie",detail:"database mist de gezondheidsfunctie (migratie 20261118140000 nog niet uitgevoerd)"});
+              const lastOrder = L.map(l=>l.last_order_at).filter(Boolean).sort().pop();
+              if(c.status==="actief" && (!lastOrder || Date.now()-new Date(lastOrder).getTime() > 7*86400000)) checks.push({level:"warn",title:"Bestellingen",detail:lastOrder?`laatste ${ago(lastOrder)}`:"nog geen bestellingen"});
+            }
+          } else {
+            checks.push({level: c.status==="test"||c.status==="gepauzeerd" ? "warn" : "bad", title:"Database", detail: st==="INACTIVE" ? "gepauzeerd" : String(st||"onbekende status")});
+          }
+        }
+      } else checks.push({level:"warn",title:"Database",detail:"geen Supabase-project ingevuld"});
+
+      if(c.vercelProjectId){
+        try{
+          const input = {projectId:c.vercelProjectId, limit:1, ...(c.vercelTeamId?{teamId:c.vercelTeamId}:{}), ...(c.vercelBranch?{branch:c.vercelBranch}:{target:"production"})};
+          const r = await mcp.callTool("Vercel","list_deployments",input,{cache:false});
+          const p = r.payload || {};
+          const list = p?.result?.deployments?.deployments || p?.deployments?.deployments || p?.deployments || [];
+          const d = Array.isArray(list) ? list[0] : null;
+          if(d){
+            out.deploy = {sha:d.meta?.githubCommitSha||"", message:String(d.meta?.githubCommitMessage||"").split("\n")[0].slice(0,140), createdAt:d.created?new Date(d.created).toISOString():null, state:d.state};
+            checks.push(d.state==="READY"?{level:"ok",title:"Website",detail:`uitrol klaar (${String(d.meta?.githubCommitSha||"").slice(0,7)||"zonder commit"})`}:{level:d.state==="ERROR"?"bad":"warn",title:"Website",detail:`laatste uitrol: ${d.state}`});
+          } else checks.push({level:"warn",title:"Website",detail:"geen uitrol gevonden"});
+        }catch(e){ checks.push({level:"warn",title:"Website",detail:connectorProblem(e,"Vercel")}); }
+      }
+      health[c.id] = out;
+      if(db && canWrite){ try{ await db.doc("health/"+c.id).set(JSON.parse(JSON.stringify(out))); }catch(e){ /* alleen weergave */ } }
+    } finally { busy.delete(c.id); render(); }
+  }
+
+  /* ---------- bewerken ---------- */
+  function openEditor(c){
+    editingId = c?.id || null;
+    const f = $("#clientForm"); f.reset(); $("#formErr").textContent = "";
+    $("#editorTitle").textContent = c ? "Klant bewerken" : "Klant toevoegen";
+    $("#deleteClient").hidden = !c;
+    $("#modGrid").innerHTML = MODULES.map(([k,l]) => `<label for="m-${k}"><input type="checkbox" id="m-${k}" value="${k}" ${c?.modules?.includes(k)?"checked":""}>${esc(l)}</label>`).join("");
+    for(const k of ["name","domain","status","package","setupFee","monthlyFee","startDate","contact","supabaseProjectId","vercelProjectId","vercelTeamId","vercelBranch","notes"]){
+      if(c && c[k] != null) f.elements[k].value = c[k];
+    }
+    if(!c){ f.elements.status.value = "opbouw"; f.elements.package.value = "Basis"; }
+    $("#editor").showModal();
+  }
+  async function saveEditor(ev){
+    ev.preventDefault();
+    if(!db){ $("#formErr").textContent = "Opslaan lukt alleen als deze pagina in claude.ai is geopend."; return; }
+    const f = $("#clientForm");
+    if(!f.reportValidity()) return;
+    const data = {};
+    for(const k of ["name","domain","status","package","startDate","contact","supabaseProjectId","vercelProjectId","vercelTeamId","vercelBranch","notes"]) data[k] = String(f.elements[k].value||"").trim();
+    data.domain = data.domain.replace(/^https?:\/\//,"").replace(/\/.*$/,"");
+    data.setupFee = Number(f.elements.setupFee.value)||0;
+    data.monthlyFee = Number(f.elements.monthlyFee.value)||0;
+    data.modules = [...document.querySelectorAll("#modGrid input:checked")].map(i => i.value);
+    data.updatedAt = new Date().toISOString();
+    const btn = $("#saveClient"); btn.disabled = true;
+    try{
+      const ref = editingId ? db.doc("clients/"+editingId) : db.collection("clients").doc();
+      await ref.set(data);
+      $("#editor").close();
+    }catch(e){
+      $("#formErr").textContent = e?.code === "invalid_argument" ? "Je hebt geen rechten om klanten te wijzigen." : e?.code === "quota_exceeded" ? "De opslag van deze pagina is vol." : "Opslaan mislukt. Probeer het opnieuw.";
+    }finally{ btn.disabled = false; }
+  }
+  async function deleteCurrent(){
+    const c = clients.find(x => x.id === editingId); if(!c) return;
+    $("#delText").textContent = `${c.name} en de laatste controle worden uit dit overzicht verwijderd. Hun database en website blijven bestaan.`;
+    const d = $("#confirmDelete"); d.returnValue = ""; d.showModal();
+    d.addEventListener("close", async () => {
+      if(d.returnValue !== "yes") return;
+      try{ await db.doc("clients/"+c.id).delete(); await db.doc("health/"+c.id).delete(); $("#editor").close(); }
+      catch(e){ $("#formErr").textContent = "Verwijderen mislukt."; }
+    }, {once:true});
+  }
+
+  /* ---------- opstarten ---------- */
+  document.addEventListener("click", ev => {
+    const t = ev.target.closest("button"); if(!t) return;
+    if(t.dataset.edit) openEditor(clients.find(c => c.id === t.dataset.edit));
+    if(t.dataset.check){ const c = clients.find(x => x.id === t.dataset.check); if(c) checkClient(c); }
+  });
+  $("#addClient").addEventListener("click", () => openEditor(null));
+  $("#cancelEdit").addEventListener("click", () => $("#editor").close());
+  $("#deleteClient").addEventListener("click", deleteCurrent);
+  $("#clientForm").addEventListener("submit", saveEditor);
+  $("#checkAll").addEventListener("click", async () => {
+    const b = $("#checkAll"); b.disabled = true;
+    try{ for(const c of clients){ if(c.status !== "opgezegd") await checkClient(c); } } finally { b.disabled = false; }
+  });
+
+  render();
+  (async () => {
+    const api = window.claude;
+    if(!api || typeof api.use !== "function"){ setStatus("Open deze pagina in claude.ai om je klanten te zien en te bewerken.", true); return; }
+    const [d, m, u] = await Promise.all([api.use("db"), api.use("mcp"), api.use("user")]);
+    db = d; mcp = m;
+    if(u){ try{ const w = await u.can("data.write"); if(w === false) canWrite = false; }catch{} }
+    if(!canWrite){ $("#addClient").hidden = true; }
+    if(!mcp){ $("#checkAll").disabled = true; }
+    if(!db){ setStatus("Klantgegevens zijn hier niet beschikbaar. Open de pagina in claude.ai en log in.", true); return; }
+    let loaded = false;
+    const timer = setTimeout(() => { if(!loaded) setStatus("De klantgegevens zijn nog niet bereikbaar. Even geduld of open de pagina opnieuw.", true); }, 10000);
+    db.collection("clients").onSnapshot(snap => {
+      clients = snap.docs.map(x => ({id:x.id, ...x.data()}));
+      if(!snap.metadata.fromCache){ loaded = true; clearTimeout(timer); setStatus(""); }
+      render();
+    }, e => { clearTimeout(timer); setStatus(e.code === "revoked" ? "Je hebt geen toegang meer tot deze gegevens." : "Klantgegevens konden niet worden geladen.", true); });
+    db.collection("health").onSnapshot(snap => {
+      for(const x of snap.docs){ if(!busy.has(x.id)) health[x.id] = x.data(); }
+      render();
+    }, () => {});
+  })();
+})();
+</script>
+</body>
+</html>

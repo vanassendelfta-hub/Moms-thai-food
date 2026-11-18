@@ -59,4 +59,17 @@ Nog te doen bij livegang 4a
 - De nieuwe versies van de zeven functies zijn nog niet uitgerold (test heeft bewust geen mail/Mollie);
   bij livegang samen uitrollen en controleren met een echte bestelling.
 - Nog open: een echte proefinstallatie in een leeg Supabase-project (gratis plan: maximaal 2 actieve projecten).
-## 4d. Platformbeheer — open
+## 4d. Platformbeheer — eerste versie klaar
+
+- Scherm "Platformbeheer" (privé artifact: https://claude.ai/artifact/BxskkUiPk3sqyKY5M94iPs), broncode in
+  `tools/platform-dashboard/index.html`.
+  - Klanten met status, pakket, abonnement, opstartkosten, startdatum, modules, koppelingen en notities;
+    opgeslagen in de privé-opslag van het artifact (alleen eigenaar/bewerkers lezen en schrijven).
+  - Samenvatting: actieve klanten, abonnementen per maand, opstartkosten dit jaar, klanten met aandacht nodig.
+  - Controle per klant via jouw eigen Supabase- en Vercel-koppeling (geen sleutels in de pagina):
+    databasestatus, bestelmails, overige mails, reviewmails, geplande taken, bestellingen per vestiging,
+    laatste uitrol en commit van de website.
+- Migratie `20261118140000_platform_health.sql`: leesfunctie `mtf_platform_health()` (alleen service-rol).
+  Toegepast op test; live nog niet (het scherm valt daar terug op een eenvoudige controle en meldt dat).
+- Mom's Thai Food en de testomgeving zijn als eerste twee klanten vastgelegd.
+- Later: modules ook op de server afdwingen, factuuroverzicht per maand, uitrollen per klant vanuit het scherm.
