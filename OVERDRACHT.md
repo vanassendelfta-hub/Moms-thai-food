@@ -11,7 +11,8 @@ Voor een nieuwe chat die de pilot voor een tweede restaurant bouwt. Geen sleutel
 | Testdatabase | Supabase `ipbvjszctqgtidcouidc` (geanonimiseerde kopie, geen mail/Mollie) |
 | Website | Vercel-project `prj_DTsqy5ymSJgGXaQgMA0SU0q5BYPv` (team `team_KmdJ85SaFyrrsCbVPhV6bkCB`) |
 | Platformbeheer | privé artifact https://claude.ai/artifact/BxskkUiPk3sqyKY5M94iPs (bron: `tools/platform-dashboard/index.html`) |
-| Supabase-plan | gratis: maximaal 2 actieve projecten (nu: live + test; Kordaxis `zwmqfjgeijxzhjcfaduo` gepauzeerd) |
+| Pilotdatabase | Supabase `xxctsddwduviiqpzlsij` ("Pilot Restaurant", eu-central-1, leeg; aangemaakt 18-11-2026 met akkoord Anthony; naam mag naar de klant) |
+| Supabase-plan | gratis: maximaal 2 actieve projecten. Nu actief: live + pilot. Test `ipbvjszctqgtidcouidc` is **gepauzeerd** (akkoord Anthony); Kordaxis en VANAS Steel ook gepauzeerd |
 
 ## Afspraken met Anthony
 
@@ -40,7 +41,7 @@ Voor een nieuwe chat die de pilot voor een tweede restaurant bouwt. Geen sleutel
 
 1. Gegevens van de klant verzamelen: naam, mailnaam, domein, adres, plaats, slogan, kleur, logo, vestiging(en), openingstijden,
    bezorgregels, menu met prijzen en foto's, gewenste modules en pakket.
-2. Akkoord vragen: test pauzeren + nieuw Supabase-project (regio eu-central, naam bijv. `pilot-<klant>`).
+2. Gedaan: test is gepauzeerd en het pilotproject `xxctsddwduviiqpzlsij` bestaat (nog leeg). Begin hier bij stap 3.
 3. Schema opbouwen: `supabase/platform/0001_schema_public.sql` (vervang `{{MERKNAAM}}`), daarna `0002_bootstrap.sql` met ingevulde plaatshouders.
    Vault-secret `mtf_service_role_key` zetten voor de geplande mailtaken.
 4. Functies uitrollen (tabel met verify_jwt in PLATFORM-NIEUWE-KLANT.md) en `MTF_*`-secrets zetten.
