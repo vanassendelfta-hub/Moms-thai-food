@@ -58,6 +58,8 @@ Nog te doen bij livegang 4a
 - `PLATFORM-NIEUWE-KLANT.md`: stappenplan, lijst met geheimen, uitrol van functies en controlelijst.
 - Alle tien functies staan nu op test (versie van branch `platform`; `dynamic-handler` met verify_jwt aan, de rest uit).
   `admin-api` op test volledig getest (30 aanroepen: anoniem 401, medewerker- en eigenaarrechten, vestigingen).
+  Overige functies op test getest: mollie-pay config, promotions config, WELKOM10 geweigerd bij Oud-Beijerland,
+  onbekende/niet geopende vestiging geweigerd, site-stats hit, game config en ranglijst; de drie mailverwerkers weigeren aanroepen zonder servicesleutel (403).
   Mail en Mollie zijn in test bewust niet ingesteld; die delen worden bij de livegang gecontroleerd met een echte bestelling.
 - Livegang: zie `LIVEGANG-FASE4.md` (volgorde, controles, terugdraaien).
 - Nog open: een echte proefinstallatie in een leeg Supabase-project (gratis plan: maximaal 2 actieve projecten).
