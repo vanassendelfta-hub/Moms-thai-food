@@ -92,6 +92,7 @@
 
 /* Online betalen via Mollie (iDEAL | Wero): extra keuze in de checkout, alleen zichtbaar als Mollie is ingesteld. */
 (async()=>{
+ if(!SITE_CONFIG.module('onlinePayment'))return;
  const API=SITE_CONFIG.supabaseUrl+'/functions/v1/mollie-pay',LABEL='Online betalen (iDEAL | Wero)';
  const form=document.querySelector('#form'),sel=form?.elements.payment;if(!sel)return;
  let cfg=null;try{cfg=await (await MTF.fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'config'})})).json();}catch{return;}

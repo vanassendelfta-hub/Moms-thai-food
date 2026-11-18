@@ -55,6 +55,18 @@
   }
  };
 
+ /* Modules: extra onderdelen die per klant aan of uit staan (pakket Basis of Maatwerk).
+    Website: onlinePayment (iDEAL/Wero via Mollie), promotions (coupons en reviews), welkom10, campaigns,
+             homeDeals (combideals op home), cinematicMenu (filmische menukaart), game, infoDock, stats.
+    Beheer:  tasks, map (bezorgkaart), warehouse (magazijn), finance, receipts (bonnen), seasonal (feestdagen),
+             adminPromotions (coupons en reviews beheren), addons (extra's bij gerechten), siteStats (websitestatistieken). */
+ config.modules=['onlinePayment','promotions','welkom10','campaigns','homeDeals','cinematicMenu','game','infoDock','stats',
+  'tasks','map','warehouse','finance','receipts','seasonal','adminPromotions','addons','siteStats'];
+ config.module=function(name){return config.modules.includes(name);};
+ /* Script van een module alleen laden als de module aan staat. Gebruik tijdens het laden van de pagina:
+    <script>SITE_CONFIG.include('campaigns','/campagnes.js')</script> — laadt in dezelfde volgorde als een gewone scripttag. */
+ config.include=function(name,src){if(config.module(name)&&typeof document!=='undefined')document.write('<script src="'+String(src).replace(/"/g,'&quot;')+'"><\/script>');};
+
  const loc=slug=>config.locations[slug]||config.locations[config.defaultLocation];
 
  /* Bestelnummer zoals klant en beheer het zien. */
@@ -111,6 +123,7 @@
  if(config.environment==='test'){config.supabaseUrl=config.test.supabaseUrl;config.publishableKey=config.test.publishableKey;}
 
  config.locationSlugs=Object.keys(config.locations);
+ Object.freeze(config.modules);
  window.SITE_CONFIG=Object.freeze(config);
 
  /* Duidelijk label zodat niemand de testsite voor de echte aanziet. */

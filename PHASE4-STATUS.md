@@ -33,6 +33,17 @@ Nog te doen bij livegang 4a
 - Migratie op live draaien (voegt alleen kolommen toe en verruimt controles; oude servercode blijft werken).
 - Daarna `place-order`, `admin-hours`, `admin-api` live uitrollen, dan de website.
 
-## 4b. Extra's als modules aan/uit — open
+## 4b. Extra's als modules aan/uit — klaar (website, nog niet live)
+
+- `site-config.js`: `modules` (lijst) met `SITE_CONFIG.module(naam)` en `SITE_CONFIG.include(naam, src)`.
+  Website: onlinePayment, promotions, welkom10, campaigns, homeDeals, cinematicMenu, game, infoDock, stats.
+  Beheer: tasks, map, warehouse, finance, receipts, seasonal, adminPromotions, addons, siteStats.
+- Pagina's laden modulescripts via `SITE_CONFIG.include` (zelfde volgorde als een scripttag).
+- schedule.js (iDEAL/Wero), branch.js (spel, infodock, statistieken) controleren hun module.
+- `admin-modules.js` verbergt tabbladen en knoppen van uitgeschakelde modules.
+- Getest: alles aan = gelijk aan voorheen (paginaverzoeken, mandje, HTML, bestelflow).
+  Alles uit = geen modulescripts of -aanroepen, geen iDEAL-keuze, bestellen werkt, beheer toont alleen Overzicht,
+  Bestellingen, Gerechten, Gebruikers en Openingstijden; geen fouten.
+- Later (platformbeheer): modules ook op de server afdwingen voor betaalde pakketten.
 ## 4c. Nieuwe klant-database uit migraties — open
 ## 4d. Platformbeheer — open
