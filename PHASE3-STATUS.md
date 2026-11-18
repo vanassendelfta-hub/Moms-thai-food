@@ -9,5 +9,7 @@
 ## Volgende stappen
 - [ ] 3b. Mandje en prijsberekening uit app.js losmaken als module (MTF.cart), zonder de HTML-opbouw aan te raken.
 - [ ] 3c. Gerechtkaarten en mandje tekenen via vervangbare sjablonen (per ontwerp aan te passen).
-- [ ] 3d. Vaste gerechtnamen voor het dagmenu (app.js) naar een instelling per gerecht.
+- [x] 3d. Dagmenu-filter met vaste gerechtnamen bleek dode code (geen pagina heeft [data-day]) en is verwijderd.
+      Regels voor standaardfoto's (photoFor in app.js én admin-extra.js) staan nu één keer in site-config.js
+      (SITE_CONFIG.fallbackPhoto). Getest: 588 gevallen identiek; pagina's en verzoeken ongewijzigd.
 - [ ] 3e. Vaste element-ID's (#menuGrid, #cartItems, #form, #bookingCalendar) documenteren als 'contract' voor ontwerpen.

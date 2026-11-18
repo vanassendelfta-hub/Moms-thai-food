@@ -1,23 +1,4 @@
-function menuPhotoFallback(x){const s=(x?.name||'').toLowerCase(), c=(x?.category||'').toLowerCase();
-if(s.includes('popia')||s.includes('loempia'))return 'popia-tod.jpg';
-if(s.includes('saté')||s.includes('sate'))return 'sate-gai.jpg';
-if(s.includes('thod man')||s.includes('viskoek'))return 'thod-man-pla.jpg';
-if(s.includes('goong chiang')||s.includes('garnalen op toast'))return 'goong-chiang.jpg';
-if(s.includes('tom kha'))return 'soup.jpg';
-if(s.includes('tom yum')||s.includes('tom yam'))return 'tom-yum.jpg';
-if(s.includes('groene curry'))return 'curry.jpg';
-if(s.includes('rode curry')||s.includes('red curry')||s.includes('panang')||s.includes('massaman'))return 'red-curry.jpg';
-if(s.includes('cashew')||s.includes('cashewnoten'))return 'cashew-chicken.jpg';
-if(s.includes('pad thai'))return 'pad-thai.jpg';
-if(s.includes('krapow')||s.includes('basil')||s.includes('heilige basilicum'))return 'pad-krapow.jpg';
-if(s.includes('fried rice')||s.includes('gebakken rijst')||s.includes('khao pad'))return 'fried-rice.jpg';
-if(s.includes('noedel')||s.includes('noodle')||s.includes('pad see ew')||s.includes('mie'))return 'pad-thai.jpg';
-if(c.includes('soep'))return 'soup.jpg';
-if(c.includes('curry'))return 'curry.jpg';
-if(c.includes('rijst'))return 'fried-rice.jpg';
-if(c.includes('noedel'))return 'pad-thai.jpg';
-if(c.includes('voorgerecht'))return 'popia-tod.jpg';
-return 'hero-food.jpg';}
+function menuPhotoFallback(x){return SITE_CONFIG.fallbackPhoto(x);}
 /* Extra beheerfuncties Mom's Thai Food v3 */
 let shopState=true,menuAdmin=[],editingDish=null,leafletMap=null,locationMarkers=null,mapIsLoading=false;
 const closedStatuses=new Set(['Bezorgd','Afgehaald','Geannuleerd']);

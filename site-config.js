@@ -35,6 +35,40 @@
   return Number.isSafeInteger(n)&&n>=1&&n<=999?'MTF00284'+String(raw).padStart(3,'0'):String(raw??'');
  };
 
+ /* Standaardfoto voor een gerecht zonder eigen foto: eerst op woorden in de naam, dan op categorie.
+    Inhoud is bedrijfsspecifiek; de volgorde telt (eerste treffer wint). */
+ config.fallbackPhotos={
+  byName:[
+   [['popia','loempia'],'popia-tod.jpg'],
+   [['saté','sate'],'sate-gai.jpg'],
+   [['thod man','viskoek'],'thod-man-pla.jpg'],
+   [['goong chiang','garnalen op toast'],'goong-chiang.jpg'],
+   [['tom kha'],'soup.jpg'],
+   [['tom yum','tom yam'],'tom-yum.jpg'],
+   [['groene curry'],'curry.jpg'],
+   [['rode curry','red curry','panang','massaman'],'red-curry.jpg'],
+   [['cashew','cashewnoten'],'cashew-chicken.jpg'],
+   [['pad thai'],'pad-thai.jpg'],
+   [['krapow','basil','heilige basilicum'],'pad-krapow.jpg'],
+   [['fried rice','gebakken rijst','khao pad'],'fried-rice.jpg'],
+   [['noedel','noodle','pad see ew','mie'],'pad-thai.jpg']
+  ],
+  byCategory:[
+   [['soep'],'soup.jpg'],
+   [['curry'],'curry.jpg'],
+   [['rijst'],'fried-rice.jpg'],
+   [['noedel'],'pad-thai.jpg'],
+   [['voorgerecht'],'popia-tod.jpg']
+  ],
+  fallback:'hero-food.jpg'
+ };
+ config.fallbackPhoto=function(x){
+  const s=(x?.name||'').toLowerCase(),c=(x?.category||'').toLowerCase(),p=config.fallbackPhotos;
+  for(const [words,photo] of p.byName)if(words.some(w=>s.includes(w)))return photo;
+  for(const [words,photo] of p.byCategory)if(words.some(w=>c.includes(w)))return photo;
+  return p.fallback;
+ };
+
  /* Sleutel van het winkelmandje in de browser, per vestiging. */
  config.cartKey=function(slug){
   return (config.locations[slug]||config.locations[config.defaultLocation]).cartKey;
