@@ -51,6 +51,20 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
 .hello .zh{font-family:"Noto Serif SC","Songti SC",serif;font-size:clamp(54px,14vw,120px);color:var(--gold);letter-spacing:.12em;text-shadow:0 0 40px rgba(var(--mtf-gold-rgb),.35)}
 .hello .line{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transition:width 1.6s var(--ease) .4s}
 .s1 .hello .line{width:min(320px,60vw)}
+/* Logo bouwt zich stuk voor stuk op: aanhalingstekens, letters FORUM, de tekens 富臨, lijnen en ondertitels */
+.hello::before{content:"";position:absolute;inset:-10% -20%;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.72) 0%,rgba(0,0,0,.45) 45%,transparent 75%);z-index:-1}
+.hello{isolation:isolate}
+.lbuild{position:relative;width:min(620px,86vw);aspect-ratio:1000/542}
+.lbuild i{position:absolute;inset:0;background:url(/forum/logo-wide.png) center/100% 100% no-repeat;clip-path:inset(var(--t) var(--r) var(--b) var(--l));opacity:0;animation:var(--a) .7s var(--ease) var(--d) both;animation-play-state:paused;filter:drop-shadow(0 0 18px rgba(0,0,0,.6))}
+.s1 .lbuild i{animation-play-state:running}
+.lb-drop{--a:lbDrop}.lb-rise{--a:lbRise}.lb-stamp{--a:lbStamp}.lb-fade{--a:lbFade}.lb-drawL{--a:lbDrawL}.lb-drawR{--a:lbDrawR}
+@keyframes lbDrop{from{opacity:0;transform:translateY(-18%)}to{opacity:1;transform:none}}
+@keyframes lbRise{from{opacity:0;transform:translateY(14%) scale(.96)}to{opacity:1;transform:none}}
+@keyframes lbStamp{0%{opacity:0;transform:scale(1.35)}60%{opacity:1;transform:scale(.97)}100%{opacity:1;transform:none}}
+@keyframes lbFade{from{opacity:0;transform:translateY(8%)}to{opacity:1;transform:none}}
+@keyframes lbDrawL{from{opacity:1;clip-path:inset(var(--t) var(--r) var(--b) calc(100% - var(--r)))}to{opacity:1;clip-path:inset(var(--t) var(--r) var(--b) var(--l))}}
+@keyframes lbDrawR{from{opacity:1;clip-path:inset(var(--t) calc(100% - var(--l)) var(--b) var(--l))}to{opacity:1;clip-path:inset(var(--t) var(--r) var(--b) var(--l))}}
+@media (prefers-reduced-motion:reduce){.lbuild i{animation:none;opacity:1}}
 .hello .sub{font-size:clamp(12px,3vw,15px);letter-spacing:.42em;text-transform:uppercase;color:var(--ink)}
 
 /* Titelscherm */
@@ -89,7 +103,7 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
  <div class="bar bot" aria-hidden="true"></div>
 
  <div class="hello" aria-hidden="true">
-  <span class="zh" lang="zh-Hant">歡迎</span>
+  <div class="lbuild" role="img" aria-label="Forum Cateringservice"><i class="lb-drop" style="--l:0.00%;--r:88.20%;--t:0.00%;--b:66.79%;--d:0.0s"></i><i class="lb-drop" style="--l:87.80%;--r:0.00%;--t:0.00%;--b:66.79%;--d:0.0s"></i><i class="lb-rise" style="--l:11.80%;--r:73.50%;--t:0.00%;--b:66.79%;--d:0.15s"></i><i class="lb-rise" style="--l:26.50%;--r:58.50%;--t:0.00%;--b:66.79%;--d:0.27s"></i><i class="lb-rise" style="--l:41.50%;--r:44.00%;--t:0.00%;--b:66.79%;--d:0.39s"></i><i class="lb-rise" style="--l:56.00%;--r:28.50%;--t:0.00%;--b:66.79%;--d:0.51s"></i><i class="lb-rise" style="--l:71.50%;--r:12.20%;--t:0.00%;--b:66.79%;--d:0.63s"></i><i class="lb-stamp" style="--l:27.80%;--r:50.40%;--t:33.76%;--b:23.25%;--d:0.95s"></i><i class="lb-stamp" style="--l:49.60%;--r:28.80%;--t:33.76%;--b:23.25%;--d:1.15s"></i><i class="lb-drawL" style="--l:0.00%;--r:72.20%;--t:33.76%;--b:23.25%;--d:1.45s"></i><i class="lb-drawR" style="--l:71.20%;--r:0.00%;--t:33.76%;--b:23.25%;--d:1.45s"></i><i class="lb-fade" style="--l:25.00%;--r:25.00%;--t:77.12%;--b:11.62%;--d:1.75s"></i><i class="lb-drawL" style="--l:0.00%;--r:75.00%;--t:77.12%;--b:11.62%;--d:1.75s"></i><i class="lb-drawR" style="--l:75.00%;--r:0.00%;--t:77.12%;--b:11.62%;--d:1.75s"></i><i class="lb-fade" style="--l:0.00%;--r:0.00%;--t:88.38%;--b:0.00%;--d:2.0s"></i></div>
   <span class="line"></span>
   <span class="sub">Welkom bij Forum</span>
  </div>
@@ -127,15 +141,15 @@ html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:var(
  /* Locatie meenemen naar de volgende pagina */
  try{const loc=window.MTFLocation&&window.MTFLocation.slug;if(loc&&loc!==SITE_CONFIG.defaultLocation){for(const id of ['orderBtn','homeBtn']){const a=document.getElementById(id);a.href=a.getAttribute('href')+'?location='+encodeURIComponent(loc);}}}catch{}
 
- /* Volgorde: welkom op het pand → pand → busje → wok → buffet → titelscherm op het pand. */
+ /* Volgorde: welkom met logo-opbouw op het pand → pand → busje → wok → buffet → titelscherm op het pand. */
  let timers=[],done=false,cur=-1;
  const show=i=>{els.forEach((e,k)=>e.classList.toggle('on',k===i));cur=i;};
  const caption=i=>{cap.classList.remove('on');if(i<0)return;setTimeout(()=>{cap.innerHTML=shots[i][1]+'<small>'+shots[i][2]+'</small>';cap.classList.add('on');},350);};
  function finish(){if(done)return;done=true;timers.forEach(clearTimeout);caption(-1);st.classList.add('s1','s2','s4');show(0);loopReel();}
  let loopT;function loopReel(){clearInterval(loopT);if(reduce)return;loopT=setInterval(()=>show((cur+1)%els.length),7000);}
  if(reduce){finish();}else{
-  const at=[[150,()=>{st.classList.add('s1');show(0);}],[2300,()=>{st.classList.add('s2');caption(0);}],
-   [4700,()=>{show(1);caption(1);}],[7100,()=>{show(2);caption(2);}],[9500,()=>{show(3);caption(3);}],[12000,finish]];
+  const at=[[150,()=>{st.classList.add('s1');show(0);}],[3700,()=>{st.classList.add('s2');caption(0);}],
+   [5800,()=>{show(1);caption(1);}],[8000,()=>{show(2);caption(2);}],[10200,()=>{show(3);caption(3);}],[12500,finish]];
   at.forEach(([t,f])=>timers.push(setTimeout(f,t)));
  }
  document.getElementById('skip').addEventListener('click',finish);
