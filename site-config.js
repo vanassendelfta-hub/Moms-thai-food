@@ -19,6 +19,9 @@
   /* Vier favorieten op de homepagina (gerecht-id's = menunummers). */
   favorites:['27','1','7','51'],
 
+  /* Inloggen met alleen een gebruikersnaam: wordt aangevuld tot naam@loginDomain. */
+  loginDomain:'forum-demo.nl',
+
   defaultLocation:'spijkenisse',
   locations:{
    'spijkenisse':{
