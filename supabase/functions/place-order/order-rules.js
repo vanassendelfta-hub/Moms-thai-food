@@ -5,9 +5,9 @@
  const setClosures=rows=>{closures=new Map(rows.map(x=>[x.day,x.reason]));};
  const closedReason=date=>closures.get(date)||'';
  /* Standaardtijden (in minuten) tot de database ze levert via setHours(). Weekdag: 0 = zondag … 6 = zaterdag. */
- let hours={1:[720,1230],4:[720,1230],5:[720,1230],6:[720,1230],0:[720,1230]};
- /* Uiterste besteltijd voor dezelfde dag, in minuten. Vrijdag (5) en zondag (0): 19:30, overige open dagen: 18:00. */
- let cutoffs={},defaultCutoff=1170;
+ let hours={0:[720,1260],1:[720,1260],2:[720,1260],3:[720,1200],4:[720,1260],5:[720,1260],6:[720,1260]};
+ /* Uiterste besteltijd voor dezelfde dag, in minuten: 20:30, op woensdag (3) 19:30. */
+ let cutoffs={3:1170},defaultCutoff=1230;
  /* Openingstijden uit de database: [{weekday, open_time:'16:00:00', close_time, order_cutoff}]. */
  const toMin=t=>{const m=/^(\d{1,2}):(\d{2})/.exec(String(t||''));return m?Number(m[1])*60+Number(m[2]):NaN;};
  function setHours(rows){
