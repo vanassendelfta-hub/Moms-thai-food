@@ -1,6 +1,6 @@
 (()=>{if(!SITE_CONFIG.module('game'))return;try{const s=document.createElement('script');s.src='/game-hook.js';document.head.append(s);}catch{}})();
 /* Keep every request and cart tied to the selected location. */
-(()=>{const allowed=SITE_CONFIG.locationSlugs,admin=location.pathname.includes('admin'),key=admin?'mtf_admin_location':'mtf_customer_location';let value=new URLSearchParams(location.search).get('location');try{value=value||sessionStorage.getItem(key);}catch{}const state=window.MTFLocation={slug:allowed.includes(value)?value:SITE_CONFIG.defaultLocation,admin};try{sessionStorage.setItem(key,state.slug);}catch{}
+(()=>{const allowed=SITE_CONFIG.locationSlugs,admin=location.pathname.includes('admin')||location.pathname.startsWith('/beheer/'),key=admin?'mtf_admin_location':'mtf_customer_location';let value=new URLSearchParams(location.search).get('location');try{value=value||sessionStorage.getItem(key);}catch{}const state=window.MTFLocation={slug:allowed.includes(value)?value:SITE_CONFIG.defaultLocation,admin};try{sessionStorage.setItem(key,state.slug);}catch{}
 const nativeFetch=window.fetch.bind(window);
 if(admin)return;
 /* Mandjesknop: gouden knop met teller-badge die alleen verschijnt als er iets in het mandje zit. */
@@ -24,4 +24,4 @@ catch{/* The existing checkout remains closed when status cannot be loaded. */}}
 })();
 
 /* Info-dock: openingstijden, acties en 'bestellen tot' als knopjes aan de zijkant. */
-(()=>{if(!SITE_CONFIG.module('infoDock')||location.pathname.includes('admin')||/^\/intro/.test(location.pathname))return;try{const st=document.createElement('style');st.id='mtfDockPre';st.textContent='body>.special-hours,.special-hours-home:not(.mtf-dp>*),body>.welcome-banner,body>.late-order,main .campaign-links{display:none!important}'+(/^\/menu/.test(location.pathname)?'.menu-intro{display:none!important}':'');document.head.append(st);const s=document.createElement('script');s.src='/info-dock.js?v=1';document.head.append(s);}catch{}})();
+(()=>{if(!SITE_CONFIG.module('infoDock')||location.pathname.includes('admin')||location.pathname.startsWith('/beheer/')||/^\/intro/.test(location.pathname))return;try{const st=document.createElement('style');st.id='mtfDockPre';st.textContent='body>.special-hours,.special-hours-home:not(.mtf-dp>*),body>.welcome-banner,body>.late-order,main .campaign-links{display:none!important}'+(/^\/menu/.test(location.pathname)?'.menu-intro{display:none!important}':'');document.head.append(st);const s=document.createElement('script');s.src='/info-dock.js?v=1';document.head.append(s);}catch{}})();
