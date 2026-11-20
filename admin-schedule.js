@@ -8,7 +8,7 @@ $('#closureForm').onsubmit=async e=>{e.preventDefault();const b=e.target.querySe
 $("#clearClosureForm").onclick=()=>{const f=$("#closureForm");f.reset();f.elements.from.readOnly=false;f.elements.to.readOnly=false;};
 
 /* Websitestatistieken laden (los bestand). */
-(()=>{const s=document.createElement('script');s.src='/admin-stats.js?v=1';s.onload=()=>document.querySelectorAll('#schedulePanel p').forEach(p=>{if(/dezelfde dag kan (tot|uiterlijk om) 16:00/.test(p.textContent))p.textContent='Bestellen voor dezelfde dag kan tot 18:00, op vrijdag en zondag tot 19:30. Klanten kiezen tijdvakken van 15 minuten.';});document.body.append(s);})();
+(()=>{const s=document.createElement('script');s.src='admin-stats.js?v=1';s.onload=()=>document.querySelectorAll('#schedulePanel p').forEach(p=>{if(/dezelfde dag kan (tot|uiterlijk om) 16:00/.test(p.textContent))p.textContent='Bestellen voor dezelfde dag kan tot 18:00, op vrijdag en zondag tot 19:30. Klanten kiezen tijdvakken van 15 minuten.';});document.body.append(s);})();
 
 /* Openingstijden per weekdag: eigen serverfunctie admin-hours (persoonlijk account, eigenaar of recht 'shop'). */
 const hoursDays=[1,2,3,4,5,6,0],hoursNames=['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],hhmm=t=>String(t||'').slice(0,5);

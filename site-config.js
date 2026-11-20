@@ -13,7 +13,7 @@
 
   /* Vestigingen. De eerste is de standaard. */
   /* Alleen deze adressen gebruiken de echte database. Elk ander adres (previews, losse testversies, lokaal) gebruikt de testdatabase. */
-  productionHosts:['momsthaifood.nl','www.momsthaifood.nl','bestellen.momsthaifood.nl','moms-thai-food-bestellen.vercel.app'],
+  productionHosts:['momsthaifood.nl','www.momsthaifood.nl','bestellen.momsthaifood.nl','moms-thai-food-bestellen.vercel.app','flowsmid.nl'],
 
   /* Testomgeving */
   test:{
