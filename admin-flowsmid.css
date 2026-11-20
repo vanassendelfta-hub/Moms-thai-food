@@ -128,7 +128,7 @@ body.admin-app.fs .modal-shade{background:rgba(10,8,16,.72)!important;backdrop-f
 body.admin-app.fs .shop-panel strong{color:var(--fs-tekst)!important}
 
 /* Flowsmid-kenmerk in de zijbalk */
-body.admin-app.fs .fs-merk{display:flex;align-items:center;gap:8px;margin:14px 12px 0;padding:10px 12px;border:1px solid var(--fs-lijn);border-radius:12px;color:var(--fs-zacht);font-size:12px;text-decoration:none}
+body.admin-app.fs .fs-merk{display:flex;align-items:center;gap:8px;margin:14px 0 0;padding:10px 12px;border:1px solid var(--fs-lijn);border-radius:12px;color:var(--fs-zacht);font-size:12px;text-decoration:none}
 body.admin-app.fs .fs-merk b{color:var(--fs-tekst);font-weight:700}
 body.admin-app.fs .fs-merk i{width:8px;height:8px;border-radius:50%;background:var(--fs-verloop);flex:none}
 
