@@ -21,5 +21,6 @@ begin
     -- Geen policies: alleen de serverfuncties (servicesleutel) kunnen erbij.
     execute format('alter table %I.mtf_driver_positions enable row level security', s);
     execute format('revoke all on %I.mtf_driver_positions from anon, authenticated', s);
+    execute format('grant all on %I.mtf_driver_positions to service_role', s);
   end loop;
 end $$;
