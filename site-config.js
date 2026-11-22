@@ -69,6 +69,13 @@
   return p.fallback;
  };
 
+ /* Gerechten waarbij geen bijgerecht (rijst of nasi) wordt aangeboden: op woorden in de naam. Extra's blijven wel beschikbaar. */
+ config.noSidesFor=['pad thai'];
+ config.noSides=function(x){
+  const s=(x?.name||'').toLowerCase();
+  return config.noSidesFor.some(w=>s.includes(w));
+ };
+
  /* Sleutel van het winkelmandje in de browser, per vestiging. */
  config.cartKey=function(slug){
   return (config.locations[slug]||config.locations[config.defaultLocation]).cartKey;
