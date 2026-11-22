@@ -1,0 +1,13 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#9d0e0d"><title>Bezorgportaal · Mom’s Thai Food</title>
+<link rel="icon" href="logo.png"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""><link rel="stylesheet" href="bezorging.css?v=1"></head><body>
+<header class="kop"><img src="logo.png" alt=""><div><h1>Bezorgportaal</h1><small id="wie">Mom’s Thai Food</small></div><div class="rechts"><button type="button" id="uitloggen" hidden>Uitloggen</button></div></header>
+<main>
+<section id="inlog" class="kaart-vlak" hidden><h2>Inloggen</h2><p class="zacht">Log in met het account dat je van Mom’s Thai Food hebt gekregen.</p><form id="inlogForm"><label>E-mailadres<input id="email" type="email" autocomplete="username" autocapitalize="none" spellcheck="false" required></label><label>Wachtwoord<input id="wachtwoord" type="password" autocomplete="current-password" required></label><p class="fout" id="inlogFout" role="alert"></p><button class="knop" type="submit">Inloggen</button></form></section>
+<section id="portaal" hidden>
+ <div id="deelStatus" class="melding" hidden><i aria-hidden="true"></i><span></span></div>
+ <div class="tabs" role="tablist"><button type="button" role="tab" data-tab="lijst" class="actief">Bestellingen <span id="aantal"></span></button><button type="button" role="tab" data-tab="kaart">Bezorgkaart</button></div>
+ <div id="tabLijst"><button type="button" class="knop goud" id="startAlles" hidden style="margin-bottom:14px"></button><div id="ritten" aria-live="polite"></div><p class="zacht" id="voet" style="text-align:center"></p></div>
+ <div id="tabKaart" hidden><div id="kaart" class="kaart" style="height:62vh" role="application" aria-label="Kaart met jouw bezorgadressen"></div><p class="zacht" id="kaartInfo" style="margin-top:10px"></p></div>
+</section>
+</main><div id="toast" role="status"></div>
+<script src="site-config.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script><script src="bezorging-kaart.js?v=1"></script><script src="bezorger.js?v=1"></script></body></html>

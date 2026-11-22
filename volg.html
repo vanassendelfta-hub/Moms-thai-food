@@ -1,0 +1,14 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="theme-color" content="#9d0e0d"><title>Volg je bestelling · Mom’s Thai Food</title>
+<link rel="icon" href="logo.png"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""><link rel="stylesheet" href="bezorging.css?v=1"></head><body>
+<header class="kop"><a href="/"><img src="logo.png" alt="Mom’s Thai Food"></a><div><h1>Volg je bestelling</h1><small>Mom’s Thai Food</small></div></header>
+<main>
+<section id="zoek" class="kaart-vlak"><h2>Waar is mijn bestelling?</h2><p class="zacht">Vul je bestelnummer in en het telefoonnummer dat je bij de bestelling hebt opgegeven. Je bestelnummer staat in de e-mail die je van ons kreeg.</p>
+<form id="zoekForm" novalidate><label>Bestelnummer<input id="nummer" name="nummer" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MTF00284…" maxlength="20" required></label><label>Telefoonnummer<input id="telefoon" name="telefoon" type="tel" autocomplete="tel" placeholder="06 12345678" maxlength="20" required></label><p class="fout" id="zoekFout" role="alert"></p><button class="knop" type="submit">Bekijk mijn bestelling</button></form></section>
+<section id="volg" hidden>
+ <div class="kaart-vlak"><p class="zacht" id="volgNummer" style="margin:0"></p><p class="groot" id="volgTitel" aria-live="polite"></p><p id="volgTekst" style="margin:0"></p></div>
+ <div class="kaart-vlak" id="kaartVlak" hidden><div id="kaart" class="kaart" role="application" aria-label="Kaart met je bezorger"></div><p class="zacht" id="kaartTekst" style="margin:10px 0 0" aria-live="polite"></p></div>
+ <div class="kaart-vlak"><ol class="stappen" id="stappen"></ol></div>
+ <p class="zacht" style="text-align:center">Deze pagina werkt zichzelf bij. Vragen? <a href="/contact">Neem contact met ons op</a>.<br><button type="button" id="andere" style="background:none;border:0;color:var(--rood);text-decoration:underline;font:inherit;cursor:pointer;margin-top:8px">Andere bestelling volgen</button></p>
+</section>
+</main>
+<script src="site-config.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script><script src="bezorging-kaart.js?v=1"></script><script src="volg.js?v=1"></script></body></html>
